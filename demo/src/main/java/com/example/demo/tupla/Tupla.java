@@ -1,7 +1,17 @@
 package com.example.demo.tupla;
 
+import jakarta.persistence.*;
+
+
+@Entity
+@Table(name = "Tupla")
 public class Tupla {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id", nullable = false)
     private Long id;
+
+    @Column(name = "atribut")
     private String atribut;
 
     public Tupla() {}
