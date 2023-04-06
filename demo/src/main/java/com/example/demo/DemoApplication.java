@@ -9,6 +9,8 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import java.util.List;
+
 @SpringBootApplication
 public class DemoApplication implements CommandLineRunner {
 
@@ -40,21 +42,28 @@ public class DemoApplication implements CommandLineRunner {
 	public void run(String... args) throws Exception {
 		Bloc b = new Bloc();
 		bs.saveBloc(b);
+		long id2=0;
 		for(int i = 0; i < 10; ++i) {
 			String s = "alex00";
-			long idt = i;
 			Tupla t = new Tupla(s, b);
-			ts.saveTupla(t);
-			b.addTupla(t);
+
+			bs.add_tupla(b, t);
+			if (i == 3) id2 = t.getId();
 		}
+		Tupla t2 = ts.getTuplaById(id2);
+		System.out.println(id2);
+		bs.remove_tupla(b,t2);
+		Tupla a = ts.getTuplaById(id2);
+		System.out.println(a);
+
 		/*for(int i = 0; i < 10; ++i) {
 			Tupla t = new Tupla();
 			t.setAtribut("alexP"+i);
 			ts.saveTupla(t);
 		}*/
-		bs.saveBloc(b);
-		/*List<Tupla> l = ts.getTuplasByAtribut("alexP0");
-		l.forEach(res->{System.out.println(res.getId()+" " + res.getAtribut());});*/
+
+		List<Tupla> l = ts.getTuplasByBlocID(b.getId());
+		l.forEach(res->{System.out.println(res.getId()+" " + res.getAtribut());});
 
 	}
 }
