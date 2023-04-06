@@ -11,10 +11,11 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @SpringBootApplication
 public class DemoApplication implements CommandLineRunner {
-	@Autowired TuplaRepository tr;
+	@Autowired TuplaService ts;
 	public static void main(String[] args) {
 		/*
 		System.out.println("Hola mundo!");
@@ -41,7 +42,10 @@ public class DemoApplication implements CommandLineRunner {
 		for(int i = 0; i < 10; ++i) {
 			Tupla t = new Tupla();
 			t.setAtribut("alexP"+i);
-			tr.save(t);
+			ts.saveTupla(t);
 		}
+		List<Tupla> l = ts.getTuplasByAtribut("alexP0");
+		l.forEach(res->{System.out.println(res.getId()+" " + res.getAtribut());});
+
 	}
 }

@@ -16,4 +16,16 @@ public class TuplaService {
         return tuplaRepository.save(tupla);
     }
 
+    public List<Tupla> saveTupla(List<Tupla> tuplas) {
+        return (List<Tupla>) tuplaRepository.saveAll(tuplas);
+    }
+
+    public Tupla getTuplaById(long id) {
+        return tuplaRepository.findById(id).orElse(null);
+    }
+    public List<Tupla> getTuplasByAtribut(String atribut) {
+        return tuplaRepository.findByAtribut(atribut);
+    }
+
+
 }
