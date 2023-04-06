@@ -1,18 +1,13 @@
 package com.example.demo;
 
-import com.example.demo.bloc.Bloc;
-import com.example.demo.controllers.TuplaController;
-import com.example.demo.repositories.TuplaRepository;
+import com.example.demo.classes.Bloc;
 import com.example.demo.services.BlocService;
 import com.example.demo.services.TuplaService;
-import com.example.demo.tupla.Tupla;
+import com.example.demo.classes.Tupla;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @SpringBootApplication
 public class DemoApplication implements CommandLineRunner {

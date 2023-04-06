@@ -1,11 +1,10 @@
 package com.example.demo.services;
 
 import com.example.demo.repositories.TuplaRepository;
-import com.example.demo.tupla.Tupla;
+import com.example.demo.classes.Tupla;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service

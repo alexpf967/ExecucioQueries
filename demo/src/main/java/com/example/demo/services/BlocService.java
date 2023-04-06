@@ -1,9 +1,8 @@
 package com.example.demo.services;
 
-import com.example.demo.bloc.Bloc;
+import com.example.demo.classes.Bloc;
 import com.example.demo.repositories.BlocRepository;
 import com.example.demo.repositories.TuplaRepository;
-import com.example.demo.tupla.Tupla;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

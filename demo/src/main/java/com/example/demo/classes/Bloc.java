@@ -1,6 +1,5 @@
-package com.example.demo.bloc;
+package com.example.demo.classes;
 
-import com.example.demo.tupla.Tupla;
 import jakarta.persistence.*;
 
 import java.util.LinkedHashSet;

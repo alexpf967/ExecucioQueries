@@ -1,6 +1,5 @@
-package com.example.demo.tupla;
+package com.example.demo.classes;
 
-import com.example.demo.bloc.Bloc;
 import jakarta.persistence.*;
 
 
