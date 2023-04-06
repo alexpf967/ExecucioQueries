@@ -1,5 +1,6 @@
 package com.example.demo.tupla;
 
+import com.example.demo.bloc.Bloc;
 import jakarta.persistence.*;
 
 
@@ -14,10 +15,14 @@ public class Tupla {
     @Column(name = "atribut")
     private String atribut;
 
+    @ManyToOne
+    @JoinColumn(name = "bloc_id")
+    private Bloc bloc;
+
     public Tupla() {}
 
-    public Tupla(Long id, String atribut) {
-        this.id = id;
+    public Tupla(String atribut, Bloc bloc) {
+        this.bloc = bloc;
         this.atribut = atribut;
     }
 

@@ -1,21 +1,23 @@
 package com.example.demo.bloc;
 
 import com.example.demo.tupla.Tupla;
+import jakarta.persistence.*;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
+@Entity
+@Table(name = "Bloc")
 public class Bloc {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id", nullable = false)
     private Long id;
-    private List<Tupla> bloc;
+    @OneToMany(mappedBy = "bloc", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Tupla> bloc;
 
     public Bloc(){
-        bloc = new ArrayList<>();
-    }
-
-    public Bloc(Long id, List<Tupla> bloc) {
-        this.id = id;
-        this.bloc = bloc;
+        bloc = new LinkedHashSet<>();
     }
 
     public Long getId() {
@@ -26,11 +28,11 @@ public class Bloc {
         this.id = id;
     }
 
-    public List<Tupla> getBloc() {
+    public Set<Tupla> getBloc() {
         return bloc;
     }
 
-    public void setBloc(List<Tupla> bloc) {
+    public void setBloc(Set<Tupla> bloc) {
         this.bloc = bloc;
     }
 
@@ -45,11 +47,12 @@ public class Bloc {
         return null;
     }
 
-    public void afegirTupla(Tupla t) {
-        bloc.add(t);
-    }
+    public void addTupla(Tupla t) {bloc.add(t);}
 
-    public void mostrar_bloc() {
+    public void deleteTupla(Tupla t) {bloc.remove(t);}
+
+
+    public void showBloc() {
         System.out.println("El bloc amb id = " + this.id + ", té " + this.nFulles() + " tuples:");
         for(Tupla t : bloc) {
             System.out.println("{id=" + t.getId() + ", atribut=" + t.getAtribut() +"}");
