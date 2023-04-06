@@ -6,13 +6,15 @@ import com.example.demo.repositories.TuplaRepository;
 import com.example.demo.services.TuplaService;
 import com.example.demo.tupla.Tupla;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import java.util.ArrayList;
 
 @SpringBootApplication
-public class DemoApplication {
+public class DemoApplication implements CommandLineRunner {
+	@Autowired TuplaRepository tr;
 	public static void main(String[] args) {
 		/*
 		System.out.println("Hola mundo!");
@@ -30,7 +32,16 @@ public class DemoApplication {
 
 		 */
 
+
 		SpringApplication.run(DemoApplication.class, args);
 	}
 
+	@Override
+	public void run(String... args) throws Exception {
+		for(int i = 0; i < 10; ++i) {
+			Tupla t = new Tupla();
+			t.setAtribut("alexP"+i);
+			tr.save(t);
+		}
+	}
 }
