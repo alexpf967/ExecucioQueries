@@ -12,11 +12,6 @@ public class TuplaController {
     @Autowired
     private TuplaService tuplaService;
 
-    @GetMapping("/prova")
-    public String provaTupla() {
-        return "API Tupla local OK";
-    }
-
     @PostMapping(consumes = "application/json")
     public Tupla saveTupla(@RequestBody Tupla tupla) {
         return tuplaService.saveTupla(tupla);
