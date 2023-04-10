@@ -17,7 +17,7 @@ public class TuplaController {
         return "API Tupla local OK";
     }
 
-    @PostMapping("/add")
+    @PostMapping(consumes = "application/json")
     public Tupla saveTupla(@RequestBody Tupla tupla) {
         return tuplaService.saveTupla(tupla);
     }

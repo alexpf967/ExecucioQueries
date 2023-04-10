@@ -39,9 +39,9 @@ public class Bloc {
         return bloc.size();
     }
 
-    public Tupla getTupla (Long id_tupla) {
+    public Tupla getTupla (long id_tupla) {
         for(Tupla t : bloc) {
-            if (t.getId() == id_tupla) return t;
+            if (t.getId().equals(id_tupla)) return t;
         }
         return null;
     }

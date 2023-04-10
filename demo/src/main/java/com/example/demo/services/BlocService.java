@@ -8,6 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+
 @Service
 public class BlocService {
     @Autowired
@@ -36,6 +39,22 @@ public class BlocService {
         saveBloc(bloc);
     }
 
+    public int Ntuplas (Bloc bloc) {
+        return bloc.nFulles();
+    }
+
+    public Tupla getTuplaByID(Bloc bloc, long tupla_id) {
+        Tupla t = bloc.getTupla(tupla_id);
+        return t;
+
+    }
+    public void printBloc (Bloc bloc) {
+        bloc.showBloc();
+    }
+
+    public Set<Tupla> getAllTuplas(Bloc bloc){
+        return bloc.getBloc();
+    }
 
 
 }

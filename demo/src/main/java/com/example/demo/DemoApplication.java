@@ -10,6 +10,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import java.util.List;
+import java.util.Set;
 
 @SpringBootApplication
 public class DemoApplication implements CommandLineRunner {
@@ -43,18 +44,41 @@ public class DemoApplication implements CommandLineRunner {
 		Bloc b = new Bloc();
 		bs.saveBloc(b);
 		long id2=0;
+		Tupla t = new Tupla();
+
 		for(int i = 0; i < 10; ++i) {
 			String s = "alex00";
-			Tupla t = new Tupla(s, b);
-
+			t = new Tupla(s, b);
 			bs.add_tupla(b, t);
-			if (i == 3) id2 = t.getId();
+
+			if (i == 3)  {
+				id2 = t.getId();
+			}
 		}
-		Tupla t2 = ts.getTuplaById(id2);
-		System.out.println(id2);
-		bs.remove_tupla(b,t2);
-		Tupla a = ts.getTuplaById(id2);
-		System.out.println(a);
+		List<Tupla> l = ts.getTuplasByBlocID(b.getId());
+		l.forEach(res->{System.out.println(res.getId()+" " + res.getAtribut());});
+		Tupla res=bs.getTuplaByID(b, t.getId());
+		System.out.println(res.getId()+" " + res.getAtribut());
+		System.out.println(bs.Ntuplas(b));
+		bs.printBloc(b);
+
+
+		//bs.remove_tupla(b,t);
+		//l = ts.getTuplasByBlocID(b.getId());
+		//l.forEach(res->{System.out.println(res.getId()+" " + res.getAtribut());});
+		//Tupla a = ts.getTuplaById(t.getId());
+		//if (a == null)	System.out.println("s'ha borrat correctament");
+		/*
+		Tupla t = new Tupla("prova", b);
+		bs.add_tupla(b, t);
+		List<Tupla> l = ts.getTuplasByBlocID(b.getId());
+		l.forEach(res->{System.out.println(res.getId()+" " + res.getAtribut());});
+		bs.remove_tupla(b,t);
+		l = ts.getTuplasByBlocID(b.getId());
+		if (l.isEmpty())System.out.println("s'ha borrat correctament");
+		Tupla a = ts.getTuplaById(t.getId());
+		if (a == null)	System.out.println("s'ha borrat correctament");
+*/
 
 		/*for(int i = 0; i < 10; ++i) {
 			Tupla t = new Tupla();
@@ -62,8 +86,9 @@ public class DemoApplication implements CommandLineRunner {
 			ts.saveTupla(t);
 		}*/
 
-		List<Tupla> l = ts.getTuplasByBlocID(b.getId());
+		/*List<Tupla> l = ts.getTuplasByBlocID(b.getId());
 		l.forEach(res->{System.out.println(res.getId()+" " + res.getAtribut());});
+		System.out.println(bs.Ntuplas(b));*/
 
 	}
 }

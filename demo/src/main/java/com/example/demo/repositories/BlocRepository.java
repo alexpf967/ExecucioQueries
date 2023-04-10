@@ -10,6 +10,7 @@ import java.util.List;
 
 @Repository
 public interface BlocRepository extends JpaRepository<Bloc, Long> {
-    @Query(value = "SELECT * FROM bloc b WHERE b.id >= ?1", nativeQuery = true)
-    Bloc findByid(long bloc_id);
+    @Query(value = "SELECT * FROM bloc b JOIN tupla ON b.id = bloc_id WHERE b.id = ?1",
+            nativeQuery = true)
+    List<Tupla> findTuplas(long blocID);
 }
