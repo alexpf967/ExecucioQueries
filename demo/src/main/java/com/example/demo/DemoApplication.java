@@ -1,6 +1,7 @@
 package com.example.demo;
 
 import com.example.demo.classes.Bloc;
+import com.example.demo.repositories.TuplaRepository;
 import com.example.demo.services.BlocService;
 import com.example.demo.services.TuplaService;
 import com.example.demo.classes.Tupla;
@@ -17,6 +18,8 @@ public class DemoApplication implements CommandLineRunner {
 
 	@Autowired BlocService bs;
 	@Autowired TuplaService ts;
+	@Autowired
+	private TuplaRepository tuplaRepository;
 
 	public static void main(String[] args) {
 		/*
@@ -42,25 +45,21 @@ public class DemoApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 		Bloc b = new Bloc();
-		bs.saveBloc(b);
-		long id2=0;
+		b = bs.saveBloc(b);
+		long id= b.getId();
 		Tupla t = new Tupla();
 
 		for(int i = 0; i < 10; ++i) {
-			String s = "alex00";
-			t = new Tupla(s, b);
-			bs.add_tupla(b, t);
+			String s = "provaREFACTOR"+i;
 
-			if (i == 3)  {
-				id2 = t.getId();
-			}
+			bs.add_tupla(id, s);
+
+
 		}
 		List<Tupla> l = ts.getTuplasByBlocID(b.getId());
 		l.forEach(res->{System.out.println(res.getId()+" " + res.getAtribut());});
-		Tupla res=bs.getTuplaByID(b, t.getId());
-		System.out.println(res.getId()+" " + res.getAtribut());
-		System.out.println(bs.Ntuplas(b));
-		bs.printBloc(b);
+		Tupla t2 = l.get(0);
+
 
 
 		//bs.remove_tupla(b,t);

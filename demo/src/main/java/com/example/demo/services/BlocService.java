@@ -28,10 +28,14 @@ public class BlocService {
         return blocRepository.findById(id).orElse(null);
     }
 
-    public void add_tupla(Bloc bloc, Tupla tupla) {
-        bloc.addTupla(tupla);
-        tuplaService.saveTupla(tupla);
-        saveBloc(bloc);
+    public void add_tupla(long bloc_id, String atribut) {
+        Bloc bloc = blocRepository.findById(bloc_id).orElse(null);
+        if (bloc != null) {
+            Tupla tupla = new Tupla(atribut, bloc);
+            bloc.addTupla(tupla);
+            tuplaService.saveTupla(tupla);
+            saveBloc(bloc);
+        }
     }
     public void remove_tupla(Bloc bloc, Tupla tupla) {
         bloc.deleteTupla(tupla);

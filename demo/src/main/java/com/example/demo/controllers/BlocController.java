@@ -13,7 +13,7 @@ public class BlocController {
     private BlocService blocService;
 
     @PostMapping("/addTupla")
-    public void addTupla(@RequestParam Bloc bloc, @RequestParam Tupla tupla) {
+    public void addTupla(@RequestParam long bloc, @RequestParam String tupla) {
         blocService.add_tupla(bloc, tupla);
     }
 
