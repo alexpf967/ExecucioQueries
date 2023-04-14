@@ -1,8 +1,10 @@
 package com.example.demo;
 
 import com.example.demo.classes.Bloc;
+import com.example.demo.classes.Taula;
 import com.example.demo.repositories.TuplaRepository;
 import com.example.demo.services.BlocService;
+import com.example.demo.services.TaulaService;
 import com.example.demo.services.TuplaService;
 import com.example.demo.classes.Tupla;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,8 @@ import java.util.Set;
 public class DemoApplication implements CommandLineRunner {
 
 	@Autowired BlocService bs;
+	@Autowired
+	TaulaService taulaService;
 	@Autowired TuplaService ts;
 	@Autowired
 	private TuplaRepository tuplaRepository;
@@ -44,7 +48,17 @@ public class DemoApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		Bloc b = new Bloc();
+
+
+		Taula taula = new Taula("P3");
+		taula=taulaService.saveTaula(taula);
+
+
+		for(int i = 0; i < 5; ++i) {
+
+			taulaService.add_bloc(taula.getId());
+		}
+		/*Bloc b = new Bloc();
 		b = bs.saveBloc(b);
 		long id= b.getId();
 		Tupla t = new Tupla();

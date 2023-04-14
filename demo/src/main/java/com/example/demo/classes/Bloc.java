@@ -14,9 +14,16 @@ public class Bloc {
     private Long id;
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "bloc", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Tupla> bloc;
+    @ManyToOne
+    @JoinColumn(name = "taula_id")
+    private Taula taula;
 
-    public Bloc(){
-        bloc = new LinkedHashSet<>();
+    public Bloc() {
+    }
+
+    public Bloc(Taula taula){
+        this.bloc = new LinkedHashSet<>();
+        this.taula = taula;
     }
 
     public Long getId() {
@@ -46,9 +53,13 @@ public class Bloc {
         return null;
     }
 
-    public void addTupla(Tupla t) {bloc.add(t);}
+    public void addTupla(Tupla t) {
+        bloc.add(t);
+    }
 
-    public void deleteTupla(Tupla t) {bloc.remove(t);}
+    public void deleteTupla(Tupla t) {
+        bloc.remove(t);
+    }
 
 
     public void showBloc() {
