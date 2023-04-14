@@ -23,7 +23,9 @@ public class BlocService {
     public List<Bloc> saveBlocs(List<Bloc> blocs) {
         return (List<Bloc>) blocRepository.saveAll(blocs);
     }
-
+    public void removeBloc(Bloc bloc) {
+        blocRepository.delete(bloc);
+    }
     public Bloc getBlocById(long id) {
         return blocRepository.findById(id).orElse(null);
     }

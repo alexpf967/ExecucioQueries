@@ -26,7 +26,7 @@ public class DemoApplication implements CommandLineRunner {
 	private TuplaRepository tuplaRepository;
 
 	public static void main(String[] args) {
-		/*
+        /*
 		System.out.println("Hola mundo!");
 		long id = 10;
 		Bloc b = new Bloc(id, new ArrayList<Tupla>());
@@ -50,7 +50,7 @@ public class DemoApplication implements CommandLineRunner {
 	public void run(String... args) throws Exception {
 
 
-		Taula taula = new Taula("P3");
+		Taula taula = new Taula("P11");
 		taula=taulaService.saveTaula(taula);
 
 
@@ -58,7 +58,23 @@ public class DemoApplication implements CommandLineRunner {
 
 			taulaService.add_bloc(taula.getId());
 		}
-		/*Bloc b = new Bloc();
+		Set<Bloc> sb = taulaService.getAllBlocs(taula.getId());
+		for(Bloc b : sb) {
+			System.out.println(b.getId());
+			taulaService.remove_bloc(taula, b);
+		}
+		Set<Bloc> sb2 = taulaService.getAllBlocs(taula.getId());
+		for(Bloc b : sb2) {
+			System.out.println(b.getId());
+
+		}
+
+
+
+
+
+
+        /*Bloc b = new Bloc();
 		b = bs.saveBloc(b);
 		long id= b.getId();
 		Tupla t = new Tupla();
@@ -93,13 +109,13 @@ public class DemoApplication implements CommandLineRunner {
 		if (a == null)	System.out.println("s'ha borrat correctament");
 */
 
-		/*for(int i = 0; i < 10; ++i) {
+        /*for(int i = 0; i < 10; ++i) {
 			Tupla t = new Tupla();
 			t.setAtribut("alexP"+i);
 			ts.saveTupla(t);
 		}*/
 
-		/*List<Tupla> l = ts.getTuplasByBlocID(b.getId());
+        /*List<Tupla> l = ts.getTuplasByBlocID(b.getId());
 		l.forEach(res->{System.out.println(res.getId()+" " + res.getAtribut());});
 		System.out.println(bs.Ntuplas(b));*/
 

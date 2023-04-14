@@ -8,6 +8,8 @@ import com.example.demo.repositories.TaulaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Set;
+
 @Service
 public class TaulaService {
     @Autowired
@@ -15,6 +17,7 @@ public class TaulaService {
     @Autowired
     private BlocService blocService;
     public Taula saveTaula(Taula taula) {return taulaRepository.save(taula);}
+
     public void add_bloc(long taula_id) {
         Taula taula = taulaRepository.findById(taula_id).orElse(null);
         if (taula != null) {
@@ -25,4 +28,25 @@ public class TaulaService {
             saveTaula(taula);
         }
     }
+    public void remove_bloc(Taula taula, Bloc bloc) {
+        taula.deleteBloc(bloc);
+        blocService.removeBloc(bloc);
+        saveTaula(taula);
+    }
+   /* public void remove_bloc(long taula_id, long bloc_id) {
+        Taula taula = taulaRepository.findById(taula_id).orElse(null);
+        if (taula != null) {
+            Bloc bloc = blocService.getBlocById(bloc_id);
+            taula.deleteBloc(bloc);
+            blocService.removeBloc(bloc);
+            saveTaula(taula);
+        }
+    }*/
+    public Set<Bloc> getAllBlocs(long taula_id){
+        Taula taula = taulaRepository.findById(taula_id).orElse(null);
+        return taula.getTaula();
+    }
+
+
+
 }
