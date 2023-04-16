@@ -19,7 +19,7 @@ public class BlocController {
 
     @DeleteMapping("/deleteTupla")
     public void removeTupla(@RequestParam Bloc bloc, @RequestParam Tupla tupla) {
-        blocService.remove_tupla(bloc, tupla);
+        //blocService.remove_tupla(bloc, tupla);
     }
     @GetMapping("/Ntuplas")
     @ResponseBody

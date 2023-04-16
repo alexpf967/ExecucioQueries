@@ -68,4 +68,8 @@ public class Bloc {
             System.out.println("{id=" + t.getId() + ", atribut=" + t.getAtribut() +"}");
         }
     }
+
+    public void setTaula(Taula taula) {
+        this.taula = taula;
+    }
 }

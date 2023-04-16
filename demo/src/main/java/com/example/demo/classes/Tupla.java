@@ -18,6 +18,10 @@ public class Tupla {
     @JoinColumn(name = "bloc_id")
     private Bloc bloc;
 
+    public void setBloc(Bloc bloc) {
+        this.bloc = bloc;
+    }
+
     public Tupla() {}
 
     public Tupla(String atribut, Bloc bloc) {

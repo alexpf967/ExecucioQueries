@@ -16,6 +16,9 @@ public class TaulaService {
     private TaulaRepository taulaRepository;
     @Autowired
     private BlocService blocService;
+    @Autowired
+    private BlocRepository blocRepository;
+
     public Taula saveTaula(Taula taula) {return taulaRepository.save(taula);}
 
     public void add_bloc(long taula_id) {
@@ -45,9 +48,9 @@ public class TaulaService {
     public void remove_bloc(long taula_id, long bloc_id) {
         Taula taula = taulaRepository.findById(taula_id).orElse(null);
         if (taula != null) {
-            Bloc bloc = blocService.getBlocById(bloc_id);
+            Bloc bloc = blocRepository.findById(bloc_id).orElse(null);
             taula.deleteBloc(bloc);
-            blocService.removeBloc(bloc);
+            blocService.removeBloc(bloc.getId());
             saveTaula(taula);
         }
     }

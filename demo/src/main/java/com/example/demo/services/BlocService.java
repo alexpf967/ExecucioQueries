@@ -23,12 +23,16 @@ public class BlocService {
     public List<Bloc> saveBlocs(List<Bloc> blocs) {
         return (List<Bloc>) blocRepository.saveAll(blocs);
     }
-    public void removeBloc(Bloc bloc) {
-        Set<Tupla> st = this.getAllTuplas(bloc.getId());
-        for(Tupla t : st) {
-            tuplaService.removeTupla(t);
+    public void removeBloc(long bloc_id) {
+        Bloc bloc = blocRepository.findById(bloc_id).orElse(null);
+        if (bloc != null) {
+            Set<Tupla> st = bloc.getBloc();
+            for(Tupla t : st) {
+                Tupla t2 = tuplaService.getTuplaById(t.getId());
+                tuplaService.removeTupla(t2.getId());
+            }
+            blocRepository.deleteById(bloc.getId());
         }
-        blocRepository.delete(bloc);
     }
     public Bloc getBlocById(long id) {
         return blocRepository.findById(id).orElse(null);
@@ -43,10 +47,14 @@ public class BlocService {
             saveBloc(bloc);
         }
     }
-    public void remove_tupla(Bloc bloc, Tupla tupla) {
-        bloc.deleteTupla(tupla);
-        tuplaService.removeTupla(tupla);
-        saveBloc(bloc);
+    public void remove_tupla(long bloc_id, long tupla_id) {
+        Bloc bloc = blocRepository.findById(bloc_id).orElse(null);
+        if (bloc != null) {
+            Tupla tupla = tuplaService.getTuplaById(tupla_id);
+            bloc.deleteTupla(tupla);
+            tuplaService.removeTupla(tupla.getId());
+            saveBloc(bloc);
+        }
     }
 
     public int Ntuplas (Bloc bloc) {

@@ -51,9 +51,11 @@ public class DemoApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
+		long id = 552;
 
+		tuplaRepository.deleteById(id);
 
-		Taula taula = new Taula("P18");
+		Taula taula = new Taula("P29");
 		taula=taulaService.saveTaula(taula);
 
 
@@ -70,7 +72,7 @@ public class DemoApplication implements CommandLineRunner {
 			taulaService.showTaula(taula.getId());
 			taula=taulaRepository.findById(taula.getId()).orElse(null);
 			if (taula != null) {
-				Set<Bloc> sb2 = taula.getTaula();
+				Set<Bloc> sb2 = taulaService.getAllBlocs(taula.getId());
 				for (Bloc b : sb2) {
 					Bloc bb = bs.getBlocById(b.getId());
 					taulaService.remove_bloc(taula.getId(), bb.getId());
