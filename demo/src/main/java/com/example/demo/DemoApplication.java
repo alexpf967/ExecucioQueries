@@ -2,6 +2,7 @@ package com.example.demo;
 
 import com.example.demo.classes.Bloc;
 import com.example.demo.classes.Taula;
+import com.example.demo.repositories.TaulaRepository;
 import com.example.demo.repositories.TuplaRepository;
 import com.example.demo.services.BlocService;
 import com.example.demo.services.TaulaService;
@@ -24,6 +25,8 @@ public class DemoApplication implements CommandLineRunner {
 	@Autowired TuplaService ts;
 	@Autowired
 	private TuplaRepository tuplaRepository;
+	@Autowired
+	private TaulaRepository taulaRepository;
 
 	public static void main(String[] args) {
         /*
@@ -50,24 +53,34 @@ public class DemoApplication implements CommandLineRunner {
 	public void run(String... args) throws Exception {
 
 
-		Taula taula = new Taula("P11");
+		Taula taula = new Taula("P18");
 		taula=taulaService.saveTaula(taula);
 
 
 		for(int i = 0; i < 5; ++i) {
-
 			taulaService.add_bloc(taula.getId());
 		}
-		Set<Bloc> sb = taulaService.getAllBlocs(taula.getId());
-		for(Bloc b : sb) {
-			System.out.println(b.getId());
-			taulaService.remove_bloc(taula, b);
-		}
-		Set<Bloc> sb2 = taulaService.getAllBlocs(taula.getId());
-		for(Bloc b : sb2) {
-			System.out.println(b.getId());
+		taula=taulaRepository.findById(taula.getId()).orElse(null);
+		if (taula != null) {
+			Set<Bloc> sb = taula.getTaula();
+			for (Bloc b : sb) {
+				Bloc bb = bs.getBlocById(b.getId());
+				bs.add_tupla(bb.getId(), "delete");
+			}
+			taulaService.showTaula(taula.getId());
+			taula=taulaRepository.findById(taula.getId()).orElse(null);
+			if (taula != null) {
+				Set<Bloc> sb2 = taula.getTaula();
+				for (Bloc b : sb2) {
+					Bloc bb = bs.getBlocById(b.getId());
+					taulaService.remove_bloc(taula.getId(), bb.getId());
+				}
+			}
+			taula=taulaRepository.findById(taula.getId()).orElse(null);
+			taulaService.showTaula(taula.getId());
 
 		}
+
 
 
 

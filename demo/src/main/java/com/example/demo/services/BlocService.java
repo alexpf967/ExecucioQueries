@@ -24,6 +24,10 @@ public class BlocService {
         return (List<Bloc>) blocRepository.saveAll(blocs);
     }
     public void removeBloc(Bloc bloc) {
+        Set<Tupla> st = this.getAllTuplas(bloc.getId());
+        for(Tupla t : st) {
+            tuplaService.removeTupla(t);
+        }
         blocRepository.delete(bloc);
     }
     public Bloc getBlocById(long id) {
@@ -58,8 +62,9 @@ public class BlocService {
         bloc.showBloc();
     }
 
-    public Set<Tupla> getAllTuplas(Bloc bloc){
-        return bloc.getBloc();
+    public Set<Tupla> getAllTuplas(long bloc_id){
+        Bloc b = blocRepository.findById(bloc_id).orElse(null);
+        return b.getBloc();
     }
 
 

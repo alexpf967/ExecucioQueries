@@ -28,12 +28,21 @@ public class TaulaService {
             saveTaula(taula);
         }
     }
-    public void remove_bloc(Taula taula, Bloc bloc) {
+   /* public void remove_bloc(Taula taula, Bloc bloc) {
         taula.deleteBloc(bloc);
         blocService.removeBloc(bloc);
         saveTaula(taula);
+    }*/
+
+    public void showTaula(long taula_id) {
+        Taula taula = taulaRepository.findById(taula_id).orElse(null);
+        Set<Bloc> b = this.getAllBlocs(taula.getId());
+        System.out.println("La Taula amb id="+taula.getId()+" te els seguentes blocs:");
+        for(Bloc bloc : b) {
+            blocService.printBloc(bloc);
+        }
     }
-   /* public void remove_bloc(long taula_id, long bloc_id) {
+    public void remove_bloc(long taula_id, long bloc_id) {
         Taula taula = taulaRepository.findById(taula_id).orElse(null);
         if (taula != null) {
             Bloc bloc = blocService.getBlocById(bloc_id);
@@ -41,7 +50,7 @@ public class TaulaService {
             blocService.removeBloc(bloc);
             saveTaula(taula);
         }
-    }*/
+    }
     public Set<Bloc> getAllBlocs(long taula_id){
         Taula taula = taulaRepository.findById(taula_id).orElse(null);
         return taula.getTaula();
