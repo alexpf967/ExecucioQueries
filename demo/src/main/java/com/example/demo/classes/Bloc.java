@@ -19,6 +19,7 @@ public class Bloc {
     private Taula taula;
 
     public Bloc() {
+        this.bloc = new LinkedHashSet<>();
     }
 
     public Bloc(Taula taula){

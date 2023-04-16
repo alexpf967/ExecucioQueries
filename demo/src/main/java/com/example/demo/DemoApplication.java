@@ -55,7 +55,7 @@ public class DemoApplication implements CommandLineRunner {
 
 		tuplaRepository.deleteById(id);
 
-		Taula taula = new Taula("P29");
+		Taula taula = new Taula("P33");
 		taula=taulaService.saveTaula(taula);
 
 
