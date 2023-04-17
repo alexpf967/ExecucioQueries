@@ -19,7 +19,7 @@ public class TuplaService {
         return (List<Tupla>) tuplaRepository.saveAll(tuplas);
     }
     public void removeTupla(long tupla_id) {
-        tuplaRepository.deleteById(tupla_id);
+        tuplaRepository.deleteTupla(tupla_id);
     }
 
 

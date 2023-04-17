@@ -29,9 +29,9 @@ public class BlocService {
             Set<Tupla> st = bloc.getBloc();
             for(Tupla t : st) {
                 Tupla t2 = tuplaService.getTuplaById(t.getId());
-                tuplaService.removeTupla(t2.getId());
+                remove_tupla(bloc.getId(), t2.getId());
             }
-            blocRepository.deleteById(bloc.getId());
+            blocRepository.deleteBloc(bloc.getId());
         }
     }
     public Bloc getBlocById(long id) {
@@ -54,6 +54,7 @@ public class BlocService {
             bloc.deleteTupla(tupla);
             tuplaService.removeTupla(tupla.getId());
             saveBloc(bloc);
+
         }
     }
 

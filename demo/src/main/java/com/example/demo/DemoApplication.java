@@ -14,6 +14,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 @SpringBootApplication
@@ -51,11 +52,12 @@ public class DemoApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		long id = 552;
+		/*long id = 552;
+		//bs.remove_tupla(552, 152);
+		Tupla t = tuplaRepository.findById(id).orElse(null);
+		if (t != null)tuplaRepository.delete_tupla(t.getId());*/
 
-		tuplaRepository.deleteById(id);
-
-		Taula taula = new Taula("P37");
+		Taula taula = new Taula("P49");
 		taula=taulaService.saveTaula(taula);
 
 
@@ -68,11 +70,11 @@ public class DemoApplication implements CommandLineRunner {
 			Set<Bloc> sb = taula.getTaula();
 			for (Bloc b : sb) {
 				Bloc bb = bs.getBlocById(b.getId());
-				for (int i = 0; i < 5; ++i) bs.add_tupla(bb.getId(), "provaTAULA");
+				for (int i = 0; i < 5; ++i) bs.add_tupla(bb.getId(), "hola");
 			}
-			Taula taula1 = taulaRepository.findByNomTaula("P37");
+			Taula taula1 = taulaRepository.findByNomTaula("P49");
 			taulaService.showTaula(taula1.getId());
-			taula=taulaRepository.findById(taula.getId()).orElse(null);
+			taula=taulaRepository.findById(taula1.getId()).orElse(null);
 			if (taula != null) {
 				Set<Bloc> sb2 = taulaService.getAllBlocs(taula.getId());
 				for (Bloc b : sb2) {
