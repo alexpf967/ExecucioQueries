@@ -56,7 +56,13 @@ public class DemoApplication implements CommandLineRunner {
 		//bs.remove_tupla(552, 152);
 		Tupla t = tuplaRepository.findById(id).orElse(null);
 		if (t != null)tuplaRepository.delete_tupla(t.getId());*/
+		Bloc b = taulaService.getNBloc(4002,0);
+		System.out.println(b.getId());
 
+		//List<Tupla> bloc = tuplaRepository.findByBlocID(152);
+		Tupla t = bs.getNTupla(b.getId(), 2);
+		System.out.println(t.getId());
+		/*
 		Taula taula = new Taula("P49");
 		taula=taulaService.saveTaula(taula);
 
@@ -87,7 +93,7 @@ public class DemoApplication implements CommandLineRunner {
 
 		}
 
-
+*/
 
 
 

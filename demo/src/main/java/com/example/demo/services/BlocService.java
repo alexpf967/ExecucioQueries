@@ -62,11 +62,16 @@ public class BlocService {
         return bloc.nFulles();
     }
 
-    public Tupla getTuplaByID(Bloc bloc, long tupla_id) {
-        Tupla t = bloc.getTupla(tupla_id);
+    public Tupla getNTupla (long bloc_id, int n) {
+        Bloc bloc = blocRepository.findById(bloc_id).orElse(null);
+        List<Tupla> st = tuplaService.getTuplasByBlocID(bloc.getId());
+        Tupla t = st.get(n);
         return t;
-
     }
+    public List<Bloc> getBlocByTaulaID(long taula_id) {
+        return blocRepository.findByTaulaID(taula_id);
+    }
+
     public void printBloc (Bloc bloc) {
         bloc.showBloc();
     }

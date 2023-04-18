@@ -13,9 +13,8 @@ import java.util.List;
 
 @Repository
 public interface BlocRepository extends JpaRepository<Bloc, Long> {
-    @Query(value = "SELECT * FROM bloc b JOIN tupla ON b.id = bloc_id WHERE b.id = ?1",
-            nativeQuery = true)
-    List<Tupla> findTuplas(long blocID);
+    @Query(value = "SELECT * FROM bloc b WHERE b.taula_id = ?1 ORDER BY b.id", nativeQuery = true)
+    List<Bloc> findByTaulaID(long taula_id);
     @Transactional
     @Modifying
     @Query(value = "DELETE FROM bloc b where b.id= ?1", nativeQuery = true)

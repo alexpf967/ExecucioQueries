@@ -8,6 +8,7 @@ import com.example.demo.repositories.TaulaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Set;
 
 @Service
@@ -59,6 +60,12 @@ public class TaulaService {
         return taula.getTaula();
     }
 
+    public Bloc getNBloc (long taula_id, int n) {
+        Taula taula = taulaRepository.findById(taula_id).orElse(null);
+        List<Bloc> sb = blocService.getBlocByTaulaID(taula.getId());
+        Bloc b = sb.get(n);
+        return b;
+    }
 
 
 }
