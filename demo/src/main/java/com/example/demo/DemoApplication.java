@@ -52,16 +52,33 @@ public class DemoApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
+/*
+		Taula taula = new Taula("POPU");
+		taula=taulaService.saveTaula(taula);
+		taulaService.populate("POPU", 2, 10);
+		taula=taulaRepository.findById(taula.getId()).orElse(null);
+		taulaService.showTaula(taula.getId());
+
+ */
+
 		/*long id = 552;
 		//bs.remove_tupla(552, 152);
 		Tupla t = tuplaRepository.findById(id).orElse(null);
 		if (t != null)tuplaRepository.delete_tupla(t.getId());*/
-		Bloc b = taulaService.getNBloc(4002,0);
-		System.out.println(b.getId());
+		//Bloc b = taulaService.getNBloc(4002,0);
+		//System.out.println(b.getId());
+
+		Bloc b = new Bloc();
+		b = bs.saveBloc(b);
+		for (int i = 0; i < 5; ++i) bs.add_tupla(b.getId(), "swapBLOC");
+		b = bs.getBlocById(b.getId());
+		taulaService.swapBloc(4002, 6405, b);
+		b = bs.getBlocById(6405);
+		bs.printBloc(b);
 
 		//List<Tupla> bloc = tuplaRepository.findByBlocID(152);
-		Tupla t = bs.getNTupla(b.getId(), 2);
-		System.out.println(t.getId());
+		//Tupla t = bs.getNTupla(b.getId(), 2);
+		//System.out.println(t.getId());
 		/*
 		Taula taula = new Taula("P49");
 		taula=taulaService.saveTaula(taula);
