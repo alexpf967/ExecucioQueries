@@ -52,8 +52,8 @@ public class BlocService {
         if (bloc != null) {
             Tupla tupla = tuplaService.getTuplaById(tupla_id);
             bloc.deleteTupla(tupla);
-            tuplaService.removeTupla(tupla.getId());
-            saveBloc(bloc);
+            tuplaService.removeTupla(tupla_id);
+
 
         }
     }

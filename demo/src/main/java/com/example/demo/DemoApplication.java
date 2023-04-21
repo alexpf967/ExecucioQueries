@@ -67,7 +67,16 @@ public class DemoApplication implements CommandLineRunner {
 		if (t != null)tuplaRepository.delete_tupla(t.getId());*/
 		//Bloc b = taulaService.getNBloc(4002,0);
 		//System.out.println(b.getId());
+		/*Bloc b = bs.getBlocById(7003);
+		bs.printBloc(b);
+		List<Tupla> lt = tuplaRepository.findByBlocID(b.getId());
 
+		bs.remove_tupla(b.getId(), 5810);
+
+		b = bs.getBlocById(7003);
+		bs.printBloc(b);*/
+
+/*
 		Bloc b = new Bloc();
 		b = bs.saveBloc(b);
 		for (int i = 0; i < 5; ++i) bs.add_tupla(b.getId(), "swapBLOC");
@@ -76,11 +85,13 @@ public class DemoApplication implements CommandLineRunner {
 		b = bs.getBlocById(6405);
 		bs.printBloc(b);
 
+ */
+
 		//List<Tupla> bloc = tuplaRepository.findByBlocID(152);
 		//Tupla t = bs.getNTupla(b.getId(), 2);
 		//System.out.println(t.getId());
-		/*
-		Taula taula = new Taula("P49");
+
+		Taula taula = new Taula("ALEX1");
 		taula=taulaService.saveTaula(taula);
 
 
@@ -93,9 +104,9 @@ public class DemoApplication implements CommandLineRunner {
 			Set<Bloc> sb = taula.getTaula();
 			for (Bloc b : sb) {
 				Bloc bb = bs.getBlocById(b.getId());
-				for (int i = 0; i < 5; ++i) bs.add_tupla(bb.getId(), "hola");
+				for (int i = 0; i < 5; ++i) bs.add_tupla(bb.getId(), "0000000");
 			}
-			Taula taula1 = taulaRepository.findByNomTaula("P49");
+			Taula taula1 = taulaRepository.findByNomTaula("ALEX1");
 			taulaService.showTaula(taula1.getId());
 			taula=taulaRepository.findById(taula1.getId()).orElse(null);
 			if (taula != null) {
@@ -110,7 +121,7 @@ public class DemoApplication implements CommandLineRunner {
 
 		}
 
-*/
+
 
 
 

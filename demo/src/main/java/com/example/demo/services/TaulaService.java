@@ -55,7 +55,6 @@ public class TaulaService {
             Bloc bloc = blocRepository.findById(bloc_id).orElse(null);
             taula.deleteBloc(bloc);
             blocService.removeBloc(bloc.getId());
-            saveTaula(taula);
         }
     }
     public Set<Bloc> getAllBlocs(long taula_id){
