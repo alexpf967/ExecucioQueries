@@ -18,6 +18,8 @@ public class Taula {
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "taula", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Bloc> taula;
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "taula", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<IndexB> indexBSet;
 
     public Taula() {
         this.taula = new LinkedHashSet<>();
@@ -52,6 +54,16 @@ public class Taula {
         this.taula = taula;
     }
 
+    public void setIndexBSet(Set<IndexB> indexs) {
+        this.indexBSet= indexs;
+    }
+    public void addindexB(IndexB indexB) {
+        this.indexBSet.add(indexB);
+    }
+    public void removeindexB(IndexB indexB) {
+        this.indexBSet.remove(indexB);
+    }
+
     public void addBloc(Bloc bloc) {
         taula.add(bloc);
     }
@@ -62,4 +74,6 @@ public class Taula {
     public int nBlocs () {
         return taula.size();
     }
+
+
 }

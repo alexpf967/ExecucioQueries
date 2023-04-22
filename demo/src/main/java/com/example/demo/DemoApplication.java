@@ -79,18 +79,18 @@ public class DemoApplication implements CommandLineRunner {
 /*
 		Bloc b = new Bloc();
 		b = bs.saveBloc(b);
-		for (int i = 0; i < 5; ++i) bs.add_tupla(b.getId(), "swapBLOC");
+		for (int i = 0; i < 5; ++i) bs.add_tupla(b.getId(), "swapALEX");
 		b = bs.getBlocById(b.getId());
-		taulaService.swapBloc(4002, 6405, b);
-		b = bs.getBlocById(6405);
+		taulaService.swapBloc(4002, 6403, b);
+		b = bs.getBlocById(6403);
 		bs.printBloc(b);
+*/
 
- */
 
 		//List<Tupla> bloc = tuplaRepository.findByBlocID(152);
 		//Tupla t = bs.getNTupla(b.getId(), 2);
 		//System.out.println(t.getId());
-
+/*
 		Taula taula = new Taula("ALEX1");
 		taula=taulaService.saveTaula(taula);
 
@@ -122,6 +122,8 @@ public class DemoApplication implements CommandLineRunner {
 		}
 
 
+
+ */
 
 
 

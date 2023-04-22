@@ -94,7 +94,8 @@ public class TaulaService {
             blocService.remove_tupla(b.getId(), tu1.getId());
         }
 
-        Set<Tupla> s = bloc.getBloc();
+        List<Tupla> s = tuplaRepository.findByBlocID(bloc.getId());
+
         for(Tupla t : s) {
             Tupla tu = tuplaRepository.findById(t.getId()).orElse(null);
             blocService.add_tupla(b.getId(), tu.getAtribut());
