@@ -11,10 +11,7 @@ import com.example.demo.repositories.TuplaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class IndexBService {
@@ -52,6 +49,19 @@ public class IndexBService {
             saveIndexB(ib);
         }
 
+    }
+    public List<Entrada> getfulles(long index_id) {
+        IndexB ib = indexBRepository.findById(index_id).orElse(null);
+        Comparator<Entrada> comparadorPorTuplaID = new Comparator<Entrada>() {
+            @Override
+            public int compare(Entrada o1, Entrada o2) {
+                return Integer.compare((int)o1.getTupla_id(), (int)o2.getTupla_id());
+            }
+        };
+        List<Entrada> se = new ArrayList<>(ib.getFulles());
+        se.sort(comparadorPorTuplaID);
+
+        return se;
     }
 
 }

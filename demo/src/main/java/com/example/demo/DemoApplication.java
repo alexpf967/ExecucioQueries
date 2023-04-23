@@ -1,15 +1,12 @@
 package com.example.demo;
 
-import com.example.demo.classes.Bloc;
-import com.example.demo.classes.IndexB;
-import com.example.demo.classes.Taula;
+import com.example.demo.classes.*;
 import com.example.demo.repositories.TaulaRepository;
 import com.example.demo.repositories.TuplaRepository;
 import com.example.demo.services.BlocService;
 import com.example.demo.services.IndexBService;
 import com.example.demo.services.TaulaService;
 import com.example.demo.services.TuplaService;
-import com.example.demo.classes.Tupla;
 import com.fasterxml.jackson.databind.ser.impl.IndexedListSerializer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -57,15 +54,19 @@ public class DemoApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 
-		Taula taula = new Taula("IndexB12");
+		Taula taula = new Taula("IndexB20");
 		taula=taulaService.saveTaula(taula);
-		taulaService.populate("IndexB12", 2, 10);
+		taulaService.populate("IndexB20", 2, 10);
 		taula=taulaRepository.findById(taula.getId()).orElse(null);
 		taulaService.showTaula(taula.getId());
 
-		IndexB ib = new IndexB("indexProva12", 0.75, 3, taula);
+		IndexB ib = new IndexB("indexProva20", 0.75, 3, taula);
 		ibs.saveIndexB(ib);
 		ibs.setfulles(ib.getId());
+		List<Entrada> se = ibs.getfulles(ib.getId());
+		for(Entrada e : se) {
+			System.out.println(e.getTupla_id()+" "+e.getnBloc()+" "+e.getnTupla());
+		}
 
 
 
