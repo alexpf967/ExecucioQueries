@@ -2,6 +2,7 @@ package com.example.demo.classes;
 
 import jakarta.persistence.*;
 
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 @Entity
@@ -18,24 +19,19 @@ public class Entrada {
     @Column(name = "nTupla")
     private int nTupla;
 
-    @ManyToMany(cascade = {
-            CascadeType.PERSIST,
-            CascadeType.MERGE
-    })
-    @JoinTable(
-            name = "entrada_indexB",
-            joinColumns = {@JoinColumn(name = "entrada_id")},
-            inverseJoinColumns = {@JoinColumn(name = "indexB_id")}
-    )
+    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "fulles",cascade = CascadeType.ALL)
     private Set<IndexB> indexs;
 
     public Entrada() {
+        this.indexs = new LinkedHashSet<>();
     }
 
     public Entrada(long tupla_id, int nBloc, int nTupla) {
         this.tupla_id = tupla_id;
         this.nBloc = nBloc;
         this.nTupla = nTupla;
+        this.indexs = new LinkedHashSet<>();
+
     }
 
     public Long getId() {
@@ -70,7 +66,7 @@ public class Entrada {
         this.nTupla = nTupla;
     }
     public void add_indexB(IndexB indexB) {
-        this.indexs.add(indexB);
+        indexs.add(indexB);
     }
     public void remove_indexB(IndexB indexB) {
         this.indexs.remove(indexB);

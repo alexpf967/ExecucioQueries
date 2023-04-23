@@ -18,7 +18,12 @@ public class IndexB {
     private double f_carrega;
     @Column(name = "tree_order")
     private int tree_order;
-    @ManyToMany(mappedBy = "indexs")
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "indexB_entrada",
+            joinColumns = {@JoinColumn(name = "indexB_id")},
+            inverseJoinColumns = {@JoinColumn(name = "entrada_id")}
+    )
     private Set<Entrada> fulles;
     @ManyToOne
     @JoinColumn(name = "taula_id")

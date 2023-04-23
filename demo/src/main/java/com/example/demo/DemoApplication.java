@@ -1,13 +1,16 @@
 package com.example.demo;
 
 import com.example.demo.classes.Bloc;
+import com.example.demo.classes.IndexB;
 import com.example.demo.classes.Taula;
 import com.example.demo.repositories.TaulaRepository;
 import com.example.demo.repositories.TuplaRepository;
 import com.example.demo.services.BlocService;
+import com.example.demo.services.IndexBService;
 import com.example.demo.services.TaulaService;
 import com.example.demo.services.TuplaService;
 import com.example.demo.classes.Tupla;
+import com.fasterxml.jackson.databind.ser.impl.IndexedListSerializer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -21,6 +24,7 @@ import java.util.Set;
 public class DemoApplication implements CommandLineRunner {
 
 	@Autowired BlocService bs;
+	@Autowired IndexBService ibs;
 	@Autowired
 	TaulaService taulaService;
 	@Autowired TuplaService ts;
@@ -52,14 +56,19 @@ public class DemoApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-/*
-		Taula taula = new Taula("POPU");
+
+		Taula taula = new Taula("IndexB12");
 		taula=taulaService.saveTaula(taula);
-		taulaService.populate("POPU", 2, 10);
+		taulaService.populate("IndexB12", 2, 10);
 		taula=taulaRepository.findById(taula.getId()).orElse(null);
 		taulaService.showTaula(taula.getId());
 
- */
+		IndexB ib = new IndexB("indexProva12", 0.75, 3, taula);
+		ibs.saveIndexB(ib);
+		ibs.setfulles(ib.getId());
+
+
+
 
 		/*long id = 552;
 		//bs.remove_tupla(552, 152);
