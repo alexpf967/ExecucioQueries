@@ -38,7 +38,7 @@ public class IndexBService {
                 for(int j = 0; j < st.size(); ++j) {
                     Tupla t = tuplaRepository.findById(st.get(j).getId()).orElse(null);
                     if (t != null) {
-                        Entrada e = new Entrada(t.getId(), i, j);
+                        Entrada e = new Entrada(t.getId(), i, j, ib);
                         entradas.add(e);
                         ib.add_fulla(e);
                     }

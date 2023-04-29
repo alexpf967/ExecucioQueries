@@ -73,7 +73,11 @@ public class BlocService {
     }
 
     public void printBloc (Bloc bloc) {
-        bloc.showBloc();
+        List<Tupla> lt = tuplaService.getTuplasByBlocID(bloc.getId());
+        System.out.println("El bloc amb id = " + bloc.getId() + ", té " + bloc.nFulles() + " tuples:");
+        for(Tupla t : lt) {
+            System.out.println("{id=" + t.getId() + ", atribut=" + t.getAtribut() +"}");
+        }
     }
 
     public Set<Tupla> getAllTuplas(long bloc_id){

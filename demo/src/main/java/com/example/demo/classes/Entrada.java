@@ -19,18 +19,23 @@ public class Entrada {
     @Column(name = "nTupla")
     private int nTupla;
 
-    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "fulles",cascade = CascadeType.ALL)
-    private Set<IndexB> indexs;
+    @ManyToOne
+    @JoinColumn(name = "indexB_id")
+    private IndexB indexB;
+
+    /*@ManyToMany(fetch = FetchType.EAGER, mappedBy = "fulles",cascade = CascadeType.ALL)
+    private Set<IndexB> indexs;*/
 
     public Entrada() {
-        this.indexs = new LinkedHashSet<>();
+        //this.indexs = new LinkedHashSet<>();
     }
 
-    public Entrada(long tupla_id, int nBloc, int nTupla) {
+    public Entrada(long tupla_id, int nBloc, int nTupla, IndexB indexB) {
         this.tupla_id = tupla_id;
         this.nBloc = nBloc;
         this.nTupla = nTupla;
-        this.indexs = new LinkedHashSet<>();
+        this.indexB = indexB;
+        //this.indexs = new LinkedHashSet<>();
 
     }
 
@@ -65,10 +70,19 @@ public class Entrada {
     public void setnTupla(int nTupla) {
         this.nTupla = nTupla;
     }
+    /*
     public void add_indexB(IndexB indexB) {
         indexs.add(indexB);
     }
     public void remove_indexB(IndexB indexB) {
         this.indexs.remove(indexB);
+    }*/
+
+    public IndexB getIndexB() {
+        return indexB;
+    }
+
+    public void setIndexB(IndexB indexB) {
+        this.indexB = indexB;
     }
 }

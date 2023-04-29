@@ -18,12 +18,14 @@ public class IndexB {
     private double f_carrega;
     @Column(name = "tree_order")
     private int tree_order;
-    @ManyToMany(fetch = FetchType.EAGER)
+
+    /*@ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "indexB_entrada",
             joinColumns = {@JoinColumn(name = "indexB_id")},
             inverseJoinColumns = {@JoinColumn(name = "entrada_id")}
-    )
+    )*/
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "indexB", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Entrada> fulles;
     @ManyToOne
     @JoinColumn(name = "taula_id")

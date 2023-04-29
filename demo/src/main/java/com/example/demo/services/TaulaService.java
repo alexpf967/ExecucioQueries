@@ -35,26 +35,22 @@ public class TaulaService {
             saveTaula(taula);
         }
     }
-   /* public void remove_bloc(Taula taula, Bloc bloc) {
-        taula.deleteBloc(bloc);
-        blocService.removeBloc(bloc);
-        saveTaula(taula);
-    }*/
+    public void remove_bloc(long taula_id, int blocN) {
+        Taula taula = taulaRepository.findById(taula_id).orElse(null);
+        if (taula != null) {
+            Bloc bloc = this.getNBloc(taula_id, blocN);
+            taula.deleteBloc(bloc);
+            blocService.removeBloc(bloc.getId());
+        }
+    }
 
     public void showTaula(long taula_id) {
         Taula taula = taulaRepository.findById(taula_id).orElse(null);
-        Set<Bloc> b = this.getAllBlocs(taula.getId());
-        System.out.println("La Taula amb id="+taula.getId()+" te els seguentes blocs:");
+        List<Bloc> b = blocService.getBlocByTaulaID(taula_id);
+        System.out.println("La Taula amb id = "+taula.getId()+", té "+taula.nBlocs()+" blocs:");
         for(Bloc bloc : b) {
-            blocService.printBloc(bloc);
-        }
-    }
-    public void remove_bloc(long taula_id, long bloc_id) {
-        Taula taula = taulaRepository.findById(taula_id).orElse(null);
-        if (taula != null) {
-            Bloc bloc = blocRepository.findById(bloc_id).orElse(null);
-            taula.deleteBloc(bloc);
-            blocService.removeBloc(bloc.getId());
+            Bloc bl = blocRepository.findById(bloc.getId()).orElse(null);
+            blocService.printBloc(bl);
         }
     }
     public Set<Bloc> getAllBlocs(long taula_id){
@@ -84,6 +80,18 @@ public class TaulaService {
             }
         }
     }
+    public void addTupla_BlocN (long taula_id, int Nbloc, String atribut) {
+        Taula taula = taulaRepository.findById(taula_id).orElse(null);
+        Bloc b = this.getNBloc(taula_id, Nbloc);
+        blocService.add_tupla(b.getId(), atribut);
+    }
+    public void removeTupla_BlocN (long taula_id, int Nbloc, int NTupla) {
+        Taula taula = taulaRepository.findById(taula_id).orElse(null);
+        Bloc b = this.getNBloc(taula_id, Nbloc);
+        Tupla t = blocService.getNTupla(b.getId(), NTupla);
+        blocService.remove_tupla(b.getId(), t.getId());
+    }
+
     public void swapBloc(long taula_id, long bloc_id, Bloc bloc) {
         Taula taula = taulaRepository.findById(taula_id).orElse(null);
         Bloc b = blocService.getBlocById(bloc_id);
