@@ -35,7 +35,7 @@ public class TaulaService {
             saveTaula(taula);
         }
     }
-    public void remove_bloc(long taula_id, int blocN) {
+    public void remove_blocN(long taula_id, int blocN) {
         Taula taula = taulaRepository.findById(taula_id).orElse(null);
         if (taula != null) {
             Bloc bloc = this.getNBloc(taula_id, blocN);
@@ -43,14 +43,24 @@ public class TaulaService {
             blocService.removeBloc(bloc.getId());
         }
     }
+    public void remove_bloc(long taula_id, long bloc_id) {
+        Taula taula = taulaRepository.findById(taula_id).orElse(null);
+        if (taula != null) {
+            Bloc bloc = blocService.getBlocById(bloc_id);
+            taula.deleteBloc(bloc);
+            blocService.removeBloc(bloc.getId());
+        }
+    }
 
     public void showTaula(long taula_id) {
         Taula taula = taulaRepository.findById(taula_id).orElse(null);
-        List<Bloc> b = blocService.getBlocByTaulaID(taula_id);
-        System.out.println("La Taula amb id = "+taula.getId()+", té "+taula.nBlocs()+" blocs:");
-        for(Bloc bloc : b) {
-            Bloc bl = blocRepository.findById(bloc.getId()).orElse(null);
-            blocService.printBloc(bl);
+        if (taula != null) {
+            List<Bloc> b = blocService.getBlocByTaulaID(taula_id);
+            System.out.println("La Taula amb id = "+taula.getId()+", té "+taula.nBlocs()+" blocs:");
+            for(Bloc bloc : b) {
+                Bloc bl = blocRepository.findById(bloc.getId()).orElse(null);
+                blocService.printBloc(bl);
+            }
         }
     }
     public Set<Bloc> getAllBlocs(long taula_id){
@@ -110,6 +120,20 @@ public class TaulaService {
         }
 
         taulaRepository.save(taula);
+    }
+
+    public void removeTaula(long taula_id) {
+        Taula taula = taulaRepository.findById(taula_id).orElse(null);
+        if (taula != null) {
+            Set<Bloc> sb = taula.getTaula();
+            for (Bloc b : sb) {
+                Bloc bl = blocService.getBlocById(b.getId());
+                this.remove_bloc(taula.getId(), bl.getId());
+            }
+            taulaRepository.deleteById(taula.getId());
+
+        }
+
     }
 
 

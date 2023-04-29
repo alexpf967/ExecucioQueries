@@ -54,11 +54,15 @@ public class DemoApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 
-		Taula taula = new Taula("TAULA7");
+		Taula taula = new Taula("TAULA9");
 		taula=taulaService.saveTaula(taula);
-		taulaService.populate("TAULA7", 2, 10);
+		taulaService.populate("TAULA9", 2, 10);
 		taula=taulaRepository.findById(taula.getId()).orElse(null);
 		taulaService.showTaula(taula.getId());
+		taulaService.removeTaula(taula.getId());
+		taulaService.showTaula(taula.getId());
+		System.out.println("hola");
+
 /*
 		IndexB ib = new IndexB("indexProva2", 0.75, 3, taula);
 		ibs.saveIndexB(ib);
@@ -73,13 +77,13 @@ public class DemoApplication implements CommandLineRunner {
 
 
 
-		/*long id = 552;
+        /*long id = 552;
 		//bs.remove_tupla(552, 152);
 		Tupla t = tuplaRepository.findById(id).orElse(null);
 		if (t != null)tuplaRepository.delete_tupla(t.getId());*/
 		//Bloc b = taulaService.getNBloc(4002,0);
 		//System.out.println(b.getId());
-		/*Bloc b = bs.getBlocById(7003);
+        /*Bloc b = bs.getBlocById(7003);
 		bs.printBloc(b);
 		List<Tupla> lt = tuplaRepository.findByBlocID(b.getId());
 

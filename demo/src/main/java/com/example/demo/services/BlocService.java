@@ -57,7 +57,6 @@ public class BlocService {
 
         }
     }
-
     public int Ntuplas (Bloc bloc) {
         return bloc.nFulles();
     }
