@@ -54,12 +54,10 @@ public class DemoApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 
-		Taula taula = new Taula("TAULA9");
+		Taula taula = new Taula("TAULA10");
 		taula=taulaService.saveTaula(taula);
-		taulaService.populate("TAULA9", 2, 10);
+		taulaService.populate("TAULA10", 2, 10);
 		taula=taulaRepository.findById(taula.getId()).orElse(null);
-		taulaService.showTaula(taula.getId());
-		taulaService.removeTaula(taula.getId());
 		taulaService.showTaula(taula.getId());
 		System.out.println("hola");
 
