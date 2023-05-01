@@ -54,24 +54,27 @@ public class DemoApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 
-		Taula taula = new Taula("TAULA10");
+		Taula taula = new Taula("TAULA16");
 		taula=taulaService.saveTaula(taula);
-		taulaService.populate("TAULA10", 2, 10);
+		taulaService.populate("TAULA16", 2, 10);
 		taula=taulaRepository.findById(taula.getId()).orElse(null);
 		taulaService.showTaula(taula.getId());
 		System.out.println("hola");
 
-/*
-		IndexB ib = new IndexB("indexProva2", 0.75, 3, taula);
+
+		IndexB ib = new IndexB("indexProva3", 0.75, 3, taula);
 		ibs.saveIndexB(ib);
 		ibs.setfulles(ib.getId());
 		List<Entrada> se = ibs.getfulles(ib.getId());
 		for(Entrada e : se) {
 			System.out.println(e.getTupla_id()+" "+e.getnBloc()+" "+e.getnTupla());
 		}
+		Entrada e = ibs.getNEntrada(ib.getId(), 0);
+		System.out.println(e.getTupla_id()+" "+e.getnBloc()+" "+e.getnTupla());
 
 
- */
+
+
 
 
 

@@ -1,9 +1,6 @@
 package com.example.demo.services;
 
-import com.example.demo.classes.Bloc;
-import com.example.demo.classes.Entrada;
-import com.example.demo.classes.IndexB;
-import com.example.demo.classes.Tupla;
+import com.example.demo.classes.*;
 import com.example.demo.repositories.BlocRepository;
 import com.example.demo.repositories.EntradaRepository;
 import com.example.demo.repositories.IndexBRepository;
@@ -62,6 +59,16 @@ public class IndexBService {
         se.sort(comparadorPorTuplaID);
 
         return se;
+    }
+
+    public Entrada getNEntrada (long index_id, int n) {
+        IndexB indexB = indexBRepository.findById(index_id).orElse(null);
+        List<Entrada> se = entradaRepository.findByIndexBID(indexB.getId());
+        if (n < se.size()) {
+            Entrada e = se.get(n);
+            return e;
+        }
+        return null;
     }
 
 }
