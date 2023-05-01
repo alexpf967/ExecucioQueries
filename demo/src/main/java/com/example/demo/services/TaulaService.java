@@ -23,8 +23,7 @@ public class TaulaService {
     private BlocRepository blocRepository;
     @Autowired
     private TuplaRepository tuplaRepository;
-    @Autowired
-    private IndexBService indexBService;
+
 
     public Taula saveTaula(Taula taula) {return taulaRepository.save(taula);}
 
