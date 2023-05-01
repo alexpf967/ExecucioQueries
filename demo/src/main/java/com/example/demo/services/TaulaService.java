@@ -4,6 +4,7 @@ import com.example.demo.classes.Bloc;
 import com.example.demo.classes.Taula;
 import com.example.demo.classes.Tupla;
 import com.example.demo.repositories.BlocRepository;
+import com.example.demo.repositories.EntradaRepository;
 import com.example.demo.repositories.TaulaRepository;
 import com.example.demo.repositories.TuplaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,8 @@ public class TaulaService {
     private BlocRepository blocRepository;
     @Autowired
     private TuplaRepository tuplaRepository;
+    @Autowired
+    private IndexBService indexBService;
 
     public Taula saveTaula(Taula taula) {return taulaRepository.save(taula);}
 
@@ -97,6 +100,7 @@ public class TaulaService {
         Taula taula = taulaRepository.findById(taula_id).orElse(null);
         Bloc b = this.getNBloc(taula_id, Nbloc);
         blocService.add_tupla(b.getId(), atribut);
+
     }
     public void removeTupla_BlocN (long taula_id, int Nbloc, int NTupla) {
         Taula taula = taulaRepository.findById(taula_id).orElse(null);

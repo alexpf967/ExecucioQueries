@@ -71,4 +71,30 @@ public class IndexBService {
         return null;
     }
 
+    public void updateFulles (long index_id){
+        IndexB ib = indexBRepository.findById(index_id).orElse(null);
+        List<Entrada> entradas = new ArrayList<>();
+        if (ib != null) {
+            List<Bloc> sb = blocService.getBlocByTaulaID(ib.getTaula().getId());
+            for(int i = 0; i < sb.size(); ++i) {
+                List<Tupla> st = tuplaRepository.findByBlocID(sb.get(i).getId());
+                for(int j = 0; j < st.size(); ++j) {
+                    Tupla t = tuplaRepository.findById(st.get(j).getId()).orElse(null);
+                    if (t != null) {
+                        Entrada e = entradaRepository.findByTuplaID(t.getId());
+                        if (e == null) {
+                            Entrada eNew = new Entrada(t.getId(), i, j, ib);
+                            entradas.add(eNew);
+                            ib.add_fulla(eNew);
+                        }
+                    }
+                }
+
+            }
+            entradaRepository.saveAll(entradas);
+            saveIndexB(ib);
+        }
+
+    }
+
 }
