@@ -57,6 +57,16 @@ public class BlocService {
 
         }
     }
+    public void remove_Ntupla(long bloc_id, int tuplaN) {
+        Bloc bloc = blocRepository.findById(bloc_id).orElse(null);
+        if (bloc != null) {
+            Tupla tupla = this.getNTupla(bloc.getId(), tuplaN);
+            bloc.deleteTupla(tupla);
+            tuplaService.removeTupla(tupla.getId());
+
+
+        }
+    }
     public int Ntuplas (Bloc bloc) {
         return bloc.nFulles();
     }
