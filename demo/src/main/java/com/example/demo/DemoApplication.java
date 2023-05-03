@@ -79,6 +79,8 @@ public class DemoApplication implements CommandLineRunner {
 		}
 
 
+		System.out.println(ibs.ultima_fulla(1152, 911));
+
 
 
 

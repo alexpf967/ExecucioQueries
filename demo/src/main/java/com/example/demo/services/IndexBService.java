@@ -97,4 +97,19 @@ public class IndexBService {
 
     }
 
+    public int getNfulles(long index_id) {
+        IndexB ib = indexBRepository.findById(index_id).orElse(null);
+        if (ib != null) {
+            return ib.getFulles().size();
+        }
+        return 0;
+    }
+    public boolean ultima_fulla (long index_id, long entrada_id) {
+        IndexB ib = indexBRepository.findById(index_id).orElse(null);
+        List<Entrada> se = entradaRepository.findByIndexBID(ib.getId());
+        Entrada e = se.get(se.size()-1);
+        if (e.getId() == entrada_id) return true;
+        else return false;
+    }
+
 }
