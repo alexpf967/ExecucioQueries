@@ -68,7 +68,7 @@ public class BlocService {
         }
     }
     public int Ntuplas (Bloc bloc) {
-        return bloc.nFulles();
+        return bloc.nTuplas();
     }
 
     public Tupla getNTupla (long bloc_id, int n) {
@@ -83,7 +83,7 @@ public class BlocService {
 
     public void printBloc (Bloc bloc) {
         List<Tupla> lt = tuplaService.getTuplasByBlocID(bloc.getId());
-        System.out.println("El bloc amb id = " + bloc.getId() + ", té " + bloc.nFulles() + " tuples:");
+        System.out.println("El bloc amb id = " + bloc.getId() + ", té " + bloc.nTuplas() + " tuples:");
         for(Tupla t : lt) {
             System.out.println("{id=" + t.getId() + ", atribut=" + t.getAtribut() +"}");
         }

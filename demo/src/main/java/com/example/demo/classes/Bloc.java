@@ -43,9 +43,10 @@ public class Bloc {
         this.bloc = bloc;
     }
 
-    public int nFulles () {
+    public int nTuplas () {
         return bloc.size();
     }
+
 
     public Tupla getTupla (long id_tupla) {
         for(Tupla t : bloc) {
@@ -64,7 +65,7 @@ public class Bloc {
 
 
     public void showBloc() {
-        System.out.println("El bloc amb id = " + this.id + ", té " + this.nFulles() + " tuples:");
+        System.out.println("El bloc amb id = " + this.id + ", té " + this.nTuplas() + " tuples:");
         for(Tupla t : bloc) {
             System.out.println("{id=" + t.getId() + ", atribut=" + t.getAtribut() +"}");
         }

@@ -8,23 +8,18 @@ import com.example.demo.repositories.BlocRepository;
 import com.example.demo.repositories.TuplaRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mockito;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
@@ -51,7 +46,7 @@ public class TestBlocService {
         blocService.add_tupla(b.getId(), "tupla1");
         blocService.add_tupla(b.getId(), "tupla2");
 
-        Assertions.assertEquals(b.nFulles(), 2);
+        Assertions.assertEquals(2, b.nTuplas());
     }
     @Test
     public void addTuplaToBlocAndRemove() {
@@ -59,12 +54,12 @@ public class TestBlocService {
         taula.setId((long)1);
         Bloc b = new Bloc(taula);
         b.setId(1L);
-        Tupla t = new Tupla("hola", b);
+        Tupla t = new Tupla("testTupla1", b);
         t.setId(1L);
-        Tupla t2 = new Tupla("hola", b);
+        Tupla t2 = new Tupla("testTupla2", b);
         t2.setId(2L);
-        Tupla t3 = new Tupla("hola", b);
-        t.setId((long)3);
+        Tupla t3 = new Tupla("testTupla3", b);
+        t3.setId(3L);
         b.addTupla(t);
         b.addTupla(t2);
         b.addTupla(t3);
@@ -72,21 +67,97 @@ public class TestBlocService {
         st.add(t);
         st.add(t2);
         st.add(t3);
-        when(tuplaRepository.save(any(Tupla.class))).thenReturn(new Tupla("hola",b));
+        when(tuplaRepository.save(any(Tupla.class))).thenReturn(new Tupla("testTuplaX",b));
         when(blocRepository.findById(anyLong())).thenReturn(Optional.of(b));
-        doReturn(st).when(tuplaRepository).findByBlocID(anyLong());
+        when(tuplaRepository.findByBlocID(anyLong())).thenReturn(st);
         when(tuplaService.getTuplasByBlocID(anyLong())).thenReturn(st);
         when(blocService.getNTupla(anyLong(), eq(1))).thenReturn(t2);
 
 
-        //when(tuplaRepository.findByBlocID(any(long.class))).thenReturn(st);
-        //when(tuplaService.getTuplasByBlocID(any(long.class))).thenReturn(st);
-
         blocService.remove_Ntupla(b.getId(), 1);
 
-        Assertions.assertEquals(b.nFulles(), 2);
+        Assertions.assertEquals(2, b.nTuplas());
 
     }
 
+    @Test
+    public void printBloc() {
+        Taula taula = new Taula("TestCreacioTaula");
+        taula.setId((long)1);
+        Bloc b = new Bloc(taula);
+        b.setId(1L);
+        Tupla t = new Tupla("testTupla1", b);
+        t.setId(1L);
+        Tupla t2 = new Tupla("testTupla2", b);
+        t2.setId(2L);
+        Tupla t3 = new Tupla("testTupla3", b);
+        t3.setId(3L);
+        b.addTupla(t);
+        b.addTupla(t2);
+        b.addTupla(t3);
+        List<Tupla> st = new ArrayList<Tupla>();
+        st.add(t);
+        st.add(t2);
+        st.add(t3);
+        when(tuplaRepository.findByBlocID(anyLong())).thenReturn(st);
+        when(tuplaService.getTuplasByBlocID(anyLong())).thenReturn(st);
 
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        PrintStream oldOut = System.out;
+        System.setOut(new PrintStream(baos));
+        blocService.printBloc(b);
+        System.setOut(oldOut);
+        String output = baos.toString();
+        Assertions.assertEquals("El bloc amb id = 1, té 3 tuples:\r\n{id=1, atribut=testTupla1}\r\n{id=2, atribut=testTupla2}\r\n{id=3, atribut=testTupla3}\r\n", output);
+
+    }
+
+    @Test
+    public void NTuplas() {
+        Taula taula = new Taula("TestCreacioTaula");
+        taula.setId((long)1);
+        Bloc b = new Bloc(taula);
+        b.setId(1L);
+        Tupla t = new Tupla("testTupla1", b);
+        t.setId(1L);
+        Tupla t2 = new Tupla("testTupla2", b);
+        t2.setId(2L);
+        Tupla t3 = new Tupla("testTupla3", b);
+        t3.setId(3L);
+        b.addTupla(t);
+        b.addTupla(t2);
+        b.addTupla(t3);
+
+        int actual = blocService.Ntuplas(b);
+        Assertions.assertEquals(3, actual);
+    }
+
+    @Test
+    public void getNTupla() {
+        Taula taula = new Taula("TestCreacioTaula");
+        taula.setId((long)1);
+        Bloc b = new Bloc(taula);
+        b.setId(1L);
+        Tupla t = new Tupla("testTupla1", b);
+        t.setId(1L);
+        Tupla t2 = new Tupla("testTupla2", b);
+        t2.setId(2L);
+        Tupla t3 = new Tupla("testTupla3", b);
+        t3.setId(3L);
+        b.addTupla(t);
+        b.addTupla(t2);
+        b.addTupla(t3);
+        List<Tupla> st = new ArrayList<Tupla>();
+        st.add(t);
+        st.add(t2);
+        st.add(t3);
+        when(blocRepository.findById(anyLong())).thenReturn(Optional.of(b));
+        when(tuplaRepository.findByBlocID(anyLong())).thenReturn(st);
+        when(tuplaService.getTuplasByBlocID(anyLong())).thenReturn(st);
+
+        Tupla actual = blocService.getNTupla(b.getId(), 1);
+        Assertions.assertEquals("testTupla2", actual.getAtribut());
+        Assertions.assertEquals(2, actual.getId());
+
+    }
 }
