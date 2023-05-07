@@ -189,4 +189,75 @@ class TestTaulaService {
         Assertions.assertEquals(10, lb.get(0).getBloc().size());
 
     }
+
+    @Test
+    public void addTuplaBlocNTaula() {
+        Taula taula = new Taula("TestCreacioTaula");
+        taula.setId(1L);
+        Bloc b = new Bloc(taula);
+        b.setId(1L);
+        Bloc b2 = new Bloc(taula);
+        b2.setId(2L);
+        List<Bloc> sb = new ArrayList<Bloc>();
+        sb.add(b);
+        sb.add(b2);
+        taula.addBloc(b);
+        taula.addBloc(b2);
+
+
+        when(taulaRepository.findById(anyLong())).thenReturn(Optional.of(taula));
+        when(blocService.getBlocByTaulaID(anyLong())).thenReturn(sb);
+        when(blocRepository.findById(1L)).thenReturn(Optional.of(b));
+        when(blocRepository.findById(2L)).thenReturn(Optional.of(b2));
+
+        //when(tuplaService.saveTupla(any(Tupla.class))).thenReturn(st2);
+
+        taulaService.addTupla_BlocN(taula.getId(), 0, "BlocN");
+        taulaService.addTupla_BlocN(taula.getId(), 1, "BlocN");
+
+        List<Bloc> lb = new ArrayList<>(taula.getTaula());
+        Assertions.assertEquals(1, lb.get(0).nTuplas());
+        Assertions.assertEquals(1, lb.get(1).nTuplas());
+
+    }
+    @Test
+    public void removeTuplaBlocNTaula() {
+        Taula taula = new Taula("TestCreacioTaula");
+        taula.setId(1L);
+        Bloc b = new Bloc(taula);
+        b.setId(1L);
+        Tupla t1 = new Tupla("t1", b);
+        t1.setId(1L);
+        b.addTupla(t1);
+        Tupla t2 = new Tupla("t2", b);
+        t2.setId(2L);
+        b.addTupla(t2);
+        Tupla t3 = new Tupla("t3", b);
+        t3.setId(3L);
+        b.addTupla(t3);
+        List<Bloc> sb = new ArrayList<Bloc>();
+        sb.add(b);
+        taula.addBloc(b);
+
+        when(taulaRepository.findById(anyLong())).thenReturn(Optional.of(taula));
+        when(blocService.getBlocByTaulaID(anyLong())).thenReturn(sb);
+        when(blocRepository.findById(1L)).thenReturn(Optional.of(b));
+        when(tuplaService.getTuplasByBlocID(1L)).thenReturn(new ArrayList<>(b.getBloc()));
+        when(tuplaService.getTuplaById(2L)).thenReturn(t2);
+
+        List<Tupla> lt= new ArrayList<>(b.getBloc());
+        Tupla t = lt.get(1);
+        when(blocService.getNTupla(1L, 1)).thenReturn(t);
+
+        taulaService.removeTupla_BlocN(taula.getId(), 0, 1);
+        List<Bloc> lb = new ArrayList<>(taula.getTaula());
+        Bloc bloc = lb.get(0);
+        List<Tupla> l = new ArrayList<>(bloc.getBloc());
+
+        Assertions.assertEquals(2, l.size());
+        Assertions.assertEquals("t1", l.get(0).getAtribut());
+        Assertions.assertEquals("t3", l.get(1).getAtribut());
+
+    }
+
 }
