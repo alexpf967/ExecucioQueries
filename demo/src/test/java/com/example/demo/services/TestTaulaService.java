@@ -11,22 +11,16 @@ import com.example.demo.repositories.TuplaRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
 
 
@@ -64,11 +58,11 @@ class TestTaulaService {
 
 
     }
-
     @Test
     void creacioTaulaNom() {
         Taula taulaExpected = new Taula("TestCreacioTaula");
         taulaExpected.setId((long)1);
+        when(taulaRepository.save(any(Taula.class))).thenReturn(taulaExpected);
         Taula taulaTest = taulaService.saveTaula(taulaExpected);
         Assertions.assertEquals(taulaExpected.getId(), taulaTest.getId());
     }
@@ -86,7 +80,7 @@ class TestTaulaService {
         Assertions.assertEquals(taulaTest.getTaula().size(), 1);
     }
     @Test
-    public void printTaula() {
+    public void showTaula() {
         Taula taula = new Taula("TestCreacioTaula");
         taula.setId((long)1);
         Bloc b = new Bloc(taula);
@@ -127,5 +121,72 @@ class TestTaulaService {
         Assertions.assertEquals("La Taula amb id = 1, té 2 blocs:\r\nEl bloc amb id = 1, té 1 tuples:\r\n{id=1, atribut=testTupla1}\r\nEl bloc amb id = 2, té 1 tuples:\r\n{id=2, atribut=testTupla2}\r\n", output);
 
     }
+    @Test
+    void getNBlocToTaula() {
+        Taula taula = new Taula("TestCreacioTaula");
+        taula.setId(1L);
+        Bloc b = new Bloc(taula);
+        b.setId(1L);
+        Bloc b2 = new Bloc(taula);
+        b2.setId(2L);
+        List<Bloc> sb = new ArrayList<Bloc>();
+        sb.add(b);
+        sb.add(b2);
+        when(taulaRepository.findById(anyLong())).thenReturn(Optional.of(taula));
+        when(blocService.getBlocByTaulaID(anyLong())).thenReturn(sb);
 
+        Bloc b00 = taulaService.getNBloc(taula.getId(), 0);
+        Bloc b01 = taulaService.getNBloc(taula.getId(), 1);
+        Bloc b02 = taulaService.getNBloc(taula.getId(), 2);
+
+
+        Assertions.assertEquals(1L, b00.getId());
+        Assertions.assertEquals(2L, b01.getId());
+        Assertions.assertNull(b02);
+
+    }
+    @Test
+    void populateTaula() {
+        Taula taula = new Taula("TestCreacioTaula");
+        taula.setId(1L);
+        Bloc b = new Bloc(taula);
+        b.setId(1L);
+
+        List<Bloc> sb = new ArrayList<Bloc>();
+        sb.add(b);
+        List<Tupla> st = new ArrayList<>();
+        for(int i = 0; i < 10; ++i) {
+            Tupla t = new Tupla("populate", b);
+            st.add(t);
+        }
+
+        b.setBloc(new HashSet<>(st));
+        taula.addBloc(b);
+
+
+        when(taulaRepository.save(any(Taula.class))).thenReturn(taula);
+        Taula actual = new Taula("TestCreacioTaula");
+        actual.setId(1L);
+        //actual = taulaService.saveTaula(actual);
+
+
+        when(taulaRepository.save(any(Taula.class))).thenReturn(taula);
+        when(taulaRepository.findByNomTaula(anyString())).thenReturn(actual);
+        when(taulaRepository.findById(anyLong())).thenReturn(Optional.of(actual));
+        when(blocRepository.save(any(Bloc.class))).thenReturn(b);
+        Bloc bloc = new Bloc(taula);
+        bloc.setId(11L);
+        when(blocRepository.findById(1L)).thenReturn(Optional.of(bloc));
+
+
+
+        taulaService.populate(actual.getNom_taula(), 1, 10);
+
+        Assertions.assertEquals("TestCreacioTaula", actual.getNom_taula());
+        Assertions.assertEquals(1, actual.getTaula().size());
+        List<Bloc> lb = new ArrayList<>(actual.getTaula());
+
+        Assertions.assertEquals(10, lb.get(0).getBloc().size());
+
+    }
 }
