@@ -4,12 +4,12 @@ import com.example.demo.classes.Bloc;
 import com.example.demo.classes.Taula;
 import com.example.demo.classes.Tupla;
 import com.example.demo.repositories.BlocRepository;
-import com.example.demo.repositories.EntradaRepository;
 import com.example.demo.repositories.TaulaRepository;
 import com.example.demo.repositories.TuplaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -108,7 +108,7 @@ public class TaulaService {
         blocService.remove_tupla(b.getId(), t.getId());
     }
 
-    public void swapBloc(long taula_id, long bloc_id, Bloc bloc) {
+    public void escriureBloc(long taula_id, long bloc_id, Bloc bloc) {
         Taula taula = taulaRepository.findById(taula_id).orElse(null);
         Bloc b = blocService.getBlocById(bloc_id);
         List<Tupla> st = tuplaRepository.findByBlocID(b.getId());
@@ -118,14 +118,12 @@ public class TaulaService {
             blocService.remove_tupla(b.getId(), tu1.getId());
         }
 
-        List<Tupla> s = tuplaRepository.findByBlocID(bloc.getId());
+        List<Tupla> s = new ArrayList<>(bloc.getBloc());
 
         for(Tupla t : s) {
-            Tupla tu = tuplaRepository.findById(t.getId()).orElse(null);
-            blocService.add_tupla(b.getId(), tu.getAtribut());
+            blocService.add_tupla(b.getId(), t.getAtribut());
         }
-
-        taulaRepository.save(taula);
+        //taulaRepository.save(taula);
     }
 
     public void removeTaula(long taula_id) {

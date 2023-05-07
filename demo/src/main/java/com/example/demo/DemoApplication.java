@@ -7,15 +7,10 @@ import com.example.demo.services.BlocService;
 import com.example.demo.services.IndexBService;
 import com.example.demo.services.TaulaService;
 import com.example.demo.services.TuplaService;
-import com.fasterxml.jackson.databind.ser.impl.IndexedListSerializer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
 
 @SpringBootApplication
 public class DemoApplication implements CommandLineRunner {
@@ -54,7 +49,7 @@ public class DemoApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 
-		Taula taula = new Taula("TAULA18");
+		/*Taula taula = new Taula("TAULA18");
 		taula=taulaService.saveTaula(taula);
 		taulaService.populate("TAULA18", 2, 10);
 		taula=taulaRepository.findById(taula.getId()).orElse(null);
@@ -81,6 +76,8 @@ public class DemoApplication implements CommandLineRunner {
 
 		System.out.println(ibs.ultima_fulla(1152, 911));
 
+		 */
+
 
 
 
@@ -101,15 +98,17 @@ public class DemoApplication implements CommandLineRunner {
 		b = bs.getBlocById(7003);
 		bs.printBloc(b);*/
 
-/*
+
 		Bloc b = new Bloc();
-		b = bs.saveBloc(b);
-		for (int i = 0; i < 5; ++i) bs.add_tupla(b.getId(), "swapALEX");
-		b = bs.getBlocById(b.getId());
-		taulaService.swapBloc(4002, 6403, b);
-		b = bs.getBlocById(6403);
+		for (int i = 0; i < 5; ++i) {
+			Tupla t = new Tupla("Swap"+i, b);
+			b.addTupla(t);
+		}
+		taulaService.escriureBloc(6002, 9152, b);
+		b = bs.getBlocById(9152);
 		bs.printBloc(b);
-*/
+		taulaService.showTaula(6002);
+
 
 
 		//List<Tupla> bloc = tuplaRepository.findByBlocID(152);
