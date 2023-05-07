@@ -123,7 +123,6 @@ public class TaulaService {
         for(Tupla t : s) {
             blocService.add_tupla(b.getId(), t.getAtribut());
         }
-        //taulaRepository.save(taula);
     }
 
     public void removeTaula(long taula_id) {
