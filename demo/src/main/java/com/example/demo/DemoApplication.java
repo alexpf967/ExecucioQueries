@@ -49,26 +49,29 @@ public class DemoApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 
-		/*Taula taula = new Taula("TAULA18");
+		Taula taula = new Taula("TAULAINDEX17");
 		taula=taulaService.saveTaula(taula);
-		taulaService.populate("TAULA18", 2, 10);
+		taulaService.populate("TAULAINDEX17", 2, 37);
 		taula=taulaRepository.findById(taula.getId()).orElse(null);
-		taulaService.showTaula(taula.getId());
-		System.out.println("hola");
 
 
-		IndexB ib = new IndexB("indexProva5", 0.75, 3, taula);
+		IndexB ib = new IndexB("index17", 0.75, 3, taula);
 		ibs.saveIndexB(ib);
-		ibs.updateFulles(ib.getId());
-		List<Entrada> se = ibs.getfulles(ib.getId());
+		ibs.update_indexB(ib.getId());
+		taulaService.addTupla_BlocN(taula.getId(), 0, "PORVA");
+		ibs.update_indexB(ib.getId());
+
+        /*
+		ibs.updateEntradas(ib.getId());
+		List<Entrada> se = ibs.getEntradas(ib.getId());
 		for(Entrada e : se) {
 			System.out.println(e.getTupla_id()+" "+e.getnBloc()+" "+e.getnTupla());
 		}
 		Entrada e = ibs.getNEntrada(ib.getId(), 0);
 		System.out.println(e.getTupla_id()+" "+e.getnBloc()+" "+e.getnTupla());
 		taulaService.addTupla_BlocN(taula.getId(), 0, "holahola");
-		ibs.updateFulles(ib.getId());
-		se = ibs.getfulles(ib.getId());
+		ibs.updateEntradas(ib.getId());
+		se = ibs.getEntradas(ib.getId());
 		for(Entrada e1 : se) {
 			System.out.println(e1.getTupla_id()+" "+e1.getnBloc()+" "+e1.getnTupla());
 		}
@@ -77,6 +80,8 @@ public class DemoApplication implements CommandLineRunner {
 		System.out.println(ibs.ultima_fulla(1152, 911));
 
 		 */
+
+
 
 
 
@@ -98,7 +103,7 @@ public class DemoApplication implements CommandLineRunner {
 		b = bs.getBlocById(7003);
 		bs.printBloc(b);*/
 
-
+/*
 		Bloc b = new Bloc();
 		for (int i = 0; i < 5; ++i) {
 			Tupla t = new Tupla("Swap"+i, b);
@@ -109,6 +114,7 @@ public class DemoApplication implements CommandLineRunner {
 		bs.printBloc(b);
 		taulaService.showTaula(6002);
 
+ */
 
 
 		//List<Tupla> bloc = tuplaRepository.findByBlocID(152);

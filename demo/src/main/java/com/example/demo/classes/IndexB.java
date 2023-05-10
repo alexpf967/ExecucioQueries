@@ -18,6 +18,8 @@ public class IndexB {
     private double f_carrega;
     @Column(name = "tree_order")
     private int tree_order;
+    @Column(name = "entries_fulla")
+    private int entries_fulla;
 
     /*@ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
@@ -41,6 +43,8 @@ public class IndexB {
         this.tree_order = tree_order;
         this.taula = taula;
         this.fulles = new LinkedHashSet<>();
+        double entries = 2*tree_order*f_carrega;
+        this.entries_fulla = (int)Math.ceil(entries);
     }
 
     public Long getId() {
@@ -96,5 +100,13 @@ public class IndexB {
     }
     public void remove_fulla(Entrada e) {
         this.fulles.remove(e);
+    }
+
+    public int getEntries_fulla() {
+        return entries_fulla;
+    }
+
+    public void setEntries_fulla(int entries_fulla) {
+        this.entries_fulla = entries_fulla;
     }
 }

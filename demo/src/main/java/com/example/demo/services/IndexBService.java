@@ -1,7 +1,6 @@
 package com.example.demo.services;
 
 import com.example.demo.classes.*;
-import com.example.demo.repositories.BlocRepository;
 import com.example.demo.repositories.EntradaRepository;
 import com.example.demo.repositories.IndexBRepository;
 import com.example.demo.repositories.TuplaRepository;
@@ -47,7 +46,7 @@ public class IndexBService {
         }
 
     }
-    public List<Entrada> getfulles(long index_id) {
+    public List<Entrada> getEntradas(long index_id) {
         IndexB ib = indexBRepository.findById(index_id).orElse(null);
         Comparator<Entrada> comparadorPorTuplaID = new Comparator<Entrada>() {
             @Override
@@ -71,7 +70,7 @@ public class IndexBService {
         return null;
     }
 
-    public void updateFulles (long index_id){
+    public void updateEntradas(long index_id){
         IndexB ib = indexBRepository.findById(index_id).orElse(null);
         List<Entrada> entradas = new ArrayList<>();
         if (ib != null) {
@@ -94,7 +93,37 @@ public class IndexBService {
             entradaRepository.saveAll(entradas);
             saveIndexB(ib);
         }
+    }
+    public void update_Nfulles(long index_id) {
+        IndexB ib = indexBRepository.findById(index_id).orElse(null);
+        if(ib != null) {
+            int card = ib.getFulles().size();
+            System.out.println(card);
+            int u = ib.getEntries_fulla();
+            System.out.println(u);
+            double fulles = (double) card /u;
+            int nFulles = (int) Math.ceil(fulles);
+            System.out.println(nFulles);
+            List<Entrada> le = this.getEntradas(ib.getId());
+            System.out.println(le.size());
 
+            int cont = 0;
+            for(int i = 0; i < nFulles; ++i) {
+                for(int j = 0; j < u && cont < le.size(); ++j) {
+                    Entrada e = entradaRepository.findById(le.get(cont).getId()).orElse(null);
+                    if (e != null) {
+                        e.setnFulla(i+1);
+                        entradaRepository.save(e);
+                    }
+                    ++cont;
+                }
+            }
+        }
+    }
+
+    public void update_indexB(long index_id) {
+        this.updateEntradas(index_id);
+        this.update_Nfulles(index_id);
     }
 
     public int getNfulles(long index_id) {

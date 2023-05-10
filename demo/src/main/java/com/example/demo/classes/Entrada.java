@@ -18,16 +18,15 @@ public class Entrada {
     private int nBloc;
     @Column(name = "nTupla")
     private int nTupla;
+    @Column(name = "nFulla")
+    private int nFulla;
 
     @ManyToOne
     @JoinColumn(name = "indexB_id")
     private IndexB indexB;
 
-    /*@ManyToMany(fetch = FetchType.EAGER, mappedBy = "fulles",cascade = CascadeType.ALL)
-    private Set<IndexB> indexs;*/
 
     public Entrada() {
-        //this.indexs = new LinkedHashSet<>();
     }
 
     public Entrada(long tupla_id, int nBloc, int nTupla, IndexB indexB) {
@@ -35,7 +34,6 @@ public class Entrada {
         this.nBloc = nBloc;
         this.nTupla = nTupla;
         this.indexB = indexB;
-        //this.indexs = new LinkedHashSet<>();
 
     }
 
@@ -57,6 +55,14 @@ public class Entrada {
 
     public int getnBloc() {
         return nBloc;
+    }
+
+    public int getnFulla() {
+        return nFulla;
+    }
+
+    public void setnFulla(int nFulla) {
+        this.nFulla = nFulla;
     }
 
     public void setnBloc(int nBloc) {
