@@ -65,7 +65,6 @@ public class DemoApplication implements CommandLineRunner {
 		for (Entrada e : le) {
 			System.out.println(e.getTupla_id());
 		}
-		System.out.println(ibs.ultimaFulla(ib.getId(), ibs.getNumFulles(ib.getId())));
 
 
 		System.out.println(ibs.cercaFulla(2402, 12552));
