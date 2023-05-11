@@ -12,7 +12,7 @@ public class IndexB {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
     private Long id;
-    @Column(name = "nom_indexB", unique = true, nullable = false)
+    @Column(name = "nom_indexB", unique = true)
     private String nom_indexB;
     @Column(name = "f_carrega")
     private double f_carrega;

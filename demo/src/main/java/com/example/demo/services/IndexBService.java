@@ -24,28 +24,6 @@ public class IndexBService {
 
     public IndexB saveIndexB(IndexB indexB) {return indexBRepository.save(indexB);}
 
-    public void setfulles(long index_id) {
-        IndexB ib = indexBRepository.findById(index_id).orElse(null);
-        List<Entrada> entradas = new ArrayList<>();
-        if (ib != null) {
-            List<Bloc> sb = blocService.getBlocByTaulaID(ib.getTaula().getId());
-            for(int i = 0; i < sb.size(); ++i) {
-                List<Tupla> st = tuplaRepository.findByBlocID(sb.get(i).getId());
-                for(int j = 0; j < st.size(); ++j) {
-                    Tupla t = tuplaRepository.findById(st.get(j).getId()).orElse(null);
-                    if (t != null) {
-                        Entrada e = new Entrada(t.getId(), i, j, ib);
-                        entradas.add(e);
-                        ib.add_fulla(e);
-                    }
-                }
-
-            }
-            entradaRepository.saveAll(entradas);
-            saveIndexB(ib);
-        }
-
-    }
     public List<Entrada> getEntradas(long index_id) {
         IndexB ib = indexBRepository.findById(index_id).orElse(null);
         Comparator<Entrada> comparadorPorTuplaID = new Comparator<Entrada>() {
@@ -86,6 +64,10 @@ public class IndexBService {
                             Entrada eNew = new Entrada(t.getId(), i, j, ib);
                             entradas.add(eNew);
                             ib.add_fulla(eNew);
+                        }
+                        if(e.getIndexB().getId()==null) {
+                            e.setIndexB(ib);
+                            entradaRepository.save(e);
                         }
                     }
                 }

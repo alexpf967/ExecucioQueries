@@ -20,6 +20,8 @@ public class Taula {
     private Set<Bloc> taula;
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "taula", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<IndexB> indexBSet;
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "taula", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<IndexHash> indexHashSet;
 
     public Taula() {
         this.taula = new LinkedHashSet<>();
@@ -75,5 +77,15 @@ public class Taula {
         return taula.size();
     }
 
+    public Set<IndexB> getIndexBSet() {
+        return indexBSet;
+    }
 
+    public Set<IndexHash> getIndexHashSet() {
+        return indexHashSet;
+    }
+
+    public void setIndexHashSet(Set<IndexHash> indexHashSet) {
+        this.indexHashSet = indexHashSet;
+    }
 }

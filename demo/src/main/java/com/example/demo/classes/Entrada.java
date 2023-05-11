@@ -20,10 +20,15 @@ public class Entrada {
     private int nTupla;
     @Column(name = "nFulla")
     private int nFulla;
+    @Column(name = "nBucket")
+    private int nBucket;
 
     @ManyToOne
     @JoinColumn(name = "indexB_id")
     private IndexB indexB;
+    @ManyToOne
+    @JoinColumn(name = "indexHash_id")
+    private IndexHash indexHash;
 
 
     public Entrada() {
@@ -34,8 +39,14 @@ public class Entrada {
         this.nBloc = nBloc;
         this.nTupla = nTupla;
         this.indexB = indexB;
-
     }
+    public Entrada(long tupla_id, int nBloc, int nTupla, IndexHash indexHash) {
+        this.tupla_id = tupla_id;
+        this.nBloc = nBloc;
+        this.nTupla = nTupla;
+        this.indexHash = indexHash;
+    }
+
 
     public Long getId() {
         return id;
@@ -90,5 +101,21 @@ public class Entrada {
 
     public void setIndexB(IndexB indexB) {
         this.indexB = indexB;
+    }
+
+    public IndexHash getIndexHash() {
+        return indexHash;
+    }
+
+    public void setIndexHash(IndexHash indexHash) {
+        this.indexHash = indexHash;
+    }
+
+    public int getnBucket() {
+        return nBucket;
+    }
+
+    public void setnBucket(int nBucket) {
+        this.nBucket = nBucket;
     }
 }
