@@ -12,6 +12,8 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import java.util.List;
+
 @SpringBootApplication
 public class DemoApplication implements CommandLineRunner {
 
@@ -49,17 +51,26 @@ public class DemoApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 
-		Taula taula = new Taula("TAULAINDEX17");
+		Taula taula = new Taula("TAULAINDEX20");
 		taula=taulaService.saveTaula(taula);
-		taulaService.populate("TAULAINDEX17", 2, 37);
+		taulaService.populate("TAULAINDEX20", 2, 37);
 		taula=taulaRepository.findById(taula.getId()).orElse(null);
 
 
-		IndexB ib = new IndexB("index17", 0.75, 3, taula);
+		IndexB ib = new IndexB("index20", 0.75, 3, taula);
 		ibs.saveIndexB(ib);
 		ibs.update_indexB(ib.getId());
-		taulaService.addTupla_BlocN(taula.getId(), 0, "PORVA");
-		ibs.update_indexB(ib.getId());
+		System.out.println(ibs.getNumFulles(ib.getId()));
+		List<Entrada> le = ibs.getFullaN(ib.getId(), 3);
+		for (Entrada e : le) {
+			System.out.println(e.getTupla_id());
+		}
+		System.out.println(ibs.ultimaFulla(ib.getId(), ibs.getNumFulles(ib.getId())));
+
+
+		System.out.println(ibs.cercaFulla(2402, 12552));
+
+
 
         /*
 		ibs.updateEntradas(ib.getId());

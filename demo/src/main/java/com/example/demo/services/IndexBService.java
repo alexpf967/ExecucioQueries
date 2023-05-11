@@ -70,6 +70,7 @@ public class IndexBService {
         return null;
     }
 
+
     public void updateEntradas(long index_id){
         IndexB ib = indexBRepository.findById(index_id).orElse(null);
         List<Entrada> entradas = new ArrayList<>();
@@ -98,14 +99,10 @@ public class IndexBService {
         IndexB ib = indexBRepository.findById(index_id).orElse(null);
         if(ib != null) {
             int card = ib.getFulles().size();
-            System.out.println(card);
             int u = ib.getEntries_fulla();
-            System.out.println(u);
             double fulles = (double) card /u;
             int nFulles = (int) Math.ceil(fulles);
-            System.out.println(nFulles);
             List<Entrada> le = this.getEntradas(ib.getId());
-            System.out.println(le.size());
 
             int cont = 0;
             for(int i = 0; i < nFulles; ++i) {
@@ -126,19 +123,44 @@ public class IndexBService {
         this.update_Nfulles(index_id);
     }
 
-    public int getNfulles(long index_id) {
+    public List<Entrada> getFullaN (long index_id, int n) {
         IndexB ib = indexBRepository.findById(index_id).orElse(null);
-        if (ib != null) {
-            return ib.getFulles().size();
+        if(ib != null) {
+            int nFulles = this.getNumFulles(ib.getId());
+            if(n > 0 && n <= nFulles) {
+                return entradaRepository.findFullaNIndexB(ib.getId(), n);
+            }
+        }
+        return null;
+    }
+    public List<Entrada> getPrimeraFulla (long index_id) {
+        IndexB ib = indexBRepository.findById(index_id).orElse(null);
+        if(ib != null) {
+            return getFullaN(ib.getId(), 1);
+        }
+        return null;
+    }
+    public boolean ultimaFulla(long index_id, int n) {
+        return getNumFulles(index_id)==n;
+    }
+
+    public int cercaFulla(long index_id, long tupla_id) {
+        IndexB ib = indexBRepository.findById(index_id).orElse(null);
+        List<Entrada> le = entradaRepository.findByIndexBID(ib.getId());
+        for(Entrada e : le) {
+            if(e.getTupla_id()==tupla_id) return e.getnFulla();
         }
         return 0;
     }
-    public boolean ultima_fulla (long index_id, long entrada_id) {
+    public int getNumFulles(long index_id) {
         IndexB ib = indexBRepository.findById(index_id).orElse(null);
-        List<Entrada> se = entradaRepository.findByIndexBID(ib.getId());
-        Entrada e = se.get(se.size()-1);
-        if (e.getId() == entrada_id) return true;
-        else return false;
+        if (ib != null) {
+            int card = ib.getFulles().size();
+            int u = ib.getEntries_fulla();
+            double fulles = (double) card /u;
+            int nFulles = (int) Math.ceil(fulles);
+            return nFulles;
+        }
+        return 0;
     }
-
 }
