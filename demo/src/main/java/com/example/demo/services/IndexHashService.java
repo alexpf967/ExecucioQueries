@@ -83,52 +83,42 @@ public class IndexHashService {
             saveIndexHash(indexHash);
         }
     }
-   /* public void update_NBucket(long index_id) {
-        IndexHash indexHash = indexHashRepository.findById(index_id).orElse(null);
-        if(indexHash != null) {
-            int u = indexHash.getEntries_buckets();
-            List<Entrada> le = this.getEntradas(indexHash.getId());
-            for(Entrada e : le) {
-                Entrada e1 = entradaRepository.findById(e.getId()).orElse(null);
-                int bucket = calculate_hash(indexHash.getnBuckets(), (int)e.getTupla_id());
-                if (e1 != null) {
-                    if (e1.getnBucket()==0) {
-                        if(entradaRepository.findBucketNIndexHash(indexHash.getId(), bucket).size()<=u) {
-                            e1.setnBucket(bucket);
-                            entradaRepository.save(e1);
-                        }
-                    }
-                }
-
-            }
-            /*for(int i = 0; i < le.size(); ++i) {
-                Entrada e = entradaRepository.findById(le.get(i).getId()).orElse(null);
-                if (e != null) {
-                    int bucket = calculate_hash(indexHash.getId(), e.getTupla_id());
-                    if (entradaRepository.findBucketNIndexHash(indexHash.getId(), bucket).size() <= nFulles) {
-                        if (e != null) {
-                            if (e.getnBucket() == 0) {
-                                e.setnBucket(bucket);
-                                entradaRepository.save(e);
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-    */
-
     public int calculate_hash(int maxBuckets, int tupla_id) {
         int res = (tupla_id % maxBuckets);
         return res+1;
     }
-    /*public void update_indexHash(long index_id) {
-        IndexHash indexHash = indexHashRepository.findById(index_id).orElse(null);
-        if(indexHash != null) {
-            this.updateEntradas(indexHash.getId());
-            //this.update_NBucket(indexHash.getId());
+
+    public List<Entrada> getBucketN (long index_id, int n) {
+        IndexHash ih = indexHashRepository.findById(index_id).orElse(null);
+        if(ih != null) {
+            int nBuckets = ih.getnBuckets();
+            if(n > 0 && n <= nBuckets) {
+                return entradaRepository.findBucketNIndexHash(ih.getId(), n);
+            }
         }
-    }*/
+        return null;
+    }
+    public List<Entrada> getPrimerBucket (long index_id) {
+        IndexHash ih = indexHashRepository.findById(index_id).orElse(null);
+        if(ih != null) {
+            return getBucketN(ih.getId(), 1);
+        }
+        return null;
+    }
+    public int getnBuckets(long index_id) {
+        IndexHash ih = indexHashRepository.findById(index_id).orElse(null);
+        return ih.getnBuckets();
+    }
+    public boolean ultimBucket(long index_id, int n) {
+        return getnBuckets(index_id)==n;
+    }
+    public int cercaBucket(long index_id, long tupla_id) {
+        IndexHash ih = indexHashRepository.findById(index_id).orElse(null);
+        List<Entrada> le = entradaRepository.findByIndexHashID(ih.getId());
+        for(Entrada e : le) {
+            if(e.getTupla_id()==tupla_id) return e.getnBucket();
+        }
+        return 0;
+    }
 
 }
