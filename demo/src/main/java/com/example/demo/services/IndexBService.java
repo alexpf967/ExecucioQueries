@@ -94,8 +94,10 @@ public class IndexBService {
                 for(int j = 0; j < u && cont < le.size(); ++j) {
                     Entrada e = entradaRepository.findById(le.get(cont).getId()).orElse(null);
                     if (e != null) {
-                        e.setnFulla(i+1);
-                        entradaRepository.save(e);
+                        if(e.getnFulla() == 0) {
+                            e.setnFulla(i + 1);
+                            entradaRepository.save(e);
+                        }
                     }
                     ++cont;
                 }

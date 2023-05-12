@@ -50,19 +50,18 @@ public class DemoApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 
-		Taula taula = new Taula("TAULAINDEX13");
+		Taula taula = new Taula("TAULAINDEX21");
 		taula=taulaService.saveTaula(taula);
-		taulaService.populate("TAULAINDEX13", 2, 12);
+		taulaService.populate("TAULAINDEX21", 2, 10);
 		taula=taulaRepository.findById(taula.getId()).orElse(null);
 
-		IndexHash ih = new IndexHash("indexH13", 0.75, 3, 4,taula);
-		ihs.saveIndexHash(ih);
-		ihs.update_indexHash(ih.getId());
 
-
-		IndexB ib = new IndexB("indexB13", 0.75, 3, taula);
+		IndexB ib = new IndexB("indexB21", 0.75, 3, taula);
 		ibs.saveIndexB(ib);
 		ibs.update_indexB(ib.getId());
+		IndexHash ih = new IndexHash("indexH21", 0.75, 3, 4,taula);
+		ihs.saveIndexHash(ih);
+		ihs.update_indexHash(ih.getId());
 
 
 
