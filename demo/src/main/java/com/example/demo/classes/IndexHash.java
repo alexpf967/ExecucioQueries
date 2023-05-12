@@ -6,7 +6,7 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "IndexB")
+@Table(name = "IndexHash")
 public class IndexHash {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

@@ -63,9 +63,12 @@ public class IndexHashService {
                             entradas.add(eNew);
                             indexHash.add_entrada(eNew);
                         }
-                        if(e.getIndexHash().getId()==null) {
-                            e.setIndexHash(indexHash);
-                            entradaRepository.save(e);
+                        else {
+                            if (e.getIndexHash() == null) {
+                                e.setIndexHash(indexHash);
+                                indexHash.add_entrada(e);
+                                entradaRepository.save(e);
+                            }
                         }
                     }
                 }
@@ -81,6 +84,7 @@ public class IndexHashService {
             int card = indexHash.getEntrades().size();
             int u = indexHash.getEntries_buckets();
             double fulles = (double) card /u;
+            int nFulles = (int) Math.ceil(fulles);
             int nBuckets = indexHash.getnBuckets();
             List<Entrada> le = this.getEntradas(indexHash.getId());
 
@@ -88,7 +92,7 @@ public class IndexHashService {
             for(Entrada e : le) {
                 Entrada e1 = entradaRepository.findById(e.getId()).orElse(null);
                 int bucket = calculate_hash(indexHash.getId(), e.getTupla_id());
-                if(entradaRepository.findBucketNIndexHash(indexHash.getId(), bucket).size()<=fulles){
+                if(entradaRepository.findBucketNIndexHash(indexHash.getId(), bucket).size()<=nFulles){
                     e1.setnBucket(bucket);
                     entradaRepository.save(e1);
                 }
@@ -98,15 +102,20 @@ public class IndexHashService {
         }
     }
 
-    private int calculate_hash(long indexHashId, long tupla_id) {
+    public int calculate_hash(long indexHashId, long tupla_id) {
         IndexHash indexHash = indexHashRepository.findById(indexHashId).orElse(null);
         int maxBuckets = indexHash.getnBuckets();
-        int res = (int)tupla_id%maxBuckets;
+        int t_id = (int)tupla_id;
+        int res = (t_id % maxBuckets);
+        //System.out.println(res+1);
         return res+1;
     }
     public void update_indexHash(long index_id) {
-        this.updateEntradas(index_id);
-        this.update_NBucket(index_id);
+        IndexHash indexHash = indexHashRepository.findById(index_id).orElse(null);
+        if(indexHash != null) {
+            this.updateEntradas(indexHash.getId());
+            this.update_NBucket(indexHash.getId());
+        }
     }
 
 }

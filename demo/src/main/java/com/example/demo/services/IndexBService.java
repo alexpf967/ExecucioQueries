@@ -65,9 +65,12 @@ public class IndexBService {
                             entradas.add(eNew);
                             ib.add_fulla(eNew);
                         }
-                        if(e.getIndexB().getId()==null) {
-                            e.setIndexB(ib);
-                            entradaRepository.save(e);
+                        else {
+                            if (e.getIndexB() == null) {
+                                e.setIndexB(ib);
+                                ib.add_fulla(e);
+                                entradaRepository.save(e);
+                            }
                         }
                     }
                 }
