@@ -55,7 +55,6 @@ public class DemoApplication implements CommandLineRunner {
 		taulaService.populate("TAULAINDEX21", 2, 10);
 		taula=taulaRepository.findById(taula.getId()).orElse(null);
 
-
 		IndexB ib = new IndexB("indexB21", 0.75, 3, taula);
 		ibs.saveIndexB(ib);
 		ibs.update_indexB(ib.getId());
