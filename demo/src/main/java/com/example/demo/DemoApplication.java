@@ -50,15 +50,16 @@ public class DemoApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 
-		Taula taula = new Taula("TAULAINDEX21");
+		Taula taula = new Taula("TAULAINDEX23");
 		taula=taulaService.saveTaula(taula);
-		taulaService.populate("TAULAINDEX21", 2, 10);
+		taulaService.populate("TAULAINDEX23", 2, 10);
 		taula=taulaRepository.findById(taula.getId()).orElse(null);
 
-		IndexB ib = new IndexB("indexB21", 0.75, 3, taula);
+
+		IndexB ib = new IndexB("indexB23", 0.75, 3, taula);
 		ibs.saveIndexB(ib);
 		ibs.update_indexB(ib.getId());
-		IndexHash ih = new IndexHash("indexH21", 0.75, 3, 4,taula);
+		IndexHash ih = new IndexHash("indexH23", 0.75, 3, 4,taula);
 		ihs.saveIndexHash(ih);
 		ihs.update_indexHash(ih.getId());
 
@@ -66,16 +67,22 @@ public class DemoApplication implements CommandLineRunner {
 
 
 
-		/*System.out.println(ibs.getNumFulles(ib.getId()));
-		List<Entrada> le = ibs.getFullaN(ib.getId(), 3);
+		System.out.println(ihs.getnBuckets(ih.getId()));
+		List<Entrada> le = ihs.getPrimerBucket(ih.getId());
+		for (Entrada e : le) {
+			System.out.println(e.getTupla_id());
+		}
+		le = ihs.getBucketN(ih.getId(), 2);
 		for (Entrada e : le) {
 			System.out.println(e.getTupla_id());
 		}
 
 
-		System.out.println(ibs.cercaFulla(2402, 12552));
+		System.out.println(ihs.cercaBucket(1002, 15221));
+		System.out.println(ihs.ultimBucket(1002, 4));
 
-		 */
+
+
 
 
 
