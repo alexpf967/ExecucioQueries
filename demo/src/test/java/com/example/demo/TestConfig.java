@@ -53,8 +53,8 @@ public class TestConfig {
         return new TuplaService();
     }
     @Bean
-    public IndexHashService indexHashService() {
-        return new IndexHashService();
+    public TestIndexHashService indexHashService() {
+        return new TestIndexHashService();
     }
 
 
