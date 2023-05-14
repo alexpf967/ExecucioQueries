@@ -27,6 +27,10 @@ public class TestConfig {
     public TuplaRepository tuplaRepository() {
         return null;
     }
+    @Bean
+    public IndexHashRepository indexHashRepository() {
+        return null;
+    }
 
     @Bean
     public BlocService blocService() {
@@ -47,6 +51,10 @@ public class TestConfig {
     @Bean
     public TuplaService tuplaService() {
         return new TuplaService();
+    }
+    @Bean
+    public IndexHashService indexHashService() {
+        return new IndexHashService();
     }
 
 
