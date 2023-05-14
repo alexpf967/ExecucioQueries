@@ -87,13 +87,6 @@ public class Entrada {
     public void setnTupla(int nTupla) {
         this.nTupla = nTupla;
     }
-    /*
-    public void add_indexB(IndexB indexB) {
-        indexs.add(indexB);
-    }
-    public void remove_indexB(IndexB indexB) {
-        this.indexs.remove(indexB);
-    }*/
 
     public IndexB getIndexB() {
         return indexB;
