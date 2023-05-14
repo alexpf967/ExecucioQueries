@@ -66,16 +66,16 @@ public class TestIndexBService {
         t.setId(0L);
         when(tuplaRepository.findById(0L)).thenReturn(Optional.of(t));
         Tupla t1 = new Tupla("tupla1", b);
-        t.setId(1L);
+        t1.setId(1L);
         when(tuplaRepository.findById(1L)).thenReturn(Optional.of(t1));
         Tupla t2 = new Tupla("tupla2", b);
-        t.setId(2L);
+        t2.setId(2L);
         when(tuplaRepository.findById(2L)).thenReturn(Optional.of(t2));
         Tupla t3 = new Tupla("tupla3", b);
-        t.setId(3L);
+        t3.setId(3L);
         when(tuplaRepository.findById(3L)).thenReturn(Optional.of(t3));
         Tupla t4 = new Tupla("tupla4", b);
-        t.setId(4L);
+        t4.setId(4L);
         when(tuplaRepository.findById(4L)).thenReturn(Optional.of(t4));
         when(entradaRepository.findByTuplaID(anyLong())).thenReturn(null);
         when(entradaRepository.save(any(Entrada.class))).thenReturn(new Entrada());
@@ -116,9 +116,11 @@ public class TestIndexBService {
         e.setnFulla(1);
         when(entradaRepository.save(any(Entrada.class))).thenReturn(e);
 
-        indexBService.update_Nfulles(ib.getId());
+        IndexB ib1 = new IndexB("TestIndexB", 0.8, 5, taula);
+        ib1.setId(1L);
+        indexBService.update_Nfulles(ib1.getId());
 
-        for(Entrada e1 : ib.getFulles()) {
+        for(Entrada e1 : ib1.getFulles()) {
             Assertions.assertEquals(1, e1.getnFulla());
         }
     }
