@@ -16,8 +16,6 @@ public class IndexHashService {
     @Autowired
     private IndexHashRepository indexHashRepository;
     @Autowired
-    private TaulaService taulaService;
-    @Autowired
     private BlocService blocService;
     @Autowired
     private TuplaRepository tuplaRepository;

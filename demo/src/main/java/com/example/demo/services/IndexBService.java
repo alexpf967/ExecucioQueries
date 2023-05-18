@@ -14,8 +14,6 @@ public class IndexBService {
     @Autowired
     private IndexBRepository indexBRepository;
     @Autowired
-    private TaulaService taulaService;
-    @Autowired
     private BlocService blocService;
     @Autowired
     private TuplaRepository tuplaRepository;

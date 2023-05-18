@@ -9,6 +9,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import java.io.IOException;
 import java.util.List;
 
 @SpringBootApplication
@@ -49,19 +50,76 @@ public class DemoApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
+		try {
+			String command = "cmd /c start cmd.exe /k \"cd C:\\Users\\Usuario\\OneDrive\\Escritorio\\TFG\\ExecucioQueries\\demo\\src\\main\\java\\com\\example\\demo\\ && java Script.java\"";
+			Process p = Runtime.getRuntime().exec(command);
+			p.waitFor();
+			/*
+			// Crear una instancia de ProcessBuilder
+			ProcessBuilder pb = new ProcessBuilder("java", "C:\\Users\\Usuario\\OneDrive\\Escritorio\\TFG\\ExecucioQueries\\demo\\src\\main\\java\\com\\example\\MiScript");
 
-		Taula taula = new Taula("TAULAINDEX23");
+			// Redirigir la salida estándar y el error estándar del proceso
+			pb.redirectOutput(ProcessBuilder.Redirect.INHERIT);
+			pb.redirectError(ProcessBuilder.Redirect.INHERIT);
+
+			// Ejecutar el proceso
+			Process process = pb.start();
+
+
+
+			// Esperar a que el proceso termine
+			int exitCode = process.waitFor();
+			 */
+
+			//System.out.println("El proceso ha terminado con código de salida " + exitCode);
+		} catch (IOException | InterruptedException e) {
+			e.printStackTrace();
+		}
+
+
+		/*String scriptPath = "C:\\Users\\Usuario\\OneDrive\\Escritorio\\try.sh";
+
+		// Crear una lista con los comandos a ejecutar
+		List<String> comandos = new ArrayList<String>();
+		comandos.add("cmd.exe"); // Indicar que se usará el intérprete de comandos de Windows
+		comandos.add("/c"); // Indicar que el script se ejecutará con el intérprete de comandos de Unix/Linux
+		comandos.add(scriptPath); // Agregar la ruta del script como argumento
+
+		// Crear un objeto ProcessBuilder con la lista de comandos
+		ProcessBuilder pb = new ProcessBuilder(comandos);
+
+		// Ejecutar el proceso y obtener su resultado
+		try {
+			Process proceso = pb.start();
+			int exitCode = proceso.waitFor(); // Esperar a que el proceso termine y obtener su código de salida
+			System.out.println("El script ha terminado con código de salida " + exitCode);
+		} catch (IOException e) {
+			System.out.println("Error al ejecutar el script: " + e.getMessage());
+		} catch (InterruptedException e) {
+			System.out.println("El proceso ha sido interrumpido: " + e.getMessage());
+		}*/
+/*
+		Taula taula = new Taula("TAULAINDEX32");
 		taula=taulaService.saveTaula(taula);
-		taulaService.populate("TAULAINDEX23", 2, 10);
+		taulaService.populate("TAULAINDEX32", 2, 10);
 		taula=taulaRepository.findById(taula.getId()).orElse(null);
 
 
-		IndexB ib = new IndexB("indexB23", 0.75, 3, taula);
+		IndexB ib = new IndexB("indexB32", 0.75, 3, taula);
 		ibs.saveIndexB(ib);
 		ibs.update_indexB(ib.getId());
-		IndexHash ih = new IndexHash("indexH23", 0.75, 3, 4,taula);
+		IndexHash ih = new IndexHash("indexH32", 0.75, 3, 4,taula);
 		ihs.saveIndexHash(ih);
 		ihs.update_indexHash(ih.getId());
+
+		for(int i = 0; i < 5; ++i) {
+			taulaService.addTupla_BlocN(taula.getId(), 1, "UPDATE"+i);
+		}
+		ibs.update_indexB(ib.getId());
+		System.out.println("Done indexB +");
+		ihs.update_indexHash(ih.getId());
+		System.out.println("Done indexHash");
+
 
 
 
@@ -80,6 +138,8 @@ public class DemoApplication implements CommandLineRunner {
 
 		System.out.println(ihs.cercaBucket(1002, 15221));
 		System.out.println(ihs.ultimBucket(1002, 4));
+
+ */
 
 
 
