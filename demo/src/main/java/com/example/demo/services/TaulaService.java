@@ -55,10 +55,10 @@ public class TaulaService {
     }
 
     public void showTaula(long taula_id) {
-        Taula taula = taulaRepository.findById(taula_id).orElse(null);
-        if (taula != null) {
+        boolean exists = taulaRepository.existsById(taula_id);
+        if (exists) {
             List<Bloc> b = blocService.getBlocByTaulaID(taula_id);
-            System.out.println("La Taula amb id = "+taula.getId()+", té "+taula.nBlocs()+" blocs:");
+            System.out.println("La Taula amb id = "+taula_id+", té "+b.size()+" blocs:");
             for(Bloc bloc : b) {
                 Bloc bl = blocRepository.findById(bloc.getId()).orElse(null);
                 blocService.printBloc(bl);

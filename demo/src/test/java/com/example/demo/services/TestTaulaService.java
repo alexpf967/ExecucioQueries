@@ -102,6 +102,7 @@ class TestTaulaService {
         List<Bloc> sb = new ArrayList<Bloc>();
         sb.add(b);
         sb.add(b2);
+        when(taulaRepository.existsById(anyLong())).thenReturn(true);
         when(taulaRepository.findById(anyLong())).thenReturn(Optional.of(taula));
         when(blocService.getBlocByTaulaID(anyLong())).thenReturn(sb);
         when(blocRepository.findById(1L)).thenReturn(Optional.of(b));

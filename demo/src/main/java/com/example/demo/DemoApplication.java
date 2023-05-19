@@ -28,30 +28,18 @@ public class DemoApplication implements CommandLineRunner {
 	private TaulaRepository taulaRepository;
 
 	public static void main(String[] args) {
-        /*
-		System.out.println("Hola mundo!");
-		long id = 10;
-		Bloc b = new Bloc(id, new ArrayList<Tupla>());
-		for(int i = 0; i < 10; ++i) {
-			String s = "alex"+i;
-			long idt = i;
-			Tupla t = new Tupla(idt, s);
-			b.afegirTupla(t);
-		}
-		b.mostrar_bloc();
-		Tupla t2 = b.getTupla(Long.valueOf(4));
-		System.out.println(t2.getId()+" "+t2.getAtribut());
-
-		 */
-
-
 		SpringApplication.run(DemoApplication.class, args);
 	}
 
 	@Override
 	public void run(String... args) throws Exception {
+		System.out.println("INI");
+		Script s = new Script(taulaService, taulaRepository);
+		s.run(args);
+		System.out.println("FIN");
+		/*
 		try {
-			String command = "cmd /c start cmd.exe /k \"cd C:\\Users\\Usuario\\OneDrive\\Escritorio\\TFG\\ExecucioQueries\\demo\\src\\main\\java\\com\\example\\demo\\ && java Script.java\"";
+			String command = "cmd /c start cmd.exe /k \"cd C:\\Users\\Usuario\\OneDrive\\Escritorio\\TFG\\ExecucioQueries\\demo && mvn exec:java -Dexec.mainClass=Script";
 			Process p = Runtime.getRuntime().exec(command);
 			p.waitFor();
 			/*
@@ -69,12 +57,15 @@ public class DemoApplication implements CommandLineRunner {
 
 			// Esperar a que el proceso termine
 			int exitCode = process.waitFor();
-			 */
+
 
 			//System.out.println("El proceso ha terminado con código de salida " + exitCode);
 		} catch (IOException | InterruptedException e) {
 			e.printStackTrace();
 		}
+
+		 */
+
 
 
 		/*String scriptPath = "C:\\Users\\Usuario\\OneDrive\\Escritorio\\try.sh";
