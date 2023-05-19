@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-public class Script implements CommandLineRunner {
+public class Script {
     private TuplaService tuplaService;
     private BlocService blocService;
     private TaulaService taulaService;
@@ -41,12 +41,9 @@ public class Script implements CommandLineRunner {
         this.indexHashRepository = indexHashRepository;
     }
 
-    @Override
-    public void run(String... args) throws Exception {
+    public void execute() {
         System.out.println("INICI ALGORISME");
-        Taula taula = new Taula("ScriptTaula6");
-        taula = taulaService.saveTaula(taula);
-        taulaService.populate("ScriptTaula6", 3, 5);
+        Taula taula = taulaRepository.findByNomTaula("it1");
         List<Bloc> lb = blocService.getBlocByTaulaID(taula.getId());
         for(Bloc b : lb) {
             Bloc b2 = blocRepository.findById(b.getId()).orElse(null);
