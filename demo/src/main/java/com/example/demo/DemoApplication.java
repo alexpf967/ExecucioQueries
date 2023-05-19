@@ -1,31 +1,37 @@
 package com.example.demo;
 
-import com.example.demo.classes.*;
-import com.example.demo.repositories.TaulaRepository;
-import com.example.demo.repositories.TuplaRepository;
+import com.example.demo.algorithms.Script;
+import com.example.demo.repositories.*;
 import com.example.demo.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import java.io.IOException;
-import java.util.List;
-
 @SpringBootApplication
 public class DemoApplication implements CommandLineRunner {
-
-	@Autowired BlocService bs;
-	@Autowired IndexBService ibs;
 	@Autowired
-	IndexHashService ihs;
+	private TuplaService tuplaService;
 	@Autowired
-	TaulaService taulaService;
-	@Autowired TuplaService ts;
+	private BlocService blocService;
+	@Autowired
+	private TaulaService taulaService;
+	@Autowired
+	private IndexBService indexBService;
+	@Autowired
+	private IndexHashService indexHashService;
 	@Autowired
 	private TuplaRepository tuplaRepository;
 	@Autowired
+	private BlocRepository blocRepository;
+	@Autowired
 	private TaulaRepository taulaRepository;
+	@Autowired
+	private IndexBRepository indexBRepository;
+	@Autowired
+	private IndexHashRepository indexHashRepository;
+
+
 
 	public static void main(String[] args) {
 		SpringApplication.run(DemoApplication.class, args);
@@ -34,8 +40,8 @@ public class DemoApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 		System.out.println("INI");
-		Script s = new Script(taulaService, taulaRepository);
-		s.run(args);
+		Script s = new Script(tuplaService, blocService, taulaService, indexBService, indexHashService, tuplaRepository, blocRepository, taulaRepository, indexBRepository, indexHashRepository);
+		//s.run(args);
 		System.out.println("FIN");
 		/*
 		try {
