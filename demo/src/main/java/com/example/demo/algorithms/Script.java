@@ -17,17 +17,16 @@ import java.util.List;
 @Component
 @Scope("singleton")
 public class Script {
-    private TuplaService tuplaService;
-    private BlocService blocService;
-    private TaulaService taulaService;
-    private IndexBService indexBService;
-    private IndexHashService indexHashService;
-
-    private TuplaRepository tuplaRepository;
-    private BlocRepository blocRepository;
-    private TaulaRepository taulaRepository;
-    private IndexBRepository indexBRepository;
-    private IndexHashRepository indexHashRepository;
+    private final TuplaService tuplaService;
+    private final BlocService blocService;
+    private final TaulaService taulaService;
+    private final IndexBService indexBService;
+    private final IndexHashService indexHashService;
+    private final TuplaRepository tuplaRepository;
+    private final BlocRepository blocRepository;
+    private final TaulaRepository taulaRepository;
+    private final IndexBRepository indexBRepository;
+    private final IndexHashRepository indexHashRepository;
     private static int cost;
 
     @Autowired

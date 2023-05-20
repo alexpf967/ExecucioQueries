@@ -50,10 +50,12 @@ public class DemoApplication implements CommandLineRunner {
 		taula=taulaService.saveTaula(taula);
 		taulaService.populate(nombre, 2, 10);
 
-		 */
+
 		Taula taula = new Taula("SS4");
 		taula=taulaService.saveTaula(taula);
 		taulaService.populate("SS4", 6, 5);
+
+		 */
 		System.out.println("INI");
 		Script s = new Script(tuplaService, blocService, taulaService, indexBService, indexHashService, tuplaRepository, blocRepository, taulaRepository, indexBRepository, indexHashRepository);
 		s.execute();
