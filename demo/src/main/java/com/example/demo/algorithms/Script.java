@@ -9,11 +9,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 @Component
+@Scope("singleton")
 public class Script {
     private TuplaService tuplaService;
     private BlocService blocService;
@@ -26,6 +28,7 @@ public class Script {
     private TaulaRepository taulaRepository;
     private IndexBRepository indexBRepository;
     private IndexHashRepository indexHashRepository;
+    private static int cost;
 
     @Autowired
     public Script(TuplaService tuplaService, BlocService blocService, TaulaService taulaService, IndexBService indexBService, IndexHashService indexHashService, TuplaRepository tuplaRepository, BlocRepository blocRepository, TaulaRepository taulaRepository, IndexBRepository indexBRepository, IndexHashRepository indexHashRepository) {
@@ -39,19 +42,26 @@ public class Script {
         this.taulaRepository = taulaRepository;
         this.indexBRepository = indexBRepository;
         this.indexHashRepository = indexHashRepository;
+        cost = 0;
     }
 
     public void execute() {
         System.out.println("INICI ALGORISME");
-        Taula taula = taulaRepository.findByNomTaula("it1");
-        List<Bloc> lb = blocService.getBlocByTaulaID(taula.getId());
-        for(Bloc b : lb) {
-            Bloc b2 = blocRepository.findById(b.getId()).orElse(null);
-            b2.showBloc();
+        Taula taula = taulaRepository.findByNomTaula("SS4");
+        int blocs = taulaService.nBlocs(taula.getId());
+        for(int i = 0; i < blocs; ++i) {
+            Bloc b = taulaService.getNBloc(taula.getId(), i);
+            blocService.printBloc(b.getId());
         }
 
-        System.out.println("FINAL ALGORISME");
 
+        System.out.println("FINAL ALGORISME");
+        System.out.println(cost);
+
+
+    }
+    public static void sum_cost(int n) {
+        cost = cost+n;
     }
 
 }

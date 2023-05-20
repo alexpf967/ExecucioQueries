@@ -1,5 +1,6 @@
 package com.example.demo.services;
 
+import com.example.demo.algorithms.Script;
 import com.example.demo.classes.Bloc;
 import com.example.demo.classes.Taula;
 import com.example.demo.classes.Tupla;
@@ -60,8 +61,7 @@ public class TaulaService {
             List<Bloc> b = blocService.getBlocByTaulaID(taula_id);
             System.out.println("La Taula amb id = "+taula_id+", té "+b.size()+" blocs:");
             for(Bloc bloc : b) {
-                Bloc bl = blocRepository.findById(bloc.getId()).orElse(null);
-                blocService.printBloc(bl);
+                blocService.printBloc(bloc.getId());
             }
         }
     }
@@ -74,10 +74,15 @@ public class TaulaService {
         Taula taula = taulaRepository.findById(taula_id).orElse(null);
         List<Bloc> sb = blocService.getBlocByTaulaID(taula.getId());
         if (n < sb.size()) {
+            Script.sum_cost(1);
             Bloc b = sb.get(n);
             return b;
         }
         return null;
+    }
+    public int nBlocs(long taula_id) {
+        Taula taula = taulaRepository.findById(taula_id).orElse(null);
+        return taula.nBlocs();
     }
 
     public void populate (String nom_taula, int nBlocs, int nTuplas) {

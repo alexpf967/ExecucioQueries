@@ -81,11 +81,14 @@ public class BlocService {
         return blocRepository.findByTaulaID(taula_id);
     }
 
-    public void printBloc (Bloc bloc) {
-        List<Tupla> lt = tuplaService.getTuplasByBlocID(bloc.getId());
-        System.out.println("El bloc amb id = " + bloc.getId() + ", té " + bloc.nTuplas() + " tuples:");
-        for(Tupla t : lt) {
-            System.out.println("{id=" + t.getId() + ", atribut=" + t.getAtribut() +"}");
+    public void printBloc (long bloc_id) {
+        Bloc bloc = blocRepository.findById(bloc_id).orElse(null);
+        if (bloc != null) {
+            List<Tupla> lt = tuplaService.getTuplasByBlocID(bloc.getId());
+            System.out.println("El bloc amb id = " + bloc.getId() + ", té " + bloc.nTuplas() + " tuples:");
+            for (Tupla t : lt) {
+                System.out.println("{id=" + t.getId() + ", atribut=" + t.getAtribut() + "}");
+            }
         }
     }
 

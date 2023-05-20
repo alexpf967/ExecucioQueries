@@ -99,13 +99,14 @@ public class TestBlocService {
         st.add(t);
         st.add(t2);
         st.add(t3);
+        when(blocRepository.findById(anyLong())).thenReturn(Optional.of(b));
         when(tuplaRepository.findByBlocID(anyLong())).thenReturn(st);
         when(tuplaService.getTuplasByBlocID(anyLong())).thenReturn(st);
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         PrintStream oldOut = System.out;
         System.setOut(new PrintStream(baos));
-        blocService.printBloc(b);
+        blocService.printBloc(b.getId());
         System.setOut(oldOut);
         String output = baos.toString();
         Assertions.assertEquals("El bloc amb id = 1, té 3 tuples:\r\n{id=1, atribut=testTupla1}\r\n{id=2, atribut=testTupla2}\r\n{id=3, atribut=testTupla3}\r\n", output);
