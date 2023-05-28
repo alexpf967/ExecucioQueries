@@ -9,4 +9,6 @@ import org.springframework.stereotype.Repository;
 public interface TaulaRepository extends JpaRepository<Taula, Long> {
     @Query(value = "SELECT * FROM taula t WHERE t.nom_taula = ?1", nativeQuery = true)
     Taula findByNomTaula (String nom_taula);
+    @Query(value = "SELECT t.id FROM taula t WHERE t.nom_taula = ?1", nativeQuery = true)
+    Long findIDByNomTaula (String nom_taula);
 }

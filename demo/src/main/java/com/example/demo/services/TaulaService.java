@@ -73,8 +73,8 @@ public class TaulaService {
     public Bloc getNBloc (long taula_id, int n) {
         Taula taula = taulaRepository.findById(taula_id).orElse(null);
         List<Bloc> sb = blocService.getBlocByTaulaID(taula.getId());
-        if (n < sb.size()) {
-            Bloc b = sb.get(n);
+        if (n > 0 && n <= sb.size()) {
+            Bloc b = sb.get(n-1);
             return b;
         }
         return null;
@@ -137,6 +137,13 @@ public class TaulaService {
 
         }
 
+    }
+    public Long getIDbynomTaula (String nom_taula) {
+        return taulaRepository.findIDByNomTaula(nom_taula);
+    }
+
+    public int nBlocs (long taula_id) {
+        return blocService.getBlocByTaulaID(taula_id).size();
     }
 
 

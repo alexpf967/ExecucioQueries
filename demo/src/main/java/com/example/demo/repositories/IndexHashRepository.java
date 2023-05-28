@@ -2,8 +2,13 @@ package com.example.demo.repositories;
 
 import com.example.demo.classes.IndexHash;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public interface IndexHashRepository extends JpaRepository<IndexHash, Long> {
+    @Query(value = "SELECT nom_index_hash FROM index_hash ih WHERE ih.taula_id = ?1", nativeQuery = true)
+    String findIndexHashbyTaulaID(long taula_id);
+    @Query(value = "SELECT i.id FROM index_hash i WHERE i.nom_index_hash = ?1", nativeQuery = true)
+    Long findIDByNomIndexHash (String nom_indexhash);
 }
