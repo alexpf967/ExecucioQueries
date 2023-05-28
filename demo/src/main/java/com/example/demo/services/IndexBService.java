@@ -106,8 +106,12 @@ public class IndexBService {
     }
 
     public void update_indexB(long index_id) {
-        this.updateEntradas(index_id);
-        this.update_Nfulles(index_id);
+        long id = indexBRepository.findTaulaIDByIndexBID(index_id);
+        if (taulaService.nTuplas(id) != entradaRepository.getEntradaForIndexB(index_id)) {
+            System.out.println("Updatedating");
+            this.updateEntradas(index_id);
+            this.update_Nfulles(index_id);
+        }
     }
 
     public List<Entrada> getFullaN (long index_id, int n) {

@@ -22,4 +22,6 @@ public interface EntradaRepository extends JpaRepository<Entrada, Long> {
 
     @Query(value = "SELECT * FROM entrada e WHERE e.tupla_id = ?1", nativeQuery = true)
     Entrada findByTuplaID(long tupla_id);
+    @Query(value = "SELECT count(*) FROM entrada e WHERE e.indexb_id = ?1", nativeQuery = true)
+    int getEntradaForIndexB(long indexb_id);
 }

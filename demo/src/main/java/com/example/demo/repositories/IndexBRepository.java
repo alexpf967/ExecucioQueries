@@ -14,4 +14,6 @@ public interface IndexBRepository extends JpaRepository<IndexB, Long> {
     String findIndexBbyTaulaID(long taula_id);
     @Query(value = "SELECT i.id FROM indexb i WHERE i.nom_indexb = ?1", nativeQuery = true)
     Long findIDByNomIndexB (String nom_indexb);
+    @Query(value = "SELECT i.taula_id FROM indexb i WHERE i.id = ?1", nativeQuery = true)
+    Long findTaulaIDByIndexBID (long taula_id);
 }

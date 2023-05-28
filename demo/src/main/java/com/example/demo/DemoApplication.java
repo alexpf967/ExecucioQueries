@@ -152,7 +152,8 @@ public class DemoApplication implements CommandLineRunner {
 						System.out.println("Indiqui el tree order de l'index B+:");
 						int tree_order = Integer.parseInt(scanner.nextLine());
 						IndexB ib = new IndexB(nom_index, f_carrega, tree_order, t);
-						indexBService.saveIndexB(ib);
+						ib = indexBService.saveIndexB(ib);
+						indexBService.update_indexB(ib.getId());
 						System.out.println("S'HA CREAT CORRECTAMENT L'INDEX B+ " + nom_index + " A LA TAULA " + nom_taula);
 					}
 				} catch (NullPointerException e) {
@@ -178,7 +179,8 @@ public class DemoApplication implements CommandLineRunner {
 						System.out.println("Indiqui el numero de buckets de l'index hash:");
 						int nBuckets = Integer.parseInt(scanner.nextLine());
 						IndexHash ih = new IndexHash(nom_index, f_carrega, tree_order, nBuckets, t);
-						indexHashService.saveIndexHash(ih);
+						ih = indexHashService.saveIndexHash(ih);
+						indexHashService.update_indexHash(ih.getId());
 						System.out.println("S'HA CREAT CORRECTAMENT L'INDEX HASH " + nom_index + " A LA TAULA " + nom_taula);
 					}
 				} catch (NullPointerException e) {
@@ -193,6 +195,7 @@ public class DemoApplication implements CommandLineRunner {
 					nom_index = scanner.nextLine();
 					long id = indexBRepository.findIDByNomIndexB(nom_index);
 					indexBService.update_indexB(id);
+					System.out.println("Update done!");
 					int nFulles = indexBService.getNumFulles(id);
 					System.out.println("L'index B+ " + nom_index + "té " + nFulles + "fulles: ");
 					for (int i = 0; i < nFulles; ++i) {

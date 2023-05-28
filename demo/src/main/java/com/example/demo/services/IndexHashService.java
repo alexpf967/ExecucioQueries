@@ -48,39 +48,41 @@ public class IndexHashService {
         return null;
     }
     public void update_indexHash(long index_id){
-        IndexHash indexHash = indexHashRepository.findById(index_id).orElse(null);
-        List<Entrada> entradas = new ArrayList<>();
-        if (indexHash != null) {
-            List<Bloc> sb = blocService.getBlocByTaulaID(indexHash.getTaula().getId());
-            for(int i = 0; i < sb.size(); ++i) {
-                List<Tupla> st = tuplaRepository.findByBlocID(sb.get(i).getId());
-                for(int j = 0; j < st.size(); ++j) {
-                    Tupla t = tuplaRepository.findById(st.get(j).getId()).orElse(null);
-                    if (t != null) {
-                        Entrada e = entradaRepository.findByTuplaID(t.getId());
-                        if (e == null) {
-                            Entrada eNew = new Entrada(t.getId(), i, j, indexHash);
-                            int tu = Math.toIntExact(t.getId());
-                            int b = calculate_hash(indexHash.getnBuckets(),tu);
-                            eNew.setnBucket(b);
-                            entradas.add(eNew);
-                            indexHash.add_entrada(eNew);
-                        }
-                        else {
-                            if (e.getIndexHash() == null) {
-                                e.setIndexHash(indexHash);
+        long id = indexHashRepository.findTaulaIDByIndexHashID(index_id);
+        if (taulaService.nTuplas(id) != entradaRepository.findByIndexHashID(index_id).size()) {
+            IndexHash indexHash = indexHashRepository.findById(index_id).orElse(null);
+            List<Entrada> entradas = new ArrayList<>();
+            if (indexHash != null) {
+                List<Bloc> sb = blocService.getBlocByTaulaID(indexHash.getTaula().getId());
+                for (int i = 0; i < sb.size(); ++i) {
+                    List<Tupla> st = tuplaRepository.findByBlocID(sb.get(i).getId());
+                    for (int j = 0; j < st.size(); ++j) {
+                        Tupla t = tuplaRepository.findById(st.get(j).getId()).orElse(null);
+                        if (t != null) {
+                            Entrada e = entradaRepository.findByTuplaID(t.getId());
+                            if (e == null) {
+                                Entrada eNew = new Entrada(t.getId(), i, j, indexHash);
                                 int tu = Math.toIntExact(t.getId());
-                                int b = calculate_hash(indexHash.getnBuckets(),tu);
-                                e.setnBucket(b);
-                                indexHash.add_entrada(e);
-                                entradaRepository.save(e);
+                                int b = calculate_hash(indexHash.getnBuckets(), tu);
+                                eNew.setnBucket(b);
+                                entradas.add(eNew);
+                                indexHash.add_entrada(eNew);
+                            } else {
+                                if (e.getIndexHash() == null) {
+                                    e.setIndexHash(indexHash);
+                                    int tu = Math.toIntExact(t.getId());
+                                    int b = calculate_hash(indexHash.getnBuckets(), tu);
+                                    e.setnBucket(b);
+                                    indexHash.add_entrada(e);
+                                    entradaRepository.save(e);
+                                }
                             }
                         }
                     }
                 }
+                entradaRepository.saveAll(entradas);
+                saveIndexHash(indexHash);
             }
-            entradaRepository.saveAll(entradas);
-            saveIndexHash(indexHash);
         }
     }
     public int calculate_hash(int maxBuckets, int tupla_id) {
