@@ -1,5 +1,6 @@
 package com.example.demo;
 
+import com.example.demo.algorithms.AlgorithmService;
 import com.example.demo.algorithms.Script;
 import com.example.demo.classes.Taula;
 import com.example.demo.repositories.*;
@@ -9,6 +10,8 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import javax.swing.*;
+import java.io.File;
 import java.util.Scanner;
 
 @SpringBootApplication
@@ -24,6 +27,8 @@ public class DemoApplication implements CommandLineRunner {
 	@Autowired
 	private IndexHashService indexHashService;
 	@Autowired
+	private AlgorithmService algorithmService;
+	@Autowired
 	private TuplaRepository tuplaRepository;
 	@Autowired
 	private BlocRepository blocRepository;
@@ -35,7 +40,6 @@ public class DemoApplication implements CommandLineRunner {
 	private IndexHashRepository indexHashRepository;
 
 
-
 	public static void main(String[] args) {
 		SpringApplication.run(DemoApplication.class, args);
 	}
@@ -43,7 +47,7 @@ public class DemoApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 		//EXECUCIÓ ITERATIVA
-		/*Scanner scanner = new Scanner(System.in);
+        /*Scanner scanner = new Scanner(System.in);
 		System.out.print("Ingrese el nombre de la tabla a crear: ");
 		String nombre = scanner.nextLine();
 		Taula taula = new Taula(nombre);
@@ -56,11 +60,30 @@ public class DemoApplication implements CommandLineRunner {
 		taulaService.populate("SS4", 6, 5);
 
 		 */
-		System.out.println("INI");
+
+		String ruta = "C:\\Users\\Usuario\\OneDrive\\Escritorio\\TFG\\algorisme.txt";
+		Script s = new Script(tuplaService, blocService, taulaService, indexBService, indexHashService, tuplaRepository, blocRepository, taulaRepository, indexBRepository, indexHashRepository);
+		System.out.println("Select INI");
+		s.selectAlgorithm(ruta);
+		System.out.println("Select FIN");
+
+
+		/*File f = new File(ruta);
+		Scanner entrada = new Scanner(f);
+		String code = "";
+		while (entrada.hasNext()) {
+			code += entrada.nextLine();
+		}
+		algorithmService.executeCode(code);
+
+		 */
+		/*System.out.println("INI");
 		Script s = new Script(tuplaService, blocService, taulaService, indexBService, indexHashService, tuplaRepository, blocRepository, taulaRepository, indexBRepository, indexHashRepository);
 		s.execute();
 		System.out.println("FIN");
-		/*
+
+		 */
+        /*
 		try {
 			String command = "cmd /c start cmd.exe /k \"cd C:\\Users\\Usuario\\OneDrive\\Escritorio\\TFG\\ExecucioQueries\\demo && mvn exec:java -Dexec.mainClass=Script";
 			Process p = Runtime.getRuntime().exec(command);
@@ -91,7 +114,7 @@ public class DemoApplication implements CommandLineRunner {
 
 
 
-		/*String scriptPath = "C:\\Users\\Usuario\\OneDrive\\Escritorio\\try.sh";
+        /*String scriptPath = "C:\\Users\\Usuario\\OneDrive\\Escritorio\\try.sh";
 
 		// Crear una lista con los comandos a ejecutar
 		List<String> comandos = new ArrayList<String>();

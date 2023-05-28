@@ -1,5 +1,6 @@
 package com.example.demo.services;
 
+import com.example.demo.algorithms.Script;
 import com.example.demo.classes.*;
 import com.example.demo.repositories.EntradaRepository;
 import com.example.demo.repositories.IndexHashRepository;
@@ -35,6 +36,10 @@ public class IndexHashService {
         se.sort(comparadorPorTuplaID);
 
         return se;
+    }
+    public Entrada getEntrada(long entrada_id) {
+        Script.sum_cost(1);
+        return entradaRepository.findById(entrada_id).orElse(null);
     }
     public Entrada getNEntrada (long index_id, int n) {
         IndexHash indexHash = indexHashRepository.findById(index_id).orElse(null);
@@ -91,6 +96,7 @@ public class IndexHashService {
         if(ih != null) {
             int nBuckets = ih.getnBuckets();
             if(n > 0 && n <= nBuckets) {
+                Script.sum_cost(1);
                 return entradaRepository.findBucketNIndexHash(ih.getId(), n);
             }
         }
@@ -114,7 +120,10 @@ public class IndexHashService {
         IndexHash ih = indexHashRepository.findById(index_id).orElse(null);
         List<Entrada> le = entradaRepository.findByIndexHashID(ih.getId());
         for(Entrada e : le) {
-            if(e.getTupla_id()==tupla_id) return e.getnBucket();
+            if(e.getTupla_id()==tupla_id) {
+                Script.sum_cost(2);
+                return e.getnBucket();
+            }
         }
         return 0;
     }

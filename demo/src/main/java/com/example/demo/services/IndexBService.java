@@ -1,5 +1,6 @@
 package com.example.demo.services;
 
+import com.example.demo.algorithms.Script;
 import com.example.demo.classes.*;
 import com.example.demo.repositories.EntradaRepository;
 import com.example.demo.repositories.IndexBRepository;
@@ -35,12 +36,17 @@ public class IndexBService {
 
         return se;
     }
+    public Entrada getEntrada(long entrada_id) {
+        Script.sum_cost(1);
+        return entradaRepository.findById(entrada_id).orElse(null);
+    }
 
     public Entrada getNEntrada (long index_id, int n) {
         IndexB indexB = indexBRepository.findById(index_id).orElse(null);
         List<Entrada> se = entradaRepository.findByIndexBID(indexB.getId());
         if (n < se.size()) {
             Entrada e = se.get(n);
+            Script.sum_cost(1);
             return e;
         }
         return null;
@@ -111,9 +117,10 @@ public class IndexBService {
     public List<Entrada> getFullaN (long index_id, int n) {
         IndexB ib = indexBRepository.findById(index_id).orElse(null);
         if(ib != null) {
-            int nFulles = this.getNumFulles(ib.getId());
+            int nFulles = this.getNumFulles(index_id);
             if(n > 0 && n <= nFulles) {
-                return entradaRepository.findFullaNIndexB(ib.getId(), n);
+                Script.sum_cost(1);
+                return entradaRepository.findFullaNIndexB(index_id, n);
             }
         }
         return null;
@@ -133,7 +140,16 @@ public class IndexBService {
         IndexB ib = indexBRepository.findById(index_id).orElse(null);
         List<Entrada> le = entradaRepository.findByIndexBID(ib.getId());
         for(Entrada e : le) {
-            if(e.getTupla_id()==tupla_id) return e.getnFulla();
+            if(e.getTupla_id()==tupla_id) {
+                int u = ib.getEntries_fulla();
+                int card = ib.getFulles().size();
+                double logu = Math.log10(u);
+                double logc= Math.log10(card);
+                double hh = logc/logu;
+                int h = (int) Math.ceil(hh);
+                Script.sum_cost(h+1);
+                return e.getnFulla();
+            }
         }
         return 0;
     }

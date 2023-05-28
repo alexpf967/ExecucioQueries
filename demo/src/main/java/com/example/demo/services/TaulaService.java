@@ -128,6 +128,7 @@ public class TaulaService {
         for(Tupla t : s) {
             blocService.add_tupla(b.getId(), t.getAtribut());
         }
+        Script.sum_cost(1);
     }
 
     public void removeTaula(long taula_id) {
