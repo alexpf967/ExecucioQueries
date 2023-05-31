@@ -11,7 +11,12 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import javax.swing.*;
-import java.io.File;
+import javax.tools.*;
+import java.io.*;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.net.URI;
+import java.util.Arrays;
 import java.util.Scanner;
 
 @SpringBootApplication
@@ -61,11 +66,29 @@ public class DemoApplication implements CommandLineRunner {
 
 		 */
 
-		String ruta = "C:\\Users\\Usuario\\OneDrive\\Escritorio\\TFG\\algorisme.txt";
-		Script s = new Script(tuplaService, blocService, taulaService, indexBService, indexHashService, tuplaRepository, blocRepository, taulaRepository, indexBRepository, indexHashRepository);
+		String filePath = "C:\\Users\\Usuario\\OneDrive\\Escritorio\\TFG\\script1.txt";
+		StringBuilder sb = new StringBuilder();
+		BufferedReader br = new BufferedReader(new FileReader(filePath));
+		String line;
+		while ((line = br.readLine()) != null) {
+			sb.append(line).append("\n");
+		}
+		br.close();
+		String fileContent = sb.toString();
+		System.out.println(fileContent);
+		createIt("Script1.java", fileContent);
+		System.out.println(compilar("Script1", fileContent));
+		String outputDirectory = System.getProperty("user.dir") + File.separator + "demo"+ File.separator +"src"+ File.separator +"main"+ File.separator +"java"+ File.separator;
+		runIt("src.main.java.com.example.demo.Script1");
+
+		/*Script s = new Script(tuplaService, blocService, taulaService, indexBService, indexHashService, tuplaRepository, blocRepository, taulaRepository, indexBRepository, indexHashRepository);
 		System.out.println("Select INI");
 		s.selectAlgorithm(ruta);
+		s = new Script(tuplaService, blocService, taulaService, indexBService, indexHashService, tuplaRepository, blocRepository, taulaRepository, indexBRepository, indexHashRepository);
+		s.execute();
 		System.out.println("Select FIN");
+
+		 */
 
 
 		/*File f = new File(ruta);
@@ -326,5 +349,59 @@ public class DemoApplication implements CommandLineRunner {
 		l.forEach(res->{System.out.println(res.getId()+" " + res.getAtribut());});
 		System.out.println(bs.Ntuplas(b));*/
 
+	}
+	public void createIt(String classname, String content) throws IOException {
+		String classpath = System.getProperty("java.class.path");
+		System.out.println(classpath);
+		String outputDirectory = System.getProperty("user.dir") + File.separator + "demo"+ File.separator +"src"+ File.separator +"main"+ File.separator +"java"+ File.separator+"com"+ File.separator+"example"+ File.separator+"demo"+ File.separator;
+		File directory = new File(outputDirectory);
+		File outputFile = new File(directory, classname);
+		FileWriter aw = new FileWriter(outputFile);
+		aw.write(content);
+		aw.flush();
+		aw.close();
+	}
+	public boolean compilar(String classname, String content) {
+		String [] source = {new String(content)};
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		try {
+			JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
+			JavaFileManager fileManager = compiler.getStandardFileManager(null, null, null);
+			String outputDirectory = System.getProperty("user.dir") + File.separator + "demo"+ File.separator +"src"+ File.separator +"main"+ File.separator +"java"+ File.separator;
+			((StandardJavaFileManager) fileManager).setLocation(StandardLocation.CLASS_OUTPUT, Arrays.asList(new File(outputDirectory)));
+
+			JavaFileObject s = new DynamicJavaFileObject(classname, content);
+			Iterable<? extends JavaFileObject> compilationUnits = Arrays.asList(s);
+
+			JavaCompiler.CompilationTask task = compiler.getTask(null, fileManager, null, null, null, compilationUnits);
+			boolean success = task.call();
+
+			return success;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+	static class DynamicJavaFileObject extends SimpleJavaFileObject {
+		private final String code;
+
+		public DynamicJavaFileObject(String className, String code) {
+			super(URI.create("string:///" + className.replace('.', '/') + Kind.SOURCE.extension), Kind.SOURCE);
+			this.code = code;
+		}
+
+		@Override
+		public CharSequence getCharContent(boolean ignoreEncodingErrors) throws IOException {
+			return code;
+		}
+	}
+
+	public void runIt(String classname) throws ClassNotFoundException, InstantiationException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
+		String classpath = System.getProperty("java.class.path");
+		System.out.println(classpath);
+		Class thisClass = Class.forName(classname);
+		Object iClass = thisClass.newInstance();
+		Method thisMethod = thisClass.getDeclaredMethod("execute");
+		thisMethod.invoke(iClass);
 	}
 }
