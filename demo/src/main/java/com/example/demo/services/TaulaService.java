@@ -27,6 +27,9 @@ public class TaulaService {
 
 
     public Taula saveTaula(Taula taula) {return taulaRepository.save(taula);}
+    public Taula findTaulaByNom (String nom) {
+        return taulaRepository.findByNomTaula(nom);
+    }
 
     public void add_bloc(long taula_id) {
         Taula taula = taulaRepository.findById(taula_id).orElse(null);
