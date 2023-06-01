@@ -68,7 +68,7 @@ public class DemoApplication implements CommandLineRunner {
 		createIt("Script1.java", fileContent);
 		System.out.println(compilar("Script1", fileContent));
 		String outputDirectory = System.getProperty("user.dir") + File.separator + "demo" + File.separator + "target" + File.separator + "classes" + File.separator;
-		runIt("com.example.demo.Script1");
+		runIt("com.example.demo.Script1", tuplaService, blocService, taulaService, indexBService, indexHashService);
 
 	}
 	public void createIt(String classname, String content) throws IOException {
@@ -116,7 +116,7 @@ public class DemoApplication implements CommandLineRunner {
 		}
 	}
 
-	public void runIt(String classname) throws ClassNotFoundException, InstantiationException, IllegalAccessException, NoSuchMethodException, InvocationTargetException, MalformedURLException {
+	public void runIt(String classname, TuplaService tuplaService, BlocService blocService, TaulaService taulaService, IndexBService indexBService, IndexHashService indexHashService) throws ClassNotFoundException, InstantiationException, IllegalAccessException, NoSuchMethodException, InvocationTargetException, MalformedURLException {
 		Class<?> thisClass = Class.forName(classname);
 		Constructor<?> constructor = thisClass.getConstructor(
 				TuplaService.class,
