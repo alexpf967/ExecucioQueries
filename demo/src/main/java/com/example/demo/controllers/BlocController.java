@@ -23,8 +23,8 @@ public class BlocController {
     }
     @GetMapping("/Ntuplas")
     @ResponseBody
-    public int getNtuplas(@RequestParam Bloc bloc) {
-        return blocService.Ntuplas(bloc);
+    public int getNtuplas(@RequestParam long bloc_id) {
+        return blocService.Ntuplas(bloc_id);
     }
     @PostMapping(consumes = "application/json")
     public Bloc saveBloc(@RequestBody Bloc bloc) {

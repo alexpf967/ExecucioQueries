@@ -129,7 +129,7 @@ public class TestBlocService {
         b.addTupla(t2);
         b.addTupla(t3);
 
-        int actual = blocService.Ntuplas(b);
+        int actual = blocService.Ntuplas(b.getId());
         Assertions.assertEquals(3, actual);
     }
 

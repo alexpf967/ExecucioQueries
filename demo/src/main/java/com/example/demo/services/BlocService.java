@@ -67,7 +67,8 @@ public class BlocService {
 
         }
     }
-    public int Ntuplas (Bloc bloc) {
+    public int Ntuplas (long bloc_id) {
+        Bloc bloc = blocRepository.findById(bloc_id).orElse(null);
         return bloc.nTuplas();
     }
 

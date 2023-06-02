@@ -76,6 +76,8 @@ public class TaulaService {
     public Bloc getNBloc (long taula_id, int n) {
         Taula taula = taulaRepository.findById(taula_id).orElse(null);
         List<Bloc> sb = blocService.getBlocByTaulaID(taula.getId());
+        if (n > 0 && n <= sb.size()) {
+            Bloc b = sb.get(n-1);
         if (n < sb.size()) {
             DemoApplication.sum_cost(1);
             Bloc b = sb.get(n);
@@ -147,6 +149,25 @@ public class TaulaService {
         }
 
     }
+    public Long getIDbynomTaula (String nom_taula) {
+        return taulaRepository.findIDByNomTaula(nom_taula);
+    }
 
+    public int nBlocs (long taula_id) {
+        return blocService.getBlocByTaulaID(taula_id).size();
+    }
+
+    public int nTuplas (long taula_id) {
+        boolean exists = taulaRepository.existsById(taula_id);
+        int cont = 0;
+        if (exists) {
+            int n = nBlocs(taula_id);
+            for (int i = 0; i < n; ++i) {
+                Bloc b = getNBloc(taula_id, i+1);
+                cont += blocService.Ntuplas(b.getId());
+            }
+        }
+        return cont;
+    }
 
 }

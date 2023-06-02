@@ -25,10 +25,14 @@ public class Taula {
 
     public Taula() {
         this.taula = new LinkedHashSet<>();
+        this.indexBSet = new LinkedHashSet<>();
+        this.indexHashSet = new LinkedHashSet<>();
     }
 
     public Taula(String nom_taula) {
         this.taula = new LinkedHashSet<>();
+        this.indexBSet = new LinkedHashSet<>();
+        this.indexHashSet = new LinkedHashSet<>();
         this.nom_taula = nom_taula;
     }
 
