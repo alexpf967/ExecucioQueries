@@ -47,6 +47,8 @@ public class DemoApplication implements CommandLineRunner {
 	public IndexBRepository indexBRepository;
 	@Autowired
 	public IndexHashRepository indexHashRepository;
+	@Autowired
+	public AlgorismeService algorismeService;
 
 
 	public static void main(String[] args) {
@@ -56,7 +58,18 @@ public class DemoApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 		String filePath = "C:\\Users\\Usuario\\OneDrive\\Escritorio\\TFG\\script1.txt";
-		StringBuilder sb = new StringBuilder();
+		algorismeService.executarAlgorismePath(filePath);
+
+		/*String clase = algorismeService.llegirClase(filePath);
+		algorismeService.createIt("Script1.java",clase);
+		boolean compilat = algorismeService.compilar("Script1",clase);
+		if (compilat) {
+			algorismeService.runIt("com.example.demo.Script1");
+		}
+		else System.out.println("Error de copilacio");
+
+		 */
+		/*StringBuilder sb = new StringBuilder();
 		BufferedReader br = new BufferedReader(new FileReader(filePath));
 		String line;
 		while ((line = br.readLine()) != null) {
@@ -70,8 +83,10 @@ public class DemoApplication implements CommandLineRunner {
 		String outputDirectory = System.getProperty("user.dir") + File.separator + "demo" + File.separator + "target" + File.separator + "classes" + File.separator;
 		runIt("com.example.demo.Script1", tuplaService, blocService, taulaService, indexBService, indexHashService);
 
+
+		 */
 	}
-	public void createIt(String classname, String content) throws IOException {
+	/*public void createIt(String classname, String content) throws IOException {
 
 		String outputDirectory = System.getProperty("user.dir") + File.separator + "demo"+ File.separator +"src"+ File.separator +"main"+ File.separator +"java"+ File.separator+"com"+ File.separator+"example"+ File.separator+"demo"+ File.separator;
 		File directory = new File(outputDirectory);
@@ -102,7 +117,7 @@ public class DemoApplication implements CommandLineRunner {
 			return false;
 		}
 	}
-	static class DynamicJavaFileObject extends SimpleJavaFileObject {
+	public static class DynamicJavaFileObject extends SimpleJavaFileObject {
 		private final String code;
 
 		public DynamicJavaFileObject(String className, String code) {
@@ -135,5 +150,7 @@ public class DemoApplication implements CommandLineRunner {
 		Method thisMethod = thisClass.getDeclaredMethod("execute");
 		thisMethod.invoke(iClass);
 	}
+
+	 */
 
 }
