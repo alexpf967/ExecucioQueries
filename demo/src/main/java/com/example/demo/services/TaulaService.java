@@ -1,6 +1,6 @@
 package com.example.demo.services;
 
-import com.example.demo.algorithms.Script;
+import com.example.demo.DemoApplication;
 import com.example.demo.classes.Bloc;
 import com.example.demo.classes.Taula;
 import com.example.demo.classes.Tupla;
@@ -77,7 +77,7 @@ public class TaulaService {
         Taula taula = taulaRepository.findById(taula_id).orElse(null);
         List<Bloc> sb = blocService.getBlocByTaulaID(taula.getId());
         if (n < sb.size()) {
-            Script.sum_cost(1);
+            DemoApplication.sum_cost(1);
             Bloc b = sb.get(n);
             return b;
         }
@@ -131,7 +131,7 @@ public class TaulaService {
         for(Tupla t : s) {
             blocService.add_tupla(b.getId(), t.getAtribut());
         }
-        Script.sum_cost(1);
+        DemoApplication.sum_cost(1);
     }
 
     public void removeTaula(long taula_id) {

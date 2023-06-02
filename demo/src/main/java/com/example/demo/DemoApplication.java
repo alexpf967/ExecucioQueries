@@ -1,7 +1,7 @@
 package com.example.demo;
 
-import com.example.demo.algorithms.AlgorithmService;
-import com.example.demo.algorithms.Script;
+import com.example.demo.classes.Bloc;
+import com.example.demo.classes.IndexB;
 import com.example.demo.classes.Taula;
 import com.example.demo.repositories.*;
 import com.example.demo.services.*;
@@ -36,8 +36,6 @@ public class DemoApplication implements CommandLineRunner {
 	@Autowired
 	public IndexHashService indexHashService;
 	@Autowired
-	public AlgorithmService algorithmService;
-	@Autowired
 	public TuplaRepository tuplaRepository;
 	@Autowired
 	public BlocRepository blocRepository;
@@ -49,6 +47,7 @@ public class DemoApplication implements CommandLineRunner {
 	public IndexHashRepository indexHashRepository;
 	@Autowired
 	public AlgorismeService algorismeService;
+	public static int cost;
 
 
 	public static void main(String[] args) {
@@ -86,6 +85,10 @@ public class DemoApplication implements CommandLineRunner {
 
 		 */
 	}
+	public static void sum_cost(int n) {
+		cost = cost+n;
+	}
+
 	/*public void createIt(String classname, String content) throws IOException {
 
 		String outputDirectory = System.getProperty("user.dir") + File.separator + "demo"+ File.separator +"src"+ File.separator +"main"+ File.separator +"java"+ File.separator+"com"+ File.separator+"example"+ File.separator+"demo"+ File.separator;

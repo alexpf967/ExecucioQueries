@@ -1,6 +1,6 @@
 package com.example.demo.services;
 
-import com.example.demo.algorithms.Script;
+import com.example.demo.DemoApplication;
 import com.example.demo.classes.*;
 import com.example.demo.repositories.EntradaRepository;
 import com.example.demo.repositories.IndexBRepository;
@@ -37,7 +37,7 @@ public class IndexBService {
         return se;
     }
     public Entrada getEntrada(long entrada_id) {
-        Script.sum_cost(1);
+        DemoApplication.sum_cost(1);
         return entradaRepository.findById(entrada_id).orElse(null);
     }
 
@@ -46,7 +46,7 @@ public class IndexBService {
         List<Entrada> se = entradaRepository.findByIndexBID(indexB.getId());
         if (n < se.size()) {
             Entrada e = se.get(n);
-            Script.sum_cost(1);
+            DemoApplication.sum_cost(1);
             return e;
         }
         return null;
@@ -119,7 +119,7 @@ public class IndexBService {
         if(ib != null) {
             int nFulles = this.getNumFulles(index_id);
             if(n > 0 && n <= nFulles) {
-                Script.sum_cost(1);
+                DemoApplication.sum_cost(1);
                 return entradaRepository.findFullaNIndexB(index_id, n);
             }
         }
@@ -147,7 +147,7 @@ public class IndexBService {
                 double logc= Math.log10(card);
                 double hh = logc/logu;
                 int h = (int) Math.ceil(hh);
-                Script.sum_cost(h+1);
+                DemoApplication.sum_cost(h+1);
                 return e.getnFulla();
             }
         }

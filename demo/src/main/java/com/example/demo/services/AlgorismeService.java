@@ -94,8 +94,10 @@ public class AlgorismeService {
                 indexBService,
                 indexHashService
         );
+        DemoApplication.cost=0;
         Method thisMethod = thisClass.getDeclaredMethod("execute");
         thisMethod.invoke(iClass);
+        System.out.println(DemoApplication.cost);
     }
 
     public void executarAlgorismePath(String filePath) {
