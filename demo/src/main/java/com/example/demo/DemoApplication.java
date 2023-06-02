@@ -2,6 +2,7 @@ package com.example.demo;
 
 import com.example.demo.classes.Bloc;
 import com.example.demo.classes.IndexB;
+import com.example.demo.classes.IndexHash;
 import com.example.demo.classes.Taula;
 import com.example.demo.repositories.*;
 import com.example.demo.services.*;
@@ -56,6 +57,17 @@ public class DemoApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
+
+		/*Taula t = new Taula("updateIndex3");
+		t = taulaService.saveTaula(t);
+		taulaService.populate("updateIndex3", 3, 8);
+		IndexHash ib = new IndexHash("indexhUPDATE3", 0.8, 4, 3, t);
+		ib = indexHashService.saveIndexHash(ib);
+		indexHashService.update_indexHash(ib.getId());
+		taulaService.addTupla_BlocN(t.getId(), 1, "updating");
+		indexHashService.update_indexHash(ib.getId());*/
+
+
 		String filePath = "C:\\Users\\Usuario\\OneDrive\\Escritorio\\TFG\\script1.txt";
 		algorismeService.executarAlgorismePath(filePath);
 
