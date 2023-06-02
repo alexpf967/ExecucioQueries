@@ -29,11 +29,14 @@ public class TestIndexHashService {
     private EntradaRepository entradaRepository;
     @MockBean
     private BlocRepository blocRepository;
+    @MockBean
+    private TaulaRepository taulaRepository;
 
     @SpyBean
     private BlocService blocService;
     @SpyBean
     private IndexHashService indexHashService;
+
 
     @Test
     public void calculate_hash() {
@@ -65,6 +68,10 @@ public class TestIndexHashService {
         taula.addBloc(b);
         indexHashService.update_indexHash(ih.getId());
         when(indexHashRepository.findById(1L)).thenReturn(Optional.of(ih));
+        when(indexHashRepository.existsById(1L)).thenReturn(true);
+        when(taulaRepository.existsById(anyLong())).thenReturn(true);
+
+
         List<Bloc> lb = new ArrayList<>(taula.getTaula());
         when(blocService.getBlocByTaulaID(1L)).thenReturn(lb);
         when(blocRepository.findByTaulaID(1L)).thenReturn(lb);

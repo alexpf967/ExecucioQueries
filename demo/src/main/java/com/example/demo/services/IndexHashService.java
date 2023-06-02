@@ -22,6 +22,8 @@ public class IndexHashService {
     private TuplaRepository tuplaRepository;
     @Autowired
     private EntradaRepository entradaRepository;
+    @Autowired
+    private TaulaService taulaService;
 
     public IndexHash saveIndexHash(IndexHash indexHash) {return indexHashRepository.save(indexHash);}
     public List<Entrada> getEntradas(long index_id) {
@@ -50,7 +52,7 @@ public class IndexHashService {
         }
         return null;
     }
-    public void update_indexHash(long index_id){
+    public void update_indexHash(long index_id) {
         long id = indexHashRepository.findTaulaIDByIndexHashID(index_id);
         if (taulaService.nTuplas(id) != entradaRepository.findByIndexHashID(index_id).size()) {
             IndexHash indexHash = indexHashRepository.findById(index_id).orElse(null);

@@ -20,6 +20,9 @@ public class IndexBService {
     private TuplaRepository tuplaRepository;
     @Autowired
     private EntradaRepository entradaRepository;
+    @Autowired
+    private TaulaService taulaService;
+
 
     public IndexB saveIndexB(IndexB indexB) {return indexBRepository.save(indexB);}
 

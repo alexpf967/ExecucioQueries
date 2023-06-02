@@ -128,6 +128,7 @@ public class TestBlocService {
         b.addTupla(t);
         b.addTupla(t2);
         b.addTupla(t3);
+        when(blocRepository.findById(anyLong())).thenReturn(Optional.of(b));
 
         int actual = blocService.Ntuplas(b.getId());
         Assertions.assertEquals(3, actual);

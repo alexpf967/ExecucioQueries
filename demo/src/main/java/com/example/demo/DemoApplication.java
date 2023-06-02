@@ -56,8 +56,8 @@ public class DemoApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		//String filePath = "C:\\Users\\Usuario\\OneDrive\\Escritorio\\TFG\\script1.txt";
-		//algorismeService.executarAlgorismePath(filePath);
+		String filePath = "C:\\Users\\Usuario\\OneDrive\\Escritorio\\TFG\\script1.txt";
+		algorismeService.executarAlgorismePath(filePath);
 
 		/*String clase = algorismeService.llegirClase(filePath);
 		algorismeService.createIt("Script1.java",clase);
