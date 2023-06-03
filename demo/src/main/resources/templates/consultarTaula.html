@@ -25,12 +25,13 @@
     <input type="submit" value="Enviar" />
   </div>
 </form>
+<tr th:each="elemento : ${mensaje}">
+  <td><span th:text="${elemento}"></span><br/></td>
+</tr><br/>
+
 <div class="form-container">
-  <tr th:each="elemento : ${mensaje}">
-    <td><span th:text="${elemento}"></span><br/></td>
-  </tr>
-</div>
   <button onclick="window.location.href = '/vistas/gestioTaules';">Enrrere</button>
+</div>
 
 
 
