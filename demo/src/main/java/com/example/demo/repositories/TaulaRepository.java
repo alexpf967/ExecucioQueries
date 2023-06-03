@@ -11,4 +11,6 @@ public interface TaulaRepository extends JpaRepository<Taula, Long> {
     Taula findByNomTaula (String nom_taula);
     @Query(value = "SELECT t.id FROM taula t WHERE t.nom_taula = ?1", nativeQuery = true)
     Long findIDByNomTaula (String nom_taula);
+    @Query(value = "SELECT t.nom_taula FROM taula t WHERE t.id = ?1", nativeQuery = true)
+    String findNomByTaulaID (long taula_id);
 }

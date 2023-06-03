@@ -55,6 +55,10 @@ public class VistasController {
     public String crearIndexB() {
         return "crearIndexB";
     }
+    @GetMapping("/consultarIndexB")
+    public String consultarIndexB() {
+        return "consultarIndexB";
+    }
 
 
 

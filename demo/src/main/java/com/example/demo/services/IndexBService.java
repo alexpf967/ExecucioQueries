@@ -4,6 +4,7 @@ import com.example.demo.DemoApplication;
 import com.example.demo.classes.*;
 import com.example.demo.repositories.EntradaRepository;
 import com.example.demo.repositories.IndexBRepository;
+import com.example.demo.repositories.TaulaRepository;
 import com.example.demo.repositories.TuplaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,6 +23,8 @@ public class IndexBService {
     private EntradaRepository entradaRepository;
     @Autowired
     private TaulaService taulaService;
+    @Autowired
+    private TaulaRepository taulaRepository;
 
 
     public IndexB saveIndexB(IndexB indexB) {return indexBRepository.save(indexB);}
@@ -169,5 +172,23 @@ public class IndexBService {
             return nFulles;
         }
         return 0;
+    }
+    public String consultarIndexB(long indexB_id, String nom_indexb) {
+        boolean exists = indexBRepository.existsById(indexB_id);
+        String res = "";
+        if (exists) {
+            long taula_id = indexBRepository.findTaulaIDByIndexBID(indexB_id);
+            String nom_taula = taulaRepository.findNomByTaulaID(taula_id);
+            int nFulles = getNumFulles(indexB_id);
+            res = "L'index B+ " + nom_indexb + " de la taula " + nom_taula + " té " + nFulles +" fulles:\n";
+            for(int i = 1; i <= nFulles; ++i) {
+                res += "La fulla " + i + " té les següents entrades: \n";
+                List<Entrada> le = entradaRepository.findEntradaByIndexBIDandNFulla(indexB_id, i);
+                for (Entrada e : le) {
+                    res += "{entrada_id=" + e.getId() + ", tupla_id="+ e.getTupla_id()+", nBloc="+e.getnBloc()+", nTupla="+ e.getnTupla()+"}\n";
+                }
+            }
+        }
+        return res;
     }
 }
