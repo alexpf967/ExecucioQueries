@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>GESTIO DE TAULES</title>
+    <style>
+        .button-container {
+            display: flex;
+            justify-content: left;
+            align-items: left;
+            margin-bottom: 20px;
+        }
+        .button-container button {
+            margin: 5px;
+
+    </style>
+</head>
+<body>
+    <h1>Gestio de taules</h1>
+    <div class="button-container">
+        <button onclick="window.location.href = '/vistas/crearTaula';">Crear taula</button>
+        <button onclick="window.location.href = '/vistas';">Populate taula</button>
+        <button onclick="window.location.href = '/vistas';">Afegir un bloc a una taula</button>
+    </div>
+    <div class="button-container">
+        <button onclick="window.location.href = '/vistas';">Afegir una tupla a una taula</button>
+        <button onclick="window.location.href = '/vistas';">Consultar taula</button>
+        <button onclick="window.location.href = '/vistas';">Escriure bloc</button>
+    </div>
+    <div class="button-container">
+        <button onclick="window.location.href = '/vistas';">Enrrere</button>
+    </div>
+</body>
+</html>

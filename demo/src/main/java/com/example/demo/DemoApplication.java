@@ -68,8 +68,8 @@ public class DemoApplication implements CommandLineRunner {
 		indexHashService.update_indexHash(ib.getId());*/
 
 
-		String filePath = "C:\\Users\\Usuario\\OneDrive\\Escritorio\\TFG\\script1.txt";
-		algorismeService.executarAlgorismePath(filePath);
+		//String filePath = "C:\\Users\\Usuario\\OneDrive\\Escritorio\\TFG\\script1.txt";
+		//algorismeService.executarAlgorismePath(filePath);
 
 		/*String clase = algorismeService.llegirClase(filePath);
 		algorismeService.createIt("Script1.java",clase);
