@@ -47,6 +47,11 @@ public class VistasController {
     public String consultarTaula() {
         return "consultarTaula";
     }
+    @GetMapping("/escriureBlocTaula")
+    public String escriureBlocTaula() {
+        return "escriureBlocTaula";
+    }
+
 
 
 }

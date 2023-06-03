@@ -1,13 +1,18 @@
 package com.example.demo.controllers;
 
+import com.example.demo.classes.Bloc;
 import com.example.demo.classes.Taula;
+import com.example.demo.classes.Tupla;
 import com.example.demo.services.BlocService;
 import com.example.demo.services.TaulaService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.util.Map;
 
 @Controller
 @RequestMapping("/api/taula")
@@ -53,6 +58,22 @@ public class TaulaController {
         m.addAttribute("mensaje", lineas);
         return "consultarTaula";
     }
+    @PostMapping("/escriureBlocTaula")
+    public String escriureBlocTaula(@RequestParam String nom_taula, @RequestParam String blocid, @RequestParam String atributs, Model m) {
+        String str [] = atributs.split(",");
+        long nB=Long.parseLong(blocid);
+        long id = taulaService.getIDbynomTaula(nom_taula);
+        Bloc b = new Bloc();
+        for(String s : str) {
+            Tupla t = new Tupla();
+            t.setAtribut(s);
+            b.addTupla(t);
+        }
+        taulaService.escriureBloc(id, nB, b);
+        m.addAttribute("mensaje", "S'ha escrit correctament el bloc amb id: "+blocid);
+        return "escriureBlocTaula";
+    }
+
 
     @ExceptionHandler(Exception.class)
     public String handleException(Exception ex, Model model) {

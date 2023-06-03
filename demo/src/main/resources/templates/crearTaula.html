@@ -12,6 +12,7 @@
         .form-container label {
             margin-right: 10px;
         }
+
     </style>
 </head>
 <body>
@@ -20,13 +21,16 @@
     <div class="form-container">
     <label for="nom_taula">Indiqui el nom de la taula:</label>
         <input type="text" id="nom_taula" name="nom_taula" required>
-        <input type="submit" value="Enviar" />
     </div>
-  </form>
-  <p th:text="${mensaje}" th:if="${mensaje != null}"></p>
-  <div class="button-container">
-  <button onclick="window.location.href = '/vistas/gestioTaules';">Enrrere</button>
+  <div class="form-container">
+      <input type="submit" value="Enviar" />
   </div>
+  </form>
+  <div class="form-container">
+      <p th:text="${mensaje}" th:if="${mensaje != null}"></p>
+  </div>
+  <button onclick="window.location.href = '/vistas/gestioTaules';">Enrrere</button>
+
 
 
 </body>

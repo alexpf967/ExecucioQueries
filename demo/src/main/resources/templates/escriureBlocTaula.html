@@ -2,7 +2,7 @@
 <html xmlns:th="https://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title>AFEGIR TUPLA A UNA TAULA</title>
+  <title>ESCRIURE BLOC</title>
   <style>
         .form-container {
             display: flex;
@@ -16,26 +16,29 @@
     </style>
 </head>
 <body>
-<h1>Afegir tupla al N bloc d'una taula</h1>
-<form action="#" th:action="@{/api/taula/addTuplaNBlocTaula}" method="post">
+<h1>Escriure bloc d'una taula</h1>
+<form action="#" th:action="@{/api/taula/escriureBlocTaula}" method="post">
   <div class="form-container">
     <label for="nom_taula">Indiqui el nom de la taula:</label>
     <input type="text" id="nom_taula" name="nom_taula" required>
   </div>
   <div class="form-container">
-    <label for="Nbloc">Indiqui el N bloc (p.e. 1, 2, ... Nbloc):</label>
-    <input type="number" id="Nbloc" name="Nbloc" required>
+  <label for="blocid">Indiqui el ID del bloc de la taula al qual es vol escriure:</label>
+    <input type="number" id="blocid" name="blocid" required>
   </div>
   <div class="form-container">
-    <label for="atribut">Indiqui l'atribut de la tupla:</label>
-    <input type="text" id="atribut" name="atribut" required>
+  <label for="atributs">Indiqui els atributs de les tuples que contindra el nou bloc (atr1, atr2, atr3...):</label>
+    <input type="text" id="atributs" name="atributs" required>
   </div>
   <div class="form-container">
-    <input type="submit" value="Enviar" />
+  <input type="submit" value="Enviar" />
   </div>
 </form>
 <div class="form-container">
   <p th:text="${mensaje}" th:if="${mensaje != null}"></p>
-</div>  <button onclick="window.location.href = '/vistas/gestioTaules';">Enrrere</button>
+</div>
+<button onclick="window.location.href = '/vistas/gestioTaules';">Enrrere</button>
+
+
 </body>
 </html>

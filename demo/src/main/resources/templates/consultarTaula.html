@@ -20,16 +20,18 @@
   <div class="form-container">
     <label for="nom_taula">Indiqui el nom de la taula:</label>
     <input type="text" id="nom_taula" name="nom_taula" required>
+  </div>
+  <div class="form-container">
     <input type="submit" value="Enviar" />
   </div>
 </form>
-<tr th:each="elemento : ${mensaje}">
-  <td><span th:text="${elemento}"></span><br/></td>
-</tr>
-
-<div class="button-container">
-  <button onclick="window.location.href = '/vistas/gestioTaules';">Enrrere</button>
+<div class="form-container">
+  <tr th:each="elemento : ${mensaje}">
+    <td><span th:text="${elemento}"></span><br/></td>
+  </tr>
 </div>
+  <button onclick="window.location.href = '/vistas/gestioTaules';">Enrrere</button>
+
 
 
 </body>
