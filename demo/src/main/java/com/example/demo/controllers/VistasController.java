@@ -31,5 +31,17 @@ public class VistasController {
     public String crearTaula() {
         return "crearTaula";
     }
+    @GetMapping("/populateTaula")
+    public String populateTaula() {
+        return "populateTaula";
+    }
+    @GetMapping("/addBlocTaula")
+    public String addBlocTaula() {
+        return "addBlocTaula";
+    }
+    @GetMapping("/addTuplaNBlocTaula")
+    public String addTuplaNBlocTaula() {
+        return "addTuplaNBlocTaula";
+    }
 
 }
