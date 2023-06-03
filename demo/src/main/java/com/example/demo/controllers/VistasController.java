@@ -51,6 +51,10 @@ public class VistasController {
     public String escriureBlocTaula() {
         return "escriureBlocTaula";
     }
+    @GetMapping("/crearIndexB")
+    public String crearIndexB() {
+        return "crearIndexB";
+    }
 
 
 

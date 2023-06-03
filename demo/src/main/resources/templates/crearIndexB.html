@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>CREAR INDEXB</title>
+    <style>
+        .form-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .form-container label {
+            margin-right: 10px;
+        }
+
+    </style>
+</head>
+<body>
+<h1>Crear Index B+</h1>
+<form action="#" th:action="@{/api/indexb/crearIndexB}" method="post">
+    <div class="form-container">
+        <label for="nom_taula">Indiqui el nom de la taula on vol fer l'index B+:</label>
+        <input type="text" id="nom_taula" name="nom_taula" required>
+    </div>
+    <div class="form-container">
+        <label for="nom_indexb">Indiqui del index B+:</label>
+        <input type="text" id="nom_indexb" name="nom_indexb" required>
+    </div>
+    <div class="form-container">
+        <label for="f_carrega">Indiqui el factor de càrrega:</label>
+        <input type="text" id="f_carrega" name="f_carrega" required>
+    </div>
+    <div class="form-container">
+        <label for="tree_order">Indiqui l'ordre del arbre:</label>
+        <input type="number" id="tree_order" name="tree_order" required>
+    </div>
+    <div class="form-container">
+        <input type="submit" value="Enviar" />
+    </div>
+    <div class="form-container">
+        <p th:text="${mensaje}" th:if="${mensaje != null}"></p>
+    </div>
+    <button onclick="window.location.href = '/vistas/gestioIndexB';">Enrrere</button>
+
+</form>
+</body>
+</html>
