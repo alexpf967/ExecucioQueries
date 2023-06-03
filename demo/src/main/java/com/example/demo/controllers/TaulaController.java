@@ -45,6 +45,15 @@ public class TaulaController {
         m.addAttribute("mensaje", "S'ha afegit correctament la tupla amb atribut: "+ atribut+" al bloc " + nB + " de la Taula " + nom_taula);
         return "addTuplaNBlocTaula";
     }
+    @PostMapping("/consultarTaula")
+    public String consultarTaula(@RequestParam String nom_taula, Model m) {
+        long id = taulaService.getIDbynomTaula(nom_taula);
+        String content = taulaService.consultarTaula(id);
+        String[] lineas = content.split("\n");
+        m.addAttribute("mensaje", lineas);
+        return "consultarTaula";
+    }
+
     @ExceptionHandler(Exception.class)
     public String handleException(Exception ex, Model model) {
         String errorMessage = "Se produjo un error."; // Mensaje de error personalizado

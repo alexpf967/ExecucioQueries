@@ -97,6 +97,17 @@ public class BlocService {
         Bloc b = blocRepository.findById(bloc_id).orElse(null);
         return b.getBloc();
     }
-
+    public String consultarBloc (long bloc_id) {
+        Bloc bloc = blocRepository.findById(bloc_id).orElse(null);
+        String res = "";
+        if (bloc != null) {
+            List<Tupla> lt = tuplaService.getTuplasByBlocID(bloc.getId());
+            res = "El bloc amb id = " + bloc.getId() + ", té " + bloc.nTuplas() + " tuples:\n";
+            for (Tupla t : lt) {
+                res += "{id=" + t.getId() + ", atribut=" + t.getAtribut() + "}\n";
+            }
+        }
+        return res;
+    }
 
 }

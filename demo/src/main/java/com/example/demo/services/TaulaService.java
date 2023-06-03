@@ -165,4 +165,17 @@ public class TaulaService {
         return cont;
     }
 
+    public String consultarTaula(long taula_id) {
+        boolean exists = taulaRepository.existsById(taula_id);
+        String res = "";
+        if (exists) {
+            List<Bloc> b = blocService.getBlocByTaulaID(taula_id);
+            res = "La Taula amb id = "+taula_id+", té "+b.size()+" blocs:\n";
+            for(Bloc bloc : b) {
+                res += blocService.consultarBloc(bloc.getId());
+            }
+        }
+        return res;
+    }
+
 }

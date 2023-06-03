@@ -43,5 +43,10 @@ public class VistasController {
     public String addTuplaNBlocTaula() {
         return "addTuplaNBlocTaula";
     }
+    @GetMapping("/consultarTaula")
+    public String consultarTaula() {
+        return "consultarTaula";
+    }
+
 
 }

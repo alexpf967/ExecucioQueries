@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>CONSULTAR TAULA</title>
+  <style>
+        .form-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .form-container label {
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+<h1>Consultar taula</h1>
+<form action="#" th:action="@{/api/taula/consultarTaula}" method="post">
+  <div class="form-container">
+    <label for="nom_taula">Indiqui el nom de la taula:</label>
+    <input type="text" id="nom_taula" name="nom_taula" required>
+    <input type="submit" value="Enviar" />
+  </div>
+</form>
+<tr th:each="elemento : ${mensaje}">
+  <td><span th:text="${elemento}"></span><br/></td>
+</tr>
+
+<div class="button-container">
+  <button onclick="window.location.href = '/vistas/gestioTaules';">Enrrere</button>
+</div>
+
+
+</body>
+</html>
