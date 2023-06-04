@@ -23,6 +23,13 @@ public class AlgorismeController {
         m.addAttribute("mensaje", "El cost de l'algorisme executat es: "+cost);
         return "executarAlgPath";
     }
+    @PostMapping("/executarAlgContent")
+    public String executarAlgContent(@RequestParam String executarAlgContent, Model m) {
+        algorismeService.executarAlgorismeContent(executarAlgContent);
+        int cost = DemoApplication.cost;
+        m.addAttribute("mensaje", "El cost de l'algorisme executat es: "+cost);
+        return "executarAlgContent";
+    }
     @ExceptionHandler(Exception.class)
     public String handleException(Exception ex, Model model) {
         String errorMessage = "Se produjo un error."; // Mensaje de error personalizado

@@ -71,6 +71,11 @@ public class VistasController {
     public String executarAlgPath() {
         return "executarAlgPath";
     }
+    @GetMapping("/executarAlgContent")
+    public String executarAlgContent() {
+        return "executarAlgContent";
+    }
+
 
 
 
