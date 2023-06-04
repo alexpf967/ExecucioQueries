@@ -10,6 +10,7 @@ import com.example.demo.services.IndexHashService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -43,5 +44,11 @@ public class IndexHashController {
         String[] lineas = content.split("\n");
         m.addAttribute("mensaje", lineas);
         return "consultarIndexHash";
+    }
+    @ExceptionHandler(Exception.class)
+    public String handleException(Exception ex, Model model) {
+        String errorMessage = "Se produjo un error."; // Mensaje de error personalizado
+        model.addAttribute("errorMessage", errorMessage);
+        return "error";
     }
 }

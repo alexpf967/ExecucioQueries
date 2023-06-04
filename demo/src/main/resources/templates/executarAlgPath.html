@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>EXECUTAR ALGORISME PATH</title>
+  <style>
+        .form-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .form-container label {
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+<h1>Executar algorisme path</h1>
+<form action="#" th:action="@{/api/algorisme/executarAlgPath}" method="post">
+  <div class="form-container">
+    <label for="algorisme_path">Indiqui el path al fitxer que conte l'algorisme a executar:</label>
+    <input type="text" id="algorisme_path" name="algorisme_path" required>
+  </div>
+  <div class="form-container">
+    <input type="submit" value="Enviar" />
+  </div>
+  <div class="form-container">
+    <p th:text="${mensaje}" th:if="${mensaje != null}"></p>
+  </div>
+  <div class="form-container">
+    <button onclick="window.location.href = '/vistas/executarAlgorisme';">Enrrere</button>
+  </div>
+</form>
+
+</body>
+</html>

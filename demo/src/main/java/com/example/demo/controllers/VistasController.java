@@ -67,6 +67,11 @@ public class VistasController {
     public String consultarIndexHash() {
         return "consultarIndexHash";
     }
+    @GetMapping("/executarAlgPath")
+    public String executarAlgPath() {
+        return "executarAlgPath";
+    }
+
 
 
 }

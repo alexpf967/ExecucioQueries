@@ -8,10 +8,7 @@ import com.example.demo.services.IndexBService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/api/indexb")
@@ -42,5 +39,11 @@ public class IndexBController {
         String[] lineas = content.split("\n");
         m.addAttribute("mensaje", lineas);
         return "consultarIndexB";
+    }
+    @ExceptionHandler(Exception.class)
+    public String handleException(Exception ex, Model model) {
+        String errorMessage = "Se produjo un error."; // Mensaje de error personalizado
+        model.addAttribute("errorMessage", errorMessage);
+        return "error";
     }
 }
