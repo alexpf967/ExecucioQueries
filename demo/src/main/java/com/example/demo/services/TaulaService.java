@@ -103,45 +103,51 @@ public class TaulaService {
         }
     }
     public void addTupla_BlocN (long taula_id, int Nbloc, String atribut) {
-        Taula taula = taulaRepository.findById(taula_id).orElse(null);
-        Bloc b = this.getNBloc(taula_id, Nbloc);
-        blocService.add_tupla(b.getId(), atribut);
+        boolean exists = taulaRepository.existsById(taula_id);
+        if (exists) {
+            Bloc b = this.getNBloc(taula_id, Nbloc);
+            blocService.add_tupla(b.getId(), atribut);
+        }
 
     }
     public void removeTupla_BlocN (long taula_id, int Nbloc, int NTupla) {
-        Taula taula = taulaRepository.findById(taula_id).orElse(null);
-        Bloc b = this.getNBloc(taula_id, Nbloc);
-        Tupla t = blocService.getNTupla(b.getId(), NTupla);
-        blocService.remove_tupla(b.getId(), t.getId());
+        boolean exists = taulaRepository.existsById(taula_id);
+        if (exists) {
+            Bloc b = this.getNBloc(taula_id, Nbloc);
+            Tupla t = blocService.getNTupla(b.getId(), NTupla);
+            blocService.remove_tupla(b.getId(), t.getId());
+        }
     }
 
     public void escriureBloc(long taula_id, long bloc_id, Bloc bloc) {
-        Taula taula = taulaRepository.findById(taula_id).orElse(null);
-        Bloc b = blocService.getBlocById(bloc_id);
-        List<Tupla> st = tuplaRepository.findByBlocID(b.getId());
+        boolean exists = taulaRepository.existsById(taula_id);
+        if (exists) {
+            Bloc b = blocService.getBlocById(bloc_id);
+            List<Tupla> st = tuplaRepository.findByBlocID(b.getId());
 
-        for(Tupla ts : st) {
-            Tupla tu1 = tuplaRepository.findById(ts.getId()).orElse(null);
-            blocService.remove_tupla(b.getId(), tu1.getId());
+            for (Tupla ts : st) {
+                Tupla tu1 = tuplaRepository.findById(ts.getId()).orElse(null);
+                blocService.remove_tupla(b.getId(), tu1.getId());
+            }
+
+            List<Tupla> s = new ArrayList<>(bloc.getBloc());
+
+            for (Tupla t : s) {
+                blocService.add_tupla(b.getId(), t.getAtribut());
+            }
+            DemoApplication.sum_cost(1);
         }
-
-        List<Tupla> s = new ArrayList<>(bloc.getBloc());
-
-        for(Tupla t : s) {
-            blocService.add_tupla(b.getId(), t.getAtribut());
-        }
-        DemoApplication.sum_cost(1);
     }
 
     public void removeTaula(long taula_id) {
-        Taula taula = taulaRepository.findById(taula_id).orElse(null);
-        if (taula != null) {
-            Set<Bloc> sb = taula.getTaula();
+        boolean exists = taulaRepository.existsById(taula_id);
+        if (exists) {
+            List<Bloc> sb = blocService.getBlocByTaulaID(taula_id);
             for (Bloc b : sb) {
                 Bloc bl = blocService.getBlocById(b.getId());
-                this.remove_bloc(taula.getId(), bl.getId());
+                this.remove_bloc(taula_id, bl.getId());
             }
-            taulaRepository.deleteById(taula.getId());
+            taulaRepository.deleteById(taula_id);
 
         }
 

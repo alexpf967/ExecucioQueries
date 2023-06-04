@@ -296,6 +296,7 @@ class TestTaulaService {
         Tupla t13 = new Tupla("swap3", swap);
         t13.setId(30L);
         swap.addTupla(t13);
+        when(taulaRepository.existsById(anyLong())).thenReturn(true);
         when(taulaRepository.findById(anyLong())).thenReturn(Optional.of(taula));
         when(blocService.getBlocById(1L)).thenReturn(b);
         when(blocRepository.findById(1L)).thenReturn(Optional.of(b));

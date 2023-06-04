@@ -2,12 +2,10 @@ package com.example.demo.services;
 
 import com.example.demo.TestConfig;
 import com.example.demo.classes.*;
-import com.example.demo.repositories.BlocRepository;
-import com.example.demo.repositories.EntradaRepository;
-import com.example.demo.repositories.IndexBRepository;
-import com.example.demo.repositories.TuplaRepository;
+import com.example.demo.repositories.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.mock.mockito.SpyBean;
@@ -33,9 +31,13 @@ public class TestIndexBService {
     private EntradaRepository entradaRepository;
     @MockBean
     private BlocRepository blocRepository;
+    @MockBean
+    private TaulaRepository taulaRepository;
 
     @SpyBean
     private BlocService blocService;
+    @SpyBean
+    private TaulaService taulaService;
     @SpyBean
     private IndexBService indexBService;
 
@@ -217,6 +219,13 @@ public class TestIndexBService {
         ib.setId(1L);
 
         when(indexBRepository.findById(1L)).thenReturn(Optional.of(ib));
+        when(indexBRepository.existsById(1L)).thenReturn(true);
+        when(taulaService.nTuplas(1L)).thenReturn(20);
+        when(taulaRepository.existsById(1L)).thenReturn(true);
+        when(blocRepository.findById(1L)).thenReturn(Optional.of(b));
+        when(indexBRepository.findTaulaIDByIndexBID(1L)).thenReturn(1L);
+        when(indexBRepository.EntriesFullaIndexHash(1L)).thenReturn(8);
+
 
         int n = indexBService.getNumFulles(ib.getId());
         boolean ultmina = indexBService.ultimaFulla(ib.getId(), n);

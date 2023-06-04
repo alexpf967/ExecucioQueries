@@ -117,8 +117,7 @@ public class IndexHashService {
         return null;
     }
     public int getnBuckets(long index_id) {
-        IndexHash ih = indexHashRepository.findById(index_id).orElse(null);
-        return ih.getnBuckets();
+        return indexHashRepository.NbucketsIndexHash(index_id);
     }
     public boolean ultimBucket(long index_id, int n) {
         return getnBuckets(index_id)==n;

@@ -163,13 +163,16 @@ public class IndexBService {
         return 0;
     }
     public int getNumFulles(long index_id) {
-        IndexB ib = indexBRepository.findById(index_id).orElse(null);
-        if (ib != null) {
-            int card = ib.getFulles().size();
-            int u = ib.getEntries_fulla();
-            double fulles = (double) card /u;
-            int nFulles = (int) Math.ceil(fulles);
-            return nFulles;
+        boolean exists = indexBRepository.existsById(index_id);
+        if(exists) {
+            long taula_id = indexBRepository.findTaulaIDByIndexBID(index_id);
+            if (exists) {
+                int card = taulaService.nTuplas(taula_id);
+                int u = indexBRepository.EntriesFullaIndexHash(index_id);
+                double fulles = (double) card / u;
+                int nFulles = (int) Math.ceil(fulles);
+                return nFulles;
+            }
         }
         return 0;
     }

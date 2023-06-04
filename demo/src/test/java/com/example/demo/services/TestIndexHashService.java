@@ -194,6 +194,7 @@ public class TestIndexHashService {
         IndexHash ih = new IndexHash("TestIndexHash", 0.8, 5, 3, taula);
         ih.setId(1L);
         when(indexHashRepository.findById(1L)).thenReturn(Optional.of(ih));
+        when(indexHashRepository.NbucketsIndexHash(anyLong())).thenReturn(3);
 
         int n = indexHashService.getnBuckets(ih.getId());
         boolean b = indexHashService.ultimBucket(ih.getId(), n);
