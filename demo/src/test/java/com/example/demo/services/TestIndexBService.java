@@ -143,6 +143,7 @@ public class TestIndexBService {
         }
         taula.addBloc(b);
         ib.setId(1L);
+        when(indexBRepository.existsById(1L)).thenReturn(true);
         when(indexBRepository.findById(1L)).thenReturn(Optional.of(ib));
         when(entradaRepository.findByIndexBID(1L)).thenReturn(le);
 
@@ -168,6 +169,7 @@ public class TestIndexBService {
         }
         taula.addBloc(b);
         ib.setId(1L);
+        when(indexBRepository.existsById(1L)).thenReturn(true);
         when(indexBRepository.findById(1L)).thenReturn(Optional.of(ib));
         when(entradaRepository.findFullaNIndexB(1L, 1)).thenReturn(le);
         when(indexBService.getNumFulles(ib.getId())).thenReturn(1);
@@ -192,6 +194,7 @@ public class TestIndexBService {
         }
         taula.addBloc(b);
         ib.setId(1L);
+        when(indexBRepository.existsById(1L)).thenReturn(true);
         when(indexBRepository.findById(1L)).thenReturn(Optional.of(ib));
         when(entradaRepository.findFullaNIndexB(1L, 1)).thenReturn(le);
         when(indexBService.getNumFulles(ib.getId())).thenReturn(1);
@@ -253,7 +256,7 @@ public class TestIndexBService {
         }
         taula.addBloc(b);
         ib.setId(1L);
-
+        when(indexBRepository.existsById(1L)).thenReturn(true);
         when(indexBRepository.findById(1L)).thenReturn(Optional.of(ib));
         when(entradaRepository.findByIndexBID(1L)).thenReturn(le);
 

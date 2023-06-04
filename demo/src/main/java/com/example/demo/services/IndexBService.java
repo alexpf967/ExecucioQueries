@@ -30,16 +30,9 @@ public class IndexBService {
     public IndexB saveIndexB(IndexB indexB) {return indexBRepository.save(indexB);}
 
     public List<Entrada> getEntradas(long index_id) {
-        IndexB ib = indexBRepository.findById(index_id).orElse(null);
-        Comparator<Entrada> comparadorPorTuplaID = new Comparator<Entrada>() {
-            @Override
-            public int compare(Entrada o1, Entrada o2) {
-                return Integer.compare((int)o1.getTupla_id(), (int)o2.getTupla_id());
-            }
-        };
-        List<Entrada> se = new ArrayList<>(ib.getFulles());
-        se.sort(comparadorPorTuplaID);
-
+        boolean exists = indexBRepository.existsById(index_id);
+        List<Entrada> se = new ArrayList<>();
+        if (exists) se = entradaRepository.findByIndexBID(index_id);
         return se;
     }
     public Entrada getEntrada(long entrada_id) {
@@ -48,12 +41,14 @@ public class IndexBService {
     }
 
     public Entrada getNEntrada (long index_id, int n) {
-        IndexB indexB = indexBRepository.findById(index_id).orElse(null);
-        List<Entrada> se = entradaRepository.findByIndexBID(indexB.getId());
-        if (n < se.size()) {
-            Entrada e = se.get(n);
-            DemoApplication.sum_cost(1);
-            return e;
+        boolean exists = indexBRepository.existsById(index_id);
+        if(exists) {
+            List<Entrada> se = entradaRepository.findByIndexBID(index_id);
+            if (n < se.size()) {
+                Entrada e = se.get(n);
+                DemoApplication.sum_cost(1);
+                return e;
+            }
         }
         return null;
     }
@@ -91,14 +86,11 @@ public class IndexBService {
         }
     }
     public void update_Nfulles(long index_id) {
-        IndexB ib = indexBRepository.findById(index_id).orElse(null);
-        if(ib != null) {
-            int card = ib.getFulles().size();
-            int u = ib.getEntries_fulla();
-            double fulles = (double) card /u;
-            int nFulles = (int) Math.ceil(fulles);
-            List<Entrada> le = this.getEntradas(ib.getId());
-
+        boolean exists = indexBRepository.existsById(index_id);
+        if(exists) {
+            int nFulles = getNumFulles(index_id);
+            List<Entrada> le = this.getEntradas(index_id);
+            int u = indexBRepository.EntriesFullaIndexHash(index_id);
             int cont = 0;
             for(int i = 0; i < nFulles; ++i) {
                 for(int j = 0; j < u && cont < le.size(); ++j) {
@@ -124,8 +116,8 @@ public class IndexBService {
     }
 
     public List<Entrada> getFullaN (long index_id, int n) {
-        IndexB ib = indexBRepository.findById(index_id).orElse(null);
-        if(ib != null) {
+        boolean exists = indexBRepository.existsById(index_id);
+        if(exists) {
             int nFulles = this.getNumFulles(index_id);
             if(n > 0 && n <= nFulles) {
                 DemoApplication.sum_cost(1);
@@ -135,9 +127,9 @@ public class IndexBService {
         return null;
     }
     public List<Entrada> getPrimeraFulla (long index_id) {
-        IndexB ib = indexBRepository.findById(index_id).orElse(null);
-        if(ib != null) {
-            return getFullaN(ib.getId(), 1);
+        boolean exists = indexBRepository.existsById(index_id);
+        if(exists) {
+            return getFullaN(index_id, 1);
         }
         return null;
     }
@@ -146,18 +138,21 @@ public class IndexBService {
     }
 
     public int cercaFulla(long index_id, long tupla_id) {
-        IndexB ib = indexBRepository.findById(index_id).orElse(null);
-        List<Entrada> le = entradaRepository.findByIndexBID(ib.getId());
-        for(Entrada e : le) {
-            if(e.getTupla_id()==tupla_id) {
-                int u = ib.getEntries_fulla();
-                int card = ib.getFulles().size();
-                double logu = Math.log10(u);
-                double logc= Math.log10(card);
-                double hh = logc/logu;
-                int h = (int) Math.ceil(hh);
-                DemoApplication.sum_cost(h+1);
-                return e.getnFulla();
+        boolean exists = indexBRepository.existsById(index_id);
+        if(exists) {
+            List<Entrada> le = entradaRepository.findByIndexBID(index_id);
+            for (Entrada e : le) {
+                if (e.getTupla_id() == tupla_id) {
+                    int u = indexBRepository.EntriesFullaIndexHash(index_id);
+                    long taula_id = indexBRepository.findTaulaIDByIndexBID(index_id);
+                    int card = taulaService.nTuplas(taula_id);
+                    double logu = Math.log10(u);
+                    double logc = Math.log10(card);
+                    double hh = logc / logu;
+                    int h = (int) Math.ceil(hh);
+                    DemoApplication.sum_cost(h + 1);
+                    return e.getnFulla();
+                }
             }
         }
         return 0;
