@@ -94,7 +94,6 @@ public class AlgorismeService {
                 indexBService,
                 indexHashService
         );
-        DemoApplication.cost=0;
         Method thisMethod = thisClass.getDeclaredMethod("execute");
         thisMethod.invoke(iClass);
         System.out.println(DemoApplication.cost);
@@ -106,6 +105,7 @@ public class AlgorismeService {
             createIt("Script1.java", clase);
             boolean compilat = compilar("Script1", clase);
             if (compilat) {
+                DemoApplication.cost=0;
                 runIt("com.example.demo.Script1");
             } else System.out.println("Error de copilacio");
         }
@@ -119,6 +119,7 @@ public class AlgorismeService {
             createIt("Script1.java", contentclase);
             boolean compilat = compilar("Script1", contentclase);
             if (compilat) {
+                DemoApplication.cost=0;
                 runIt("com.example.demo.Script1");
             } else System.out.println("Error de copilacio");
         }
