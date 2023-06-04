@@ -133,6 +133,7 @@ class TestTaulaService {
         List<Bloc> sb = new ArrayList<Bloc>();
         sb.add(b);
         sb.add(b2);
+        when(taulaRepository.existsById(anyLong())).thenReturn(true);
         when(taulaRepository.findById(anyLong())).thenReturn(Optional.of(taula));
         when(blocService.getBlocByTaulaID(anyLong())).thenReturn(sb);
 
@@ -205,7 +206,7 @@ class TestTaulaService {
         taula.addBloc(b);
         taula.addBloc(b2);
 
-
+        when(taulaRepository.existsById(anyLong())).thenReturn(true);
         when(taulaRepository.findById(anyLong())).thenReturn(Optional.of(taula));
         when(blocService.getBlocByTaulaID(anyLong())).thenReturn(sb);
         when(blocRepository.findById(1L)).thenReturn(Optional.of(b));
@@ -240,6 +241,7 @@ class TestTaulaService {
         sb.add(b);
         taula.addBloc(b);
 
+        when(taulaRepository.existsById(anyLong())).thenReturn(true);
         when(taulaRepository.findById(anyLong())).thenReturn(Optional.of(taula));
         when(blocService.getBlocByTaulaID(anyLong())).thenReturn(sb);
         when(blocRepository.findById(1L)).thenReturn(Optional.of(b));

@@ -74,12 +74,14 @@ public class TaulaService {
     }
 
     public Bloc getNBloc (long taula_id, int n) {
-        Taula taula = taulaRepository.findById(taula_id).orElse(null);
-        List<Bloc> sb = blocService.getBlocByTaulaID(taula.getId());
-        if (n > 0 && n <= sb.size()) {
-            DemoApplication.sum_cost(1);
-            Bloc b = sb.get(n-1);
-            return b;
+        boolean exists = taulaRepository.existsById(taula_id);
+        if (exists) {
+            List<Bloc> sb = blocService.getBlocByTaulaID(taula_id);
+            if (n > 0 && n <= sb.size()) {
+                DemoApplication.sum_cost(1);
+                Bloc b = sb.get(n-1);
+                return b;
+            }
         }
 
         return null;
