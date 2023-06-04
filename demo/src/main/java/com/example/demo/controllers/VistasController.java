@@ -59,7 +59,14 @@ public class VistasController {
     public String consultarIndexB() {
         return "consultarIndexB";
     }
-
+    @GetMapping("/crearIndexHash")
+    public String crearIndexHash() {
+        return "crearIndexHash";
+    }
+    @GetMapping("/consultarIndexHash")
+    public String consultarIndexHash() {
+        return "consultarIndexHash";
+    }
 
 
 }

@@ -4,6 +4,7 @@ import com.example.demo.DemoApplication;
 import com.example.demo.classes.*;
 import com.example.demo.repositories.EntradaRepository;
 import com.example.demo.repositories.IndexHashRepository;
+import com.example.demo.repositories.TaulaRepository;
 import com.example.demo.repositories.TuplaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,6 +25,8 @@ public class IndexHashService {
     private EntradaRepository entradaRepository;
     @Autowired
     private TaulaService taulaService;
+    @Autowired
+    private TaulaRepository taulaRepository;
 
     public IndexHash saveIndexHash(IndexHash indexHash) {return indexHashRepository.save(indexHash);}
     public List<Entrada> getEntradas(long index_id) {
@@ -130,6 +133,25 @@ public class IndexHashService {
             }
         }
         return 0;
+    }
+
+    public String consultarIndexHash (long indexh_id, String nom_indexh) {
+        boolean exists = indexHashRepository.existsById(indexh_id);
+        String res = "";
+        if (exists) {
+            long taula_id = indexHashRepository.findTaulaIDByIndexHashID(indexh_id);
+            String nom_taula = taulaRepository.findNomByTaulaID(taula_id);
+            int nBuckets = getnBuckets(indexh_id);
+            res = "L'index B+ " + nom_indexh + " de la taula " + nom_taula + " té " + nBuckets +" buckets:\n";
+            for(int i = 1; i <= nBuckets; ++i) {
+                res += "El bucket " + i + " té les següents entrades: \n";
+                List<Entrada> le = entradaRepository.findEntradaByIndexHashIDandNBucket(indexh_id, i);
+                for (Entrada e : le) {
+                    res += "{entrada_id=" + e.getId() + ", tupla_id="+ e.getTupla_id()+", nBloc="+e.getnBloc()+", nTupla="+ e.getnTupla()+"}\n";
+                }
+            }
+        }
+        return res;
     }
 
 }

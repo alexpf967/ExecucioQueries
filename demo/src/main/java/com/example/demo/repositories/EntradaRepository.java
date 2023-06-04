@@ -26,5 +26,7 @@ public interface EntradaRepository extends JpaRepository<Entrada, Long> {
     int getEntradaForIndexB(long indexb_id);
     @Query(value = "SELECT * FROM entrada e WHERE e.indexb_id = ?1 and e.n_fulla = ?2", nativeQuery = true)
     List<Entrada> findEntradaByIndexBIDandNFulla(long indexB_id, int n);
+    @Query(value = "SELECT * FROM entrada e WHERE e.index_hash_id = ?1 and e.n_bucket = ?2", nativeQuery = true)
+    List<Entrada> findEntradaByIndexHashIDandNBucket(long indexh_id, int n);
 
 }

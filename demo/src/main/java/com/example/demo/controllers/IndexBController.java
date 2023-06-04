@@ -24,7 +24,7 @@ public class IndexBController {
     private IndexBRepository indexBRepository;
 
     @PostMapping("/crearIndexB")
-    public String crearTaula(@RequestParam String nom_taula, @RequestParam String nom_indexb,@RequestParam String f_carrega, @RequestParam String tree_order,Model m) {
+    public String crearIndexB(@RequestParam String nom_taula, @RequestParam String nom_indexb,@RequestParam String f_carrega, @RequestParam String tree_order,Model m) {
         double fc = Double.parseDouble(f_carrega);
         int to = Integer.parseInt(tree_order);
         Taula t = taulaRepository.findByNomTaula(nom_taula);

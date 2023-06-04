@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>CONSULTAR INDEX HASH</title>
+    <style>
+        .form-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .form-container label {
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+<h1>Consultar Index Hash</h1>
+<form action="#" th:action="@{/api/indexhash/consultarIndexHash}" method="post">
+    <div class="form-container">
+        <label for="nom_indexh">Indiqui el nom de l'index Hash:</label>
+        <input type="text" id="nom_indexh" name="nom_indexh" required>
+    </div>
+    <div class="form-container">
+        <input type="submit" value="Enviar" />
+    </div>
+    <tr th:each="elemento : ${mensaje}">
+        <td><span th:text="${elemento}"></span><br/></td>
+    </tr><br/>
+    <div class="form-container">
+        <button onclick="window.location.href = '/vistas/gestioIndexHash';">Enrrere</button>
+    </div>
+</form>
+
+</body>
+</html>
