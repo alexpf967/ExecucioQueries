@@ -186,6 +186,7 @@ public class AlgorismeService {
     }
     public void executar() {
         try {
+            DemoApplication.cost=0;
             runIt("com.example.demo.Script");
         }
         catch (ClassNotFoundException|InvocationTargetException| InstantiationException| IllegalAccessException| NoSuchMethodException e) {

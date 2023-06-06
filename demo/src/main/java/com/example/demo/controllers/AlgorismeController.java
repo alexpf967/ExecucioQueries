@@ -17,9 +17,6 @@ import java.lang.reflect.InvocationTargetException;
 @Controller
 @RequestMapping("/api/algorisme")
 public class AlgorismeController {
-    ByteArrayOutputStream baos = new ByteArrayOutputStream();
-    PrintStream printStream = new PrintStream(baos);
-    PrintStream originalOut = System.out;
     @Autowired
     AlgorismeService algorismeService;
     @PostMapping("/executarAlgPath")
@@ -36,6 +33,9 @@ public class AlgorismeController {
     }
     @PostMapping("/executarP")
     public String executarP( Model m) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        PrintStream printStream = new PrintStream(baos);
+        PrintStream originalOut = System.out;
         System.setOut(printStream);
         algorismeService.executar();
         String resultat = "El resultat del algorisme: \n"+baos.toString();
@@ -43,10 +43,14 @@ public class AlgorismeController {
         resultat= resultat+"\nEl cost de l'algorisme executat es: "+cost+ "\n";
         String[] lineas = resultat.split("\n");
         m.addAttribute("resultat", lineas);
+        System.setOut(originalOut);
         return "executarAlgPath";
     }
     @PostMapping("/executarC")
     public String executarC( Model m) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        PrintStream printStream = new PrintStream(baos);
+        PrintStream originalOut = System.out;
         System.setOut(printStream);
         algorismeService.executar();
         String resultat = "El resultat del algorisme: \n"+baos.toString();
@@ -54,6 +58,7 @@ public class AlgorismeController {
         resultat= resultat+"\nEl cost de l'algorisme executat es: "+cost+ "\n";
         String[] lineas = resultat.split("\n");
         m.addAttribute("resultat", lineas);
+        System.setOut(originalOut);
         return "executarAlgContent";
     }
     @ExceptionHandler(Exception.class)
