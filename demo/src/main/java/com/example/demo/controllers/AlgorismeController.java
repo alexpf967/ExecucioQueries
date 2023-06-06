@@ -2,7 +2,6 @@ package com.example.demo.controllers;
 
 import com.example.demo.DemoApplication;
 import com.example.demo.services.AlgorismeService;
-import com.example.demo.services.IndexHashService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,23 +10,50 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+import java.lang.reflect.InvocationTargetException;
+
 @Controller
 @RequestMapping("/api/algorisme")
 public class AlgorismeController {
+    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    PrintStream printStream = new PrintStream(baos);
+    PrintStream originalOut = System.out;
     @Autowired
     AlgorismeService algorismeService;
     @PostMapping("/executarAlgPath")
     public String executarAlgPath(@RequestParam String algorisme_path, Model m) {
-        algorismeService.executarAlgorismePath(algorisme_path);
-        int cost = DemoApplication.cost;
-        m.addAttribute("mensaje", "El cost de l'algorisme executat es: "+cost);
+        algorismeService.carregarAlgPath(algorisme_path);
+        m.addAttribute("mensaje", "Algorisme carregat correctament");
         return "executarAlgPath";
     }
     @PostMapping("/executarAlgContent")
     public String executarAlgContent(@RequestParam String executarAlgContent, Model m) {
-        algorismeService.executarAlgorismeContent(executarAlgContent);
+        algorismeService.carregarAlgContent(executarAlgContent);
+        m.addAttribute("mensaje", "Algorisme carregat correctament");
+        return "executarAlgContent";
+    }
+    @PostMapping("/executarP")
+    public String executarP( Model m) {
+        System.setOut(printStream);
+        algorismeService.executar();
+        String resultat = "El resultat del algorisme: \n"+baos.toString();
         int cost = DemoApplication.cost;
-        m.addAttribute("mensaje", "El cost de l'algorisme executat es: "+cost);
+        resultat= resultat+"\nEl cost de l'algorisme executat es: "+cost+ "\n";
+        String[] lineas = resultat.split("\n");
+        m.addAttribute("resultat", lineas);
+        return "executarAlgPath";
+    }
+    @PostMapping("/executarC")
+    public String executarC( Model m) {
+        System.setOut(printStream);
+        algorismeService.executar();
+        String resultat = "El resultat del algorisme: \n"+baos.toString();
+        int cost = DemoApplication.cost;
+        resultat= resultat+"\nEl cost de l'algorisme executat es: "+cost+ "\n";
+        String[] lineas = resultat.split("\n");
+        m.addAttribute("resultat", lineas);
         return "executarAlgContent";
     }
     @ExceptionHandler(Exception.class)

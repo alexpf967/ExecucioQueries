@@ -15,22 +15,31 @@
     </style>
 </head>
 <body>
-<h1>Executar algorisme path</h1>
+<h1>Executar algorisme content</h1>
 <form action="#" th:action="@{/api/algorisme/executarAlgContent}" method="post">
   <div class="form-container">
     <label for="executarAlgContent">Indiqui la funció execute() completa que vol executar:</label>
     <textarea id="executarAlgContent" name="executarAlgContent" rows="20" cols="100" required></textarea>
   </div>
   <div class="form-container">
-    <input type="submit" value="Enviar" />
+    <input type="submit" value="Carregar algorisme" />
   </div>
   <div class="form-container">
     <p th:text="${mensaje}" th:if="${mensaje != null}"></p>
   </div>
+
+</form>
+<form action="#" th:action="@{/api/algorisme/executarC}" method="post">
+  <tr th:each="elemento : ${resultat}">
+    <td><span th:text="${elemento}"></span><br/></td>
+  </tr><br/>
   <div class="form-container">
-    <button onclick="window.location.href = '/vistas/executarAlgorisme';">Enrrere</button>
+    <input type="submit" value="Executar" />
   </div>
 </form>
+<div class="form-container">
+  <button onclick="window.location.href = '/vistas/executarAlgorisme';">Enrrere</button>
+</div>
 
 </body>
 </html>
