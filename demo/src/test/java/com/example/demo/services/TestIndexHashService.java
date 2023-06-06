@@ -126,6 +126,7 @@ public class TestIndexHashService {
         }
         taula.addBloc(b);
         ih.setId(1L);
+        when(indexHashRepository.existsById(1L)).thenReturn(true);
         when(indexHashRepository.findById(1L)).thenReturn(Optional.of(ih));
         when(entradaRepository.findByIndexHashID(1L)).thenReturn(le);
 
@@ -155,6 +156,8 @@ public class TestIndexHashService {
         }
         taula.addBloc(b);
         ih.setId(1L);
+        when(indexHashRepository.existsById(1L)).thenReturn(true);
+        when(indexHashService.getnBuckets(1L)).thenReturn(3);
         when(indexHashRepository.findById(1L)).thenReturn(Optional.of(ih));
         when(entradaRepository.findBucketNIndexHash(1L, 1)).thenReturn(le);
 
@@ -181,6 +184,8 @@ public class TestIndexHashService {
         }
         taula.addBloc(b);
         ih.setId(1L);
+        when(indexHashRepository.existsById(1L)).thenReturn(true);
+        when(indexHashService.getnBuckets(1L)).thenReturn(3);
         when(indexHashRepository.findById(1L)).thenReturn(Optional.of(ih));
         when(entradaRepository.findBucketNIndexHash(1L, 1)).thenReturn(le);
 
@@ -222,7 +227,7 @@ public class TestIndexHashService {
         }
         taula.addBloc(b);
         ih.setId(1L);
-
+        when(indexHashRepository.existsById(1L)).thenReturn(true);
         when(indexHashRepository.findById(1L)).thenReturn(Optional.of(ih));
         when(entradaRepository.findByIndexHashID(1L)).thenReturn(le);
 

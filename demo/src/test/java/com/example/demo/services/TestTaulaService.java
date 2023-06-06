@@ -169,12 +169,13 @@ class TestTaulaService {
         when(taulaRepository.save(any(Taula.class))).thenReturn(taula);
         Taula actual = new Taula("TestCreacioTaula");
         actual.setId(1L);
-        //actual = taulaService.saveTaula(actual);
+        actual = taulaService.saveTaula(actual);
 
 
         when(taulaRepository.save(any(Taula.class))).thenReturn(taula);
         when(taulaRepository.findByNomTaula(anyString())).thenReturn(actual);
         when(taulaRepository.findById(anyLong())).thenReturn(Optional.of(actual));
+        when(taulaRepository.existsById(anyLong())).thenReturn(true);
         when(blocRepository.save(any(Bloc.class))).thenReturn(b);
         Bloc bloc = new Bloc(taula);
         bloc.setId(11L);

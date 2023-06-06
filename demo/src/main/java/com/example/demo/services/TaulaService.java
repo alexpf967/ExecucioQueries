@@ -32,13 +32,13 @@ public class TaulaService {
     }
 
     public void add_bloc(long taula_id) {
-        Taula taula = taulaRepository.findById(taula_id).orElse(null);
-        if (taula != null) {
+        boolean exists = taulaRepository.existsById(taula_id);
+        if (exists) {
+            Taula taula = new Taula();
+            taula.setId(taula_id);
             Bloc bloc = new Bloc(taula);
             bloc=blocService.saveBloc(bloc);
-            taula.addBloc(bloc);
 
-            saveTaula(taula);
         }
     }
     public void remove_blocN(long taula_id, int blocN) {
