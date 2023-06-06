@@ -14,5 +14,6 @@ public class EntradaService {
     @Autowired
     private TaulaService taulaService;
     public Entrada saveEntrada(Entrada entrada) {return entradaRepository.save(entrada);}
+    public Entrada getEntrada(long entrada_id) {return entradaRepository.findById(entrada_id).orElse(null);}
 
 }

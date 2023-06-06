@@ -28,6 +28,9 @@ public class IndexBService {
 
 
     public IndexB saveIndexB(IndexB indexB) {return indexBRepository.save(indexB);}
+    public long findIDByNomIndexB (String nom) {
+        return indexBRepository.findIDByNomIndexB(nom);
+    }
 
     public List<Entrada> getEntradas(long index_id) {
         boolean exists = indexBRepository.existsById(index_id);
