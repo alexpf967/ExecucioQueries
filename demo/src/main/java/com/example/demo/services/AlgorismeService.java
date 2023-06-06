@@ -24,15 +24,69 @@ public class AlgorismeService {
     private IndexBService indexBService;
     @Autowired
     private IndexHashService indexHashService;
-    public String llegirClase (String filePath) throws IOException {
-        StringBuilder sb = new StringBuilder();
+    @Autowired
+    private EntradaService entradaService;
+
+    private final String stringClass = "package com.example.demo;\n" +
+            "import com.example.demo.classes.*;\n" +
+            "import com.example.demo.repositories.*;\n" +
+            "import com.example.demo.services.*;\n" +
+            "import javassist.CtClass;\n" +
+            "import javassist.CtMethod;\n" +
+            "import org.springframework.beans.factory.annotation.Autowired;\n" +
+            "import javassist.ClassPool;\n" +
+            "import org.springframework.context.annotation.Bean;\n" +
+            "import org.springframework.context.annotation.Scope;\n" +
+            "import org.springframework.stereotype.Component;\n" +
+            "\n" +
+            "import java.io.BufferedReader;\n" +
+            "import java.io.FileReader;\n" +
+            "import java.lang.instrument.Instrumentation;\n" +
+            "import java.lang.invoke.MethodHandle;\n" +
+            "import java.lang.invoke.MethodHandles;\n" +
+            "import java.lang.reflect.Field;\n" +
+            "import java.lang.reflect.Method;\n" +
+            "import java.util.List;\n" +
+            "\n" +
+            "@Component\n" +
+            "public class Script {\n" +
+            "    @Autowired\n" +
+            "    public TuplaService tuplaService;\n" +
+            "    @Autowired\n" +
+            "    public BlocService blocService;\n" +
+            "    @Autowired\n" +
+            "    public TaulaService taulaService;\n" +
+            "    @Autowired\n" +
+            "    public IndexBService indexBService;\n" +
+            "    @Autowired\n" +
+            "    public IndexHashService indexHashService;\n" +
+            "    @Autowired\n" +
+            "    public EntradaService entradaService;\n" +
+            "\n" +
+            "    @Autowired    \n" +
+            "    public Script(TuplaService tuplaService, BlocService blocService, TaulaService taulaService, IndexBService indexBService, IndexHashService indexHashService, EntradaService entradaService) {\n" +
+            "        this.tuplaService = tuplaService;\n" +
+            "        this.blocService = blocService;\n" +
+            "        this.taulaService = taulaService;\n" +
+            "        this.indexBService = indexBService;\n" +
+            "        this.entradaService = entradaService;\n" +
+            "        this.indexHashService = indexHashService;\n" +
+            "    }\n";
+    public String llegirFitxer(String filePath) throws IOException {
+        StringBuilder sb = new StringBuilder(stringClass);
         BufferedReader br = new BufferedReader(new FileReader(filePath));
         String line;
         while ((line = br.readLine()) != null) {
             sb.append(line).append("\n");
         }
+        sb.append("}");
         br.close();
         return sb.toString();
+    }
+    public String llegirContent (String content) {
+        String res = stringClass;
+        res = res.concat(content+"}");
+        return res;
     }
 
     public void createIt(String classname, String content) throws IOException {
@@ -85,14 +139,16 @@ public class AlgorismeService {
                 BlocService.class,
                 TaulaService.class,
                 IndexBService.class,
-                IndexHashService.class
+                IndexHashService.class,
+                EntradaService.class
         );
         Object iClass = constructor.newInstance(
                 tuplaService,
                 blocService,
                 taulaService,
                 indexBService,
-                indexHashService
+                indexHashService,
+                entradaService
         );
         Method thisMethod = thisClass.getDeclaredMethod("execute");
         thisMethod.invoke(iClass);
@@ -101,12 +157,12 @@ public class AlgorismeService {
 
     public void executarAlgorismePath(String filePath) {
         try {
-            String clase = llegirClase(filePath);
-            createIt("Script1.java", clase);
-            boolean compilat = compilar("Script1", clase);
+            String clase = llegirFitxer(filePath);
+            createIt("Script.java", clase);
+            boolean compilat = compilar("Script", clase);
             if (compilat) {
                 DemoApplication.cost=0;
-                runIt("com.example.demo.Script1");
+                runIt("com.example.demo.Script");
             } else System.out.println("Error de copilacio");
         }
         catch (IOException|ClassNotFoundException|InvocationTargetException|InstantiationException|IllegalAccessException|NoSuchMethodException e) {
@@ -114,13 +170,14 @@ public class AlgorismeService {
         }
 
     }
-    public void executarAlgorismeContent(String contentclase) {
+    public void executarAlgorismeContent(String contentExecute) {
         try {
-            createIt("Script1.java", contentclase);
-            boolean compilat = compilar("Script1", contentclase);
+            String contentclase = llegirContent(contentExecute);
+            createIt("Script.java", contentclase);
+            boolean compilat = compilar("Script", contentclase);
             if (compilat) {
                 DemoApplication.cost=0;
-                runIt("com.example.demo.Script1");
+                runIt("com.example.demo.Script");
             } else System.out.println("Error de copilacio");
         }
         catch (IOException|ClassNotFoundException|InvocationTargetException|InstantiationException|IllegalAccessException|NoSuchMethodException e) {
