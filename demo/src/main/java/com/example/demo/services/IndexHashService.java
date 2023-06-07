@@ -29,6 +29,10 @@ public class IndexHashService {
     private TaulaRepository taulaRepository;
 
     public IndexHash saveIndexHash(IndexHash indexHash) {return indexHashRepository.save(indexHash);}
+    public long findIDByNomIndexHash (String nom) {
+        return indexHashRepository.findIDByNomIndexHash(nom);
+    }
+
     public List<Entrada> getEntradas(long index_id) {
         boolean exists = indexHashRepository.existsById(index_id);
         List<Entrada> se = new ArrayList<>();

@@ -164,9 +164,9 @@ public class TaulaService {
         boolean exists = taulaRepository.existsById(taula_id);
         int cont = 0;
         if (exists) {
-            int n = nBlocs(taula_id);
-            for (int i = 0; i < n; ++i) {
-                Bloc b = getNBloc(taula_id, i+1);
+            List<Bloc> sb = blocService.getBlocByTaulaID(taula_id);
+            for (int i = 1; i < sb.size(); ++i) {
+                Bloc b = sb.get(i-1);
                 cont += blocService.Ntuplas(b.getId());
             }
         }
