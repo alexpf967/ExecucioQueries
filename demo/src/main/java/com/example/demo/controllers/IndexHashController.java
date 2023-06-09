@@ -25,29 +25,43 @@ public class IndexHashController {
     @Autowired
     private IndexHashRepository indexHashRepository;
     @PostMapping("/crearIndexHash")
-    public String crearIndexHash(@RequestParam String nom_taula, @RequestParam String nom_indexh, @RequestParam String f_carrega, @RequestParam String tree_order, @RequestParam String nBuckets, Model m) {
-        double fc = Double.parseDouble(f_carrega);
-        int to = Integer.parseInt(tree_order);
-        int nb = Integer.parseInt(nBuckets);
-        Taula t = taulaRepository.findByNomTaula(nom_taula);
-        IndexHash ih = new IndexHash(nom_indexh, fc, to, nb, t);
-        ih = indexHashService.saveIndexHash(ih);
-        indexHashService.update_indexHash(ih.getId());
-        m.addAttribute("mensaje", "S'ha creat correctament l'index Hash " + nom_indexh + " a la taula " + nom_taula);
-        return "crearIndexHash";
+    public String crearIndexHash(@RequestParam String nom_taula, @RequestParam String nom_indexh, @RequestParam String f_carrega, @RequestParam String tree_order, @RequestParam String nBuckets, Model m) throws Exception {
+        try {
+            double fc = Double.parseDouble(f_carrega);
+            int to = Integer.parseInt(tree_order);
+            int nb = Integer.parseInt(nBuckets);
+            if(fc < 0.0 || fc > 1.0) throw new RuntimeException("El factor de carrega ha d'estar entre 0 i 1");
+            if(to < 1) throw new RuntimeException("L'ordre del arbre ha de ser un enter positiu >=1");
+            if(nb < 1) throw new RuntimeException("El nombre de buckets ha de ser un enter positiu >=1");
+            Taula t = taulaRepository.findByNomTaula(nom_taula);
+            IndexHash ih = new IndexHash(nom_indexh, fc, to, nb, t);
+            ih = indexHashService.saveIndexHash(ih);
+            indexHashService.update_indexHash(ih.getId());
+            m.addAttribute("mensaje", "S'ha creat correctament l'index Hash " + nom_indexh + " a la taula " + nom_taula);
+            return "crearIndexHash";
+        }catch (Exception e) {
+            if (e.getMessage().equals("El factor de carrega ha d'estar entre 0 i 1"))throw new Exception("El factor de carrega ha d'estar entre 0 i 1");
+            else if (e.getMessage().equals("L'ordre del arbre ha de ser un enter positiu >=1"))throw new Exception("L'ordre del arbre ha de ser un enter positiu >=1");
+            else if (e.getMessage().equals("El nombre de buckets ha de ser un enter positiu >=1"))throw new Exception("El nombre de buckets ha de ser un enter positiu >=1");
+            else throw new Exception("Ja existeix un index hash amb el nom indicat o no existeix cap taula amb el nom indicat ");
+        }
     }
     @PostMapping("/consultarIndexHash")
-    public String consultarIndexHash(@RequestParam String nom_indexh, Model m) {
-        long id = indexHashRepository.findIDByNomIndexHash(nom_indexh);
-        indexHashService.update_indexHash(id);
-        String content = indexHashService.consultarIndexHash(id, nom_indexh);
-        String[] lineas = content.split("\n");
-        m.addAttribute("mensaje", lineas);
-        return "consultarIndexHash";
+    public String consultarIndexHash(@RequestParam String nom_indexh, Model m) throws Exception {
+        try {
+            long id = indexHashRepository.findIDByNomIndexHash(nom_indexh);
+            indexHashService.update_indexHash(id);
+            String content = indexHashService.consultarIndexHash(id, nom_indexh);
+            String[] lineas = content.split("\n");
+            m.addAttribute("mensaje", lineas);
+            return "consultarIndexHash";
+        }catch (Exception e) {
+            throw new Exception("No existeix cap index hash amb el nom indicat");
+        }
     }
     @ExceptionHandler(Exception.class)
     public String handleException(Exception ex, Model model) {
-        String errorMessage = "Se produjo un error."; // Mensaje de error personalizado
+        String errorMessage = ex.getMessage();
         model.addAttribute("errorMessage", errorMessage);
         return "error";
     }

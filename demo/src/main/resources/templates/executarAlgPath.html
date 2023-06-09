@@ -29,12 +29,13 @@
   </div>
 </form>
 <form action="#" th:action="@{/api/algorisme/executarP}" method="post">
+  <div class="form-container" th:if="${mensaje != null}">
+    <input type="submit" value="Executar" />
+  </div>
     <tr th:each="elemento : ${resultat}">
       <td><span th:text="${elemento}"></span><br/></td>
     </tr><br/>
-  <div class="form-container">
-  <input type="submit" value="Executar" />
-  </div>
+
 </form>
 <div class="form-container">
   <button onclick="window.location.href = '/vistas/executarAlgorisme';">Enrrere</button>

@@ -154,35 +154,23 @@ public class AlgorismeService {
         thisMethod.invoke(iClass);
     }
 
-    public void carregarAlgPath(String filePath) {
-        try {
-            String clase = llegirFitxer(filePath);
-            createIt("Script.java", clase);
-            boolean compilat = compilar("Script", clase);
-            if (compilat) {
-                DemoApplication.cost=0;
-                //runIt("com.example.demo.Script");
-            } else System.out.println("Error de copilacio");
-        }
-        catch (IOException e) {
-            System.out.println(e.getMessage());
-        }
+    public void carregarAlgPath(String filePath) throws IOException {
+        String clase = llegirFitxer(filePath);
+        createIt("Script.java", clase);
+        boolean compilat = compilar("Script", clase);
+        if (compilat) {
+            DemoApplication.cost=0;
+        } else throw new RuntimeException("Error de copilacio, si us plau revisa el codi");
+
 
     }
-    public void carregarAlgContent(String contentExecute) {
-        try {
-            String contentclase = llegirContent(contentExecute);
-            createIt("Script.java", contentclase);
-            boolean compilat = compilar("Script", contentclase);
-            if (compilat) {
-                DemoApplication.cost=0;
-                //runIt("com.example.demo.Script");
-            } else System.out.println("Error de copilacio");
-        }
-        catch (IOException e) {
-            System.out.println(e.getMessage());
-        }
-
+    public void carregarAlgContent(String contentExecute) throws IOException {
+        String contentclase = llegirContent(contentExecute);
+        createIt("Script.java", contentclase);
+        boolean compilat = compilar("Script", contentclase);
+        if (compilat) {
+            DemoApplication.cost=0;
+        } else throw new RuntimeException("Error de copilacio, si us plau revisa el codi");
     }
     public void executar() {
         try {
@@ -190,7 +178,7 @@ public class AlgorismeService {
             runIt("com.example.demo.Script");
         }
         catch (ClassNotFoundException|InvocationTargetException| InstantiationException| IllegalAccessException| NoSuchMethodException e) {
-            System.out.println(e.getMessage());
+            throw new RuntimeException("No s'ha pogut executar l'algorisme, segurament no s'ha carregat correctament");
         }
     }
 }

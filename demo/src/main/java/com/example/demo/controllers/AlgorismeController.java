@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.PrintStream;
 import java.lang.reflect.InvocationTargetException;
 
@@ -20,19 +21,19 @@ public class AlgorismeController {
     @Autowired
     AlgorismeService algorismeService;
     @PostMapping("/executarAlgPath")
-    public String executarAlgPath(@RequestParam String algorisme_path, Model m) {
+    public String executarAlgPath(@RequestParam String algorisme_path, Model m) throws IOException {
         algorismeService.carregarAlgPath(algorisme_path);
         m.addAttribute("mensaje", "Algorisme carregat correctament");
         return "executarAlgPath";
     }
     @PostMapping("/executarAlgContent")
-    public String executarAlgContent(@RequestParam String executarAlgContent, Model m) {
+    public String executarAlgContent(@RequestParam String executarAlgContent, Model m) throws IOException {
         algorismeService.carregarAlgContent(executarAlgContent);
         m.addAttribute("mensaje", "Algorisme carregat correctament");
         return "executarAlgContent";
     }
     @PostMapping("/executarP")
-    public String executarP( Model m) {
+    public String executarP( Model m) throws ClassNotFoundException, InvocationTargetException, InstantiationException, IllegalAccessException, NoSuchMethodException {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         PrintStream printStream = new PrintStream(baos);
         PrintStream originalOut = System.out;
@@ -47,7 +48,7 @@ public class AlgorismeController {
         return "executarAlgPath";
     }
     @PostMapping("/executarC")
-    public String executarC( Model m) {
+    public String executarC( Model m) throws ClassNotFoundException, InvocationTargetException, InstantiationException, IllegalAccessException, NoSuchMethodException {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         PrintStream printStream = new PrintStream(baos);
         PrintStream originalOut = System.out;
@@ -63,7 +64,7 @@ public class AlgorismeController {
     }
     @ExceptionHandler(Exception.class)
     public String handleException(Exception ex, Model model) {
-        String errorMessage = "Se produjo un error."; // Mensaje de error personalizado
+        String errorMessage = ex.getMessage();
         model.addAttribute("errorMessage", errorMessage);
         return "error";
     }
