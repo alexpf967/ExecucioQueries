@@ -169,8 +169,14 @@ public class IndexBService {
         if (exists) {
             long taula_id = indexBRepository.findTaulaIDByIndexBID(indexB_id);
             String nom_taula = taulaRepository.findNomByTaulaID(taula_id);
+            int u = indexBRepository.EntriesFullaIndexHash(indexB_id);
+            int card = taulaService.nTuplas(taula_id);
+            double logu = Math.log10(u);
+            double logc = Math.log10(card);
+            double hh = logc / logu;
+            int h = (int) Math.ceil(hh);
             int nFulles = getNumFulles(indexB_id);
-            res = "L'index B+ " + nom_indexb + " de la taula " + nom_taula + " té " + nFulles +" fulles:\n";
+            res = "L'index B+ " + nom_indexb + " de la taula " + nom_taula + " té " + nFulles +" fulles i la seva altura es h = " + h +" :\n";
             for(int i = 1; i <= nFulles; ++i) {
                 res += "La fulla " + i + " té les següents entrades: \n";
                 List<Entrada> le = entradaRepository.findEntradaByIndexBIDandNFulla(indexB_id, i);
