@@ -90,7 +90,7 @@ public class AlgorismeService {
     }
 
     public void createIt(String classname, String content) throws IOException {
-        String outputDirectory = System.getProperty("user.dir") + File.separator + "demo"+ File.separator +"src"+ File.separator +"main"+ File.separator +"java"+ File.separator+"com"+ File.separator+"example"+ File.separator+"demo"+ File.separator;
+        String outputDirectory = System.getProperty("user.dir") + File.separator +"src"+ File.separator +"main"+ File.separator +"java"+ File.separator+"com"+ File.separator+"example"+ File.separator+"demo"+ File.separator;
         File directory = new File(outputDirectory);
         File outputFile = new File(directory, classname);
         FileWriter aw = new FileWriter(outputFile);
@@ -104,7 +104,7 @@ public class AlgorismeService {
         try {
             JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
             JavaFileManager fileManager = compiler.getStandardFileManager(null, null, null);
-            String outputDirectory = System.getProperty("user.dir") + File.separator + "demo" + File.separator + "target" + File.separator + "classes" + File.separator;
+            String outputDirectory = System.getProperty("user.dir") + File.separator + "target" + File.separator + "classes" + File.separator;
             ((StandardJavaFileManager) fileManager).setLocation(StandardLocation.CLASS_OUTPUT, Arrays.asList(new File(outputDirectory)));
 
             JavaFileObject s = new DynamicJavaFileObject(classname, content);
