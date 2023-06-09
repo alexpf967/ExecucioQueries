@@ -162,4 +162,54 @@ public class TestBlocService {
         Assertions.assertEquals(2, actual.getId());
 
     }
+    @Test
+    public void getBlocsByTaulaID() {
+        Taula taula = new Taula("TestCreacioTaula");
+        taula.setId((long)1);
+        Bloc b = new Bloc(taula);
+        b.setId(1L);
+        Bloc b2 = new Bloc(taula);
+        b2.setId(2L);
+        Bloc b3 = new Bloc(taula);
+        b3.setId(3L);
+        taula.addBloc(b);
+        taula.addBloc(b2);
+        taula.addBloc(b3);
+        List<Bloc> sb = new ArrayList<>();
+        sb.add(b);
+        sb.add(b2);
+        sb.add(b3);
+        when(blocRepository.findByTaulaID(1L)).thenReturn(sb);
+
+        List<Bloc> res = blocService.getBlocsByTaulaID(taula.getId());
+
+        Assertions.assertEquals(sb,res);
+
+    }
+    @Test
+    public void getAllTuplas() {
+        Taula taula = new Taula("TestCreacioTaula");
+        taula.setId((long)1);
+        Bloc b = new Bloc(taula);
+        b.setId(1L);
+        Tupla t = new Tupla("testTupla1", b);
+        t.setId(1L);
+        Tupla t2 = new Tupla("testTupla2", b);
+        t2.setId(2L);
+        Tupla t3 = new Tupla("testTupla3", b);
+        t3.setId(3L);
+        b.addTupla(t);
+        b.addTupla(t2);
+        b.addTupla(t3);
+        List<Tupla> st = new ArrayList<Tupla>();
+        st.add(t);
+        st.add(t2);
+        st.add(t3);
+        when(tuplaService.getTuplasByBlocID(1L)).thenReturn(st);
+
+
+        List<Tupla> res = blocService.getAllTuplas(b.getId());
+        Assertions.assertEquals(st,res);
+
+    }
 }

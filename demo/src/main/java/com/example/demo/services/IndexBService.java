@@ -25,6 +25,8 @@ public class IndexBService {
     private TaulaService taulaService;
     @Autowired
     private TaulaRepository taulaRepository;
+    @Autowired
+    private EntradaService entradaService;
 
 
     public IndexB saveIndexB(IndexB indexB) {return indexBRepository.save(indexB);}
@@ -40,22 +42,8 @@ public class IndexBService {
     }
     public Entrada getEntrada(long entrada_id) {
         DemoApplication.sum_cost(1);
-        return entradaRepository.findById(entrada_id).orElse(null);
+        return entradaService.getEntrada(entrada_id);
     }
-
-    public Entrada getNEntrada (long index_id, int n) {
-        boolean exists = indexBRepository.existsById(index_id);
-        if(exists) {
-            List<Entrada> se = entradaRepository.findByIndexBID(index_id);
-            if (n < se.size()) {
-                Entrada e = se.get(n);
-                DemoApplication.sum_cost(1);
-                return e;
-            }
-        }
-        return null;
-    }
-
 
     public void updateEntradas(long index_id){
         boolean exists = indexBRepository.existsById(index_id);
@@ -63,7 +51,7 @@ public class IndexBService {
 
         if(exists) {
             long taula_id = indexBRepository.findTaulaIDByIndexBID(index_id);
-            List<Bloc> sb = blocService.getBlocByTaulaID(taula_id);
+            List<Bloc> sb = blocService.getBlocsByTaulaID(taula_id);
             for(int i = 0; i < sb.size(); ++i) {
                 List<Tupla> st = tuplaRepository.findByBlocID(sb.get(i).getId());
                 for(int j = 0; j < st.size(); ++j) {

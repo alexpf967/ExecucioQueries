@@ -73,7 +73,7 @@ public class TestIndexHashService {
 
 
         List<Bloc> lb = new ArrayList<>(taula.getTaula());
-        when(blocService.getBlocByTaulaID(1L)).thenReturn(lb);
+        when(blocService.getBlocsByTaulaID(1L)).thenReturn(lb);
         when(blocRepository.findByTaulaID(1L)).thenReturn(lb);
         List<Tupla> lt = new ArrayList<>(b.getBloc());
         when(tuplaRepository.findByBlocID(1L)).thenReturn(lt);
@@ -109,33 +109,6 @@ public class TestIndexHashService {
             }
         }
     }
-    @Test
-    public void getNentrada (){
-        Taula taula = new Taula("TestIndexHash");
-        taula.setId((long)1);
-        Bloc b = new Bloc(taula);
-        b.setId(1L);
-        List<Entrada> le = new ArrayList<>();
-        IndexHash ih = new IndexHash("TestIndexHash", 0.8, 5, 5, taula);
-        for(int i = 0; i < 5; ++i) {
-            Tupla t = new Tupla("tupla"+i, b);
-            t.setId((long)i);
-            b.addTupla(t);
-            ih.add_entrada(new Entrada(t.getId(), 0, i, ih));
-            le.add(new Entrada(t.getId(), 0, i, ih));
-        }
-        taula.addBloc(b);
-        ih.setId(1L);
-        when(indexHashRepository.existsById(1L)).thenReturn(true);
-        when(indexHashRepository.findById(1L)).thenReturn(Optional.of(ih));
-        when(entradaRepository.findByIndexHashID(1L)).thenReturn(le);
-
-        Entrada n = indexHashService.getNEntrada(ih.getId(), 1);
-
-        Assertions.assertEquals(1, n.getTupla_id());
-
-    }
-
     @Test
     public void getBucketN (){
         Taula taula = new Taula("TestIndexHash");
@@ -234,5 +207,16 @@ public class TestIndexHashService {
         int n = indexHashService.cercaBucket(ih.getId(), 18L);
         Assertions.assertEquals(4, n);
     }
+    @Test
+    public void findIDByNomIndexHash () {
+        Taula taula = new Taula("TestIndexHash");
+        taula.setId((long) 1);
+        IndexHash ib = new IndexHash("TestIndexHash", 0.8, 5, 4, taula);
+        ib.setId(1L);
+        when(indexHashRepository.findIDByNomIndexHash("TestIndexHash")).thenReturn(1L);
 
+        long id = indexHashService.findIDByNomIndexHash(ib.getNom_indexHash());
+        Assertions.assertEquals(1L, id);
+
+    }
 }

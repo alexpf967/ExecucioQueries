@@ -104,7 +104,7 @@ class TestTaulaService {
         sb.add(b2);
         when(taulaRepository.existsById(anyLong())).thenReturn(true);
         when(taulaRepository.findById(anyLong())).thenReturn(Optional.of(taula));
-        when(blocService.getBlocByTaulaID(anyLong())).thenReturn(sb);
+        when(blocService.getBlocsByTaulaID(anyLong())).thenReturn(sb);
         when(blocRepository.findById(1L)).thenReturn(Optional.of(b));
         when(blocRepository.findById(2L)).thenReturn(Optional.of(b2));
         when(tuplaRepository.findByBlocID(1L)).thenReturn(st);
@@ -123,6 +123,25 @@ class TestTaulaService {
 
     }
     @Test
+    public void getAllBlocs() {
+        Taula taula = new Taula("TestCreacioTaula");
+        taula.setId((long) 1);
+        Bloc b = new Bloc(taula);
+        b.setId(1L);
+        Bloc b2 = new Bloc(taula);
+        b2.setId(2L);
+        taula.addBloc(b);
+        taula.addBloc(b2);
+        List<Bloc> sb = new ArrayList<Bloc>();
+        sb.add(b);
+        sb.add(b2);
+        when(blocService.getBlocsByTaulaID(anyLong())).thenReturn(sb);
+
+        List<Bloc> res = taulaService.getAllBlocs(taula.getId());
+        Assertions.assertEquals(res, sb);
+
+    }
+    @Test
     void getNBlocToTaula() {
         Taula taula = new Taula("TestCreacioTaula");
         taula.setId(1L);
@@ -135,7 +154,7 @@ class TestTaulaService {
         sb.add(b2);
         when(taulaRepository.existsById(anyLong())).thenReturn(true);
         when(taulaRepository.findById(anyLong())).thenReturn(Optional.of(taula));
-        when(blocService.getBlocByTaulaID(anyLong())).thenReturn(sb);
+        when(blocService.getBlocsByTaulaID(anyLong())).thenReturn(sb);
 
         Bloc b00 = taulaService.getNBloc(taula.getId(), 1);
         Bloc b01 = taulaService.getNBloc(taula.getId(), 2);
@@ -209,11 +228,9 @@ class TestTaulaService {
 
         when(taulaRepository.existsById(anyLong())).thenReturn(true);
         when(taulaRepository.findById(anyLong())).thenReturn(Optional.of(taula));
-        when(blocService.getBlocByTaulaID(anyLong())).thenReturn(sb);
+        when(blocService.getBlocsByTaulaID(anyLong())).thenReturn(sb);
         when(blocRepository.findById(1L)).thenReturn(Optional.of(b));
         when(blocRepository.findById(2L)).thenReturn(Optional.of(b2));
-
-        //when(tuplaService.saveTupla(any(Tupla.class))).thenReturn(st2);
 
         taulaService.addTupla_BlocN(taula.getId(), 1, "BlocN");
         taulaService.addTupla_BlocN(taula.getId(), 2, "BlocN");
@@ -244,7 +261,7 @@ class TestTaulaService {
 
         when(taulaRepository.existsById(anyLong())).thenReturn(true);
         when(taulaRepository.findById(anyLong())).thenReturn(Optional.of(taula));
-        when(blocService.getBlocByTaulaID(anyLong())).thenReturn(sb);
+        when(blocService.getBlocsByTaulaID(anyLong())).thenReturn(sb);
         when(blocRepository.findById(1L)).thenReturn(Optional.of(b));
         when(tuplaService.getTuplasByBlocID(1L)).thenReturn(new ArrayList<>(b.getBloc()));
         when(tuplaService.getTuplaById(2L)).thenReturn(t2);
@@ -325,6 +342,67 @@ class TestTaulaService {
         Assertions.assertEquals("swap2", lt.get(1).getAtribut());
         Assertions.assertEquals("swap3", lt.get(2).getAtribut());
 
+
+    }
+    @Test
+    public void getIDbynomTaula() {
+        Taula taula = new Taula("TestCreacioTaula");
+        taula.setId(1L);
+        when(taulaRepository.findIDByNomTaula("TestCreacioTaula")).thenReturn(1L);
+
+        long id = taulaService.getIDbynomTaula(taula.getNom_taula());
+        Assertions.assertEquals(1L, id);
+
+    }
+    @Test
+    public void nBlocs() {
+        Taula taula = new Taula("TestCreacioTaula");
+        taula.setId(1L);
+        Bloc b = new Bloc(taula);
+        b.setId(1L);
+        Bloc b2 = new Bloc(taula);
+        b2.setId(2L);
+        List<Bloc> sb = new ArrayList<Bloc>();
+        sb.add(b);
+        sb.add(b2);
+        taula.addBloc(b);
+        taula.addBloc(b2);
+        when(blocService.getBlocsByTaulaID(1L)).thenReturn(sb);
+
+        int nBlocs = taulaService.nBlocs(taula.getId());
+        Assertions.assertEquals(2, nBlocs);
+
+    }
+    @Test
+    public void nTuplas() {
+        Taula taula = new Taula("TestCreacioTaula");
+        taula.setId(1L);
+        Bloc b = new Bloc(taula);
+        b.setId(1L);
+        Tupla t1 = new Tupla("t1", b);
+        t1.setId(1L);
+        b.addTupla(t1);
+        Tupla t2 = new Tupla("t2", b);
+        t2.setId(2L);
+        b.addTupla(t2);
+        Tupla t3 = new Tupla("t3", b);
+        t3.setId(3L);
+        b.addTupla(t3);
+        List<Bloc> sb = new ArrayList<Bloc>();
+        sb.add(b);
+        List<Tupla> st = new ArrayList<>();
+        st.add(t1);
+        st.add(t2);
+        st.add(t3);
+        taula.addBloc(b);
+        when(taulaRepository.existsById(anyLong())).thenReturn(true);
+        when(blocService.getBlocsByTaulaID(1L)).thenReturn(sb);
+        when(tuplaService.getTuplasByBlocID(1L)).thenReturn(st);
+        when(blocService.Ntuplas(1L)).thenReturn(3);
+
+
+        int nTuplas = taulaService.nTuplas(taula.getId());
+        Assertions.assertEquals(3, nTuplas);
 
     }
 

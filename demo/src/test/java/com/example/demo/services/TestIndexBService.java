@@ -5,11 +5,9 @@ import com.example.demo.classes.*;
 import com.example.demo.repositories.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.mock.mockito.SpyBean;
-import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.ContextConfiguration;
 
 import java.util.ArrayList;
@@ -60,7 +58,7 @@ public class TestIndexBService {
         ib.setId(1L);
         when(indexBRepository.findById(1L)).thenReturn(Optional.of(ib));
         List<Bloc> lb = new ArrayList<>(taula.getTaula());
-        when(blocService.getBlocByTaulaID(1L)).thenReturn(lb);
+        when(blocService.getBlocsByTaulaID(1L)).thenReturn(lb);
         when(blocRepository.findByTaulaID(1L)).thenReturn(lb);
         List<Tupla> lt = new ArrayList<>(b.getBloc());
         when(tuplaRepository.findByBlocID(1L)).thenReturn(lt);
@@ -125,32 +123,6 @@ public class TestIndexBService {
         for(Entrada e1 : ib1.getFulles()) {
             Assertions.assertEquals(1, e1.getnFulla());
         }
-    }
-    @Test
-    public void getNentrada (){
-        Taula taula = new Taula("TestIndexB");
-        taula.setId((long)1);
-        Bloc b = new Bloc(taula);
-        b.setId(1L);
-        List<Entrada> le = new ArrayList<>();
-        IndexB ib = new IndexB("TestIndexB", 0.8, 5, taula);
-        for(int i = 0; i < 5; ++i) {
-            Tupla t = new Tupla("tupla"+i, b);
-            t.setId((long)i);
-            b.addTupla(t);
-            ib.add_fulla(new Entrada(t.getId(), 0, i, ib));
-            le.add(new Entrada(t.getId(), 0, i, ib));
-        }
-        taula.addBloc(b);
-        ib.setId(1L);
-        when(indexBRepository.existsById(1L)).thenReturn(true);
-        when(indexBRepository.findById(1L)).thenReturn(Optional.of(ib));
-        when(entradaRepository.findByIndexBID(1L)).thenReturn(le);
-
-        Entrada n = indexBService.getNEntrada(ib.getId(), 1);
-
-        Assertions.assertEquals(1, n.getTupla_id());
-
     }
     @Test
     public void getNfulla (){
@@ -262,5 +234,17 @@ public class TestIndexBService {
 
         int n = indexBService.cercaFulla(ib.getId(), 18L);
         Assertions.assertEquals(1, n);
+    }
+    @Test
+    public void findIDByNomIndexB () {
+        Taula taula = new Taula("TestIndexB");
+        taula.setId((long) 1);
+        IndexB ib = new IndexB("TestIndexB", 0.8, 5, taula);
+        ib.setId(1L);
+        when(indexBRepository.findIDByNomIndexB("TestIndexB")).thenReturn(1L);
+
+        long id = indexBService.findIDByNomIndexB(ib.getNom_indexB());
+        Assertions.assertEquals(1L, id);
+
     }
 }

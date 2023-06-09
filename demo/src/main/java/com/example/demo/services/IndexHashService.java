@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -27,6 +26,8 @@ public class IndexHashService {
     private TaulaService taulaService;
     @Autowired
     private TaulaRepository taulaRepository;
+    @Autowired
+    private EntradaService entradaService;
 
     public IndexHash saveIndexHash(IndexHash indexHash) {return indexHashRepository.save(indexHash);}
     public long findIDByNomIndexHash (String nom) {
@@ -41,18 +42,7 @@ public class IndexHashService {
     }
     public Entrada getEntrada(long entrada_id) {
         DemoApplication.sum_cost(1);
-        return entradaRepository.findById(entrada_id).orElse(null);
-    }
-    public Entrada getNEntrada (long index_id, int n) {
-        boolean exists = indexHashRepository.existsById(index_id);
-        if(exists) {
-            List<Entrada> se = entradaRepository.findByIndexHashID(index_id);
-            if (n < se.size()) {
-                Entrada e = se.get(n);
-                return e;
-            }
-        }
-        return null;
+        return entradaService.getEntrada(entrada_id);
     }
     public void update_indexHash(long index_id) {
         long id = indexHashRepository.findTaulaIDByIndexHashID(index_id);
@@ -61,7 +51,7 @@ public class IndexHashService {
             boolean exists = indexHashRepository.existsById(index_id);
             if(exists) {
                 long taula_id = indexHashRepository.findTaulaIDByIndexHashID(index_id);
-                List<Bloc> sb = blocService.getBlocByTaulaID(taula_id);
+                List<Bloc> sb = blocService.getBlocsByTaulaID(taula_id);
                 for (int i = 0; i < sb.size(); ++i) {
                     List<Tupla> st = tuplaRepository.findByBlocID(sb.get(i).getId());
                     for (int j = 0; j < st.size(); ++j) {

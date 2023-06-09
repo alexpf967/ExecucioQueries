@@ -3,12 +3,10 @@ package com.example.demo.services;
 import com.example.demo.classes.Bloc;
 import com.example.demo.classes.Tupla;
 import com.example.demo.repositories.BlocRepository;
-import com.example.demo.repositories.TuplaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -20,9 +18,6 @@ public class BlocService {
 
     public Bloc saveBloc(Bloc bloc) {return blocRepository.save(bloc);}
 
-    public List<Bloc> saveBlocs(List<Bloc> blocs) {
-        return (List<Bloc>) blocRepository.saveAll(blocs);
-    }
     public void removeBloc(long bloc_id) {
         Bloc bloc = blocRepository.findById(bloc_id).orElse(null);
         if (bloc != null) {
@@ -68,8 +63,7 @@ public class BlocService {
         }
     }
     public int Ntuplas (long bloc_id) {
-        Bloc bloc = blocRepository.findById(bloc_id).orElse(null);
-        return bloc.nTuplas();
+        return tuplaService.getTuplasByBlocID(bloc_id).size();
     }
 
     public Tupla getNTupla (long bloc_id, int n) {
@@ -78,7 +72,7 @@ public class BlocService {
         Tupla t = st.get(n);
         return t;
     }
-    public List<Bloc> getBlocByTaulaID(long taula_id) {
+    public List<Bloc> getBlocsByTaulaID(long taula_id) {
         return blocRepository.findByTaulaID(taula_id);
     }
 
@@ -93,9 +87,8 @@ public class BlocService {
         }
     }
 
-    public Set<Tupla> getAllTuplas(long bloc_id){
-        Bloc b = blocRepository.findById(bloc_id).orElse(null);
-        return b.getBloc();
+    public List<Tupla> getAllTuplas(long bloc_id){
+        return tuplaService.getTuplasByBlocID(bloc_id);
     }
     public String consultarBloc (long bloc_id) {
         Bloc bloc = blocRepository.findById(bloc_id).orElse(null);

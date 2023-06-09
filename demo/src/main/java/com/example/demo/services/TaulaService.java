@@ -27,9 +27,6 @@ public class TaulaService {
 
 
     public Taula saveTaula(Taula taula) {return taulaRepository.save(taula);}
-    public Taula findTaulaByNom (String nom) {
-        return taulaRepository.findByNomTaula(nom);
-    }
 
     public void add_bloc(long taula_id) {
         boolean exists = taulaRepository.existsById(taula_id);
@@ -61,22 +58,21 @@ public class TaulaService {
     public void showTaula(long taula_id) {
         boolean exists = taulaRepository.existsById(taula_id);
         if (exists) {
-            List<Bloc> b = blocService.getBlocByTaulaID(taula_id);
+            List<Bloc> b = blocService.getBlocsByTaulaID(taula_id);
             System.out.println("La Taula amb id = "+taula_id+", té "+b.size()+" blocs:");
             for(Bloc bloc : b) {
                 blocService.printBloc(bloc.getId());
             }
         }
     }
-    public Set<Bloc> getAllBlocs(long taula_id){
-        Taula taula = taulaRepository.findById(taula_id).orElse(null);
-        return taula.getTaula();
+    public List<Bloc> getAllBlocs(long taula_id){
+        return blocService.getBlocsByTaulaID(taula_id);
     }
 
     public Bloc getNBloc (long taula_id, int n) {
         boolean exists = taulaRepository.existsById(taula_id);
         if (exists) {
-            List<Bloc> sb = blocService.getBlocByTaulaID(taula_id);
+            List<Bloc> sb = blocService.getBlocsByTaulaID(taula_id);
             if (n > 0 && n <= sb.size()) {
                 DemoApplication.sum_cost(1);
                 Bloc b = sb.get(n-1);
@@ -142,7 +138,7 @@ public class TaulaService {
     public void removeTaula(long taula_id) {
         boolean exists = taulaRepository.existsById(taula_id);
         if (exists) {
-            List<Bloc> sb = blocService.getBlocByTaulaID(taula_id);
+            List<Bloc> sb = blocService.getBlocsByTaulaID(taula_id);
             for (Bloc b : sb) {
                 Bloc bl = blocService.getBlocById(b.getId());
                 this.remove_bloc(taula_id, bl.getId());
@@ -157,16 +153,16 @@ public class TaulaService {
     }
 
     public int nBlocs (long taula_id) {
-        return blocService.getBlocByTaulaID(taula_id).size();
+        return blocService.getBlocsByTaulaID(taula_id).size();
     }
 
     public int nTuplas (long taula_id) {
         boolean exists = taulaRepository.existsById(taula_id);
         int cont = 0;
         if (exists) {
-            List<Bloc> sb = blocService.getBlocByTaulaID(taula_id);
-            for (int i = 1; i < sb.size(); ++i) {
-                Bloc b = sb.get(i-1);
+            List<Bloc> sb = blocService.getBlocsByTaulaID(taula_id);
+            for (int i = 0; i < sb.size(); ++i) {
+                Bloc b = sb.get(i);
                 cont += blocService.Ntuplas(b.getId());
             }
         }
@@ -177,7 +173,7 @@ public class TaulaService {
         boolean exists = taulaRepository.existsById(taula_id);
         String res = "";
         if (exists) {
-            List<Bloc> b = blocService.getBlocByTaulaID(taula_id);
+            List<Bloc> b = blocService.getBlocsByTaulaID(taula_id);
             res = "La Taula amb id = "+taula_id+", té "+b.size()+" blocs:\n";
             for(Bloc bloc : b) {
                 res += blocService.consultarBloc(bloc.getId());
