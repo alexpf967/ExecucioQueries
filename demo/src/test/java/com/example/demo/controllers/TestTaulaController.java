@@ -105,7 +105,6 @@ public class TestTaulaController {
         taula.addBloc(b);
         when(taulaRepository.existsById(1L)).thenReturn(true);
         when(taulaRepository.findById(1L)).thenReturn(Optional.of(taula));
-        when(blocRepository.save(any(Bloc.class))).thenReturn(b);
         String nb = "1";
         String atribut = "atribut";
         String res = taulaController.addTuplaNBlocTaula(nom_taula, nb, atribut, model);
