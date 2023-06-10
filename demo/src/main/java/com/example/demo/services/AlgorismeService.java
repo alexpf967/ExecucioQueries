@@ -63,7 +63,7 @@ public class AlgorismeService {
             "    @Autowired\n" +
             "    public EntradaService entradaService;\n" +
             "\n" +
-            "    @Autowired    \n" +
+            "    @Autowired\n" +
             "    public Script(TuplaService tuplaService, BlocService blocService, TaulaService taulaService, IndexBService indexBService, IndexHashService indexHashService, EntradaService entradaService) {\n" +
             "        this.tuplaService = tuplaService;\n" +
             "        this.blocService = blocService;\n" +
@@ -85,7 +85,7 @@ public class AlgorismeService {
     }
     public String llegirContent (String content) {
         String res = stringClass;
-        res = res.concat(content+"}");
+        res = res.concat(content+"\n}");
         return res;
     }
 
