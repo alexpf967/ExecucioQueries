@@ -28,6 +28,7 @@ public class IndexHashService {
     private TaulaRepository taulaRepository;
     @Autowired
     private EntradaService entradaService;
+    private int bucket_actual;
 
     public IndexHash saveIndexHash(IndexHash indexHash) {return indexHashRepository.save(indexHash);}
     public long findIDByNomIndexHash (String nom) {
@@ -119,6 +120,7 @@ public class IndexHashService {
             for (Entrada e : le) {
                 if (e.getTupla_id() == tupla_id) {
                     DemoApplication.sum_cost(2);
+                    bucket_actual = e.getnBucket();
                     return e.getnBucket();
                 }
             }
@@ -143,6 +145,19 @@ public class IndexHashService {
             }
         }
         return res;
+    }
+    public void primerBucket() {
+        bucket_actual = 1;
+    }
+    public void seguentBucket() {
+        bucket_actual += 1;
+    }
+
+    public List<Entrada> getBucket(long indexb_id) {
+        return getBucketN(indexb_id, bucket_actual);
+    }
+    public int getBucket_actual() {
+        return bucket_actual;
     }
 
 }
