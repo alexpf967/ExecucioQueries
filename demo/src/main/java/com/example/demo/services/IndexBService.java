@@ -27,6 +27,7 @@ public class IndexBService {
     private TaulaRepository taulaRepository;
     @Autowired
     private EntradaService entradaService;
+    private int fulla_actual = 1;
 
 
     public IndexB saveIndexB(IndexB indexB) {return indexBRepository.save(indexB);}
@@ -141,7 +142,7 @@ public class IndexBService {
                     double logu = Math.log10(u);
                     double logc = Math.log10(card);
                     double hh = logc / logu;
-                    int h = (int) Math.ceil(hh);
+                    int h = (int) Math.ceil(hh)-1;
                     DemoApplication.sum_cost(h + 1);
                     return e.getnFulla();
                 }
@@ -174,7 +175,7 @@ public class IndexBService {
             double logu = Math.log10(u);
             double logc = Math.log10(card);
             double hh = logc / logu;
-            int h = (int) Math.ceil(hh);
+            int h = (int) Math.ceil(hh)-1;
             int nFulles = getNumFulles(indexB_id);
             res = "L'index B+ " + nom_indexb + " de la taula " + nom_taula + " té " + nFulles +" fulles i la seva altura es h = " + h +" :\n";
             for(int i = 1; i <= nFulles; ++i) {
@@ -186,5 +187,22 @@ public class IndexBService {
             }
         }
         return res;
+    }
+    public void primeraFulla() {
+        fulla_actual = 1;
+    }
+    public void seguentFulla() {
+        fulla_actual += 1;
+    }
+
+    public List<Entrada> getFulla(long indexb_id) {
+        return getFullaN(indexb_id, fulla_actual);
+    }
+    public int getFulla_actual() {
+        return fulla_actual;
+    }
+
+    public String getIndexBNomByTaulaID (long taula_id) {
+        return indexBRepository.findNomIndexBByTaulaID(taula_id);
     }
 }

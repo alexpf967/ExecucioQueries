@@ -36,11 +36,13 @@ public class TaulaController {
         try {
             int nB = Integer.parseInt(nBloc);
             int nT = Integer.parseInt(nTupla);
+            if(nB < 1 || nT < 1) throw new RuntimeException("El nombre de blocs i el nombre de tuplas ha de ser >=1");
             taulaService.populate(nom_taula, nB, nT);
             m.addAttribute("mensaje", "S'ha fet populate correctament la taula " + nom_taula);
             return "populateTaula";
         } catch (Exception e) {
-            throw new Exception("No existeix cap taula amb el nom indicat o alguna de les dades és incorrecte");
+            if (e.getMessage().equals("El nombre de blocs i el nombre de tuplas ha de ser >=1"))throw new Exception("El nombre de blocs i el nombre de tuplas ha de ser >=1");
+            else throw new Exception("No existeix cap taula amb el nom indicat o alguna de les dades és incorrecte");
         }
     }
     @PostMapping("/addBlocTaula")
@@ -66,7 +68,7 @@ public class TaulaController {
             throw new Exception("No existeix cap taula amb el nom indicat o el NBloc és incorrecte");
         }
     }
-    @PostMapping("/consultarTaula")
+    @GetMapping("/consultarTaula")
     public String consultarTaula(@RequestParam String nom_taula, Model m) throws Exception {
         try {
             long id = taulaService.getIDbynomTaula(nom_taula);

@@ -10,10 +10,7 @@ import com.example.demo.services.IndexHashService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/api/indexhash")
@@ -34,19 +31,27 @@ public class IndexHashController {
             if(to < 1) throw new RuntimeException("L'ordre del arbre ha de ser un enter positiu >=1");
             if(nb < 1) throw new RuntimeException("El nombre de buckets ha de ser un enter positiu >=1");
             Taula t = taulaRepository.findByNomTaula(nom_taula);
-            IndexHash ih = new IndexHash(nom_indexh, fc, to, nb, t);
-            ih = indexHashService.saveIndexHash(ih);
-            indexHashService.update_indexHash(ih.getId());
-            m.addAttribute("mensaje", "S'ha creat correctament l'index Hash " + nom_indexh + " a la taula " + nom_taula);
-            return "crearIndexHash";
+            String nom = indexHashService.getIndexHashNomByTaulaID(t.getId());
+            if(nom != null) {
+                throw new RuntimeException("Ja existeix un indexHash amb nom = "+nom+" en la taula "+nom_taula);
+            }
+            else {
+                IndexHash ih = new IndexHash(nom_indexh, fc, to, nb, t);
+                ih = indexHashService.saveIndexHash(ih);
+                indexHashService.update_indexHash(ih.getId());
+                m.addAttribute("mensaje", "S'ha creat correctament l'index Hash " + nom_indexh + " a la taula " + nom_taula);
+                return "crearIndexHash";
+            }
         }catch (Exception e) {
+            String nom = indexHashService.getIndexHashNomByTaulaID(taulaRepository.findIDByNomTaula(nom_taula));
             if (e.getMessage().equals("El factor de carrega ha d'estar entre 0 i 1"))throw new Exception("El factor de carrega ha d'estar entre 0 i 1");
+            else if (e.getMessage().equals("Ja existeix un indexHash amb nom = "+nom+" en la taula "+nom_taula))throw new Exception("Ja existeix un indexHash amb nom = "+nom+" en la taula "+nom_taula);
             else if (e.getMessage().equals("L'ordre del arbre ha de ser un enter positiu >=1"))throw new Exception("L'ordre del arbre ha de ser un enter positiu >=1");
             else if (e.getMessage().equals("El nombre de buckets ha de ser un enter positiu >=1"))throw new Exception("El nombre de buckets ha de ser un enter positiu >=1");
             else throw new Exception("Ja existeix un index hash amb el nom indicat o no existeix cap taula amb el nom indicat ");
         }
     }
-    @PostMapping("/consultarIndexHash")
+    @GetMapping("/consultarIndexHash")
     public String consultarIndexHash(@RequestParam String nom_indexh, Model m) throws Exception {
         try {
             long id = indexHashRepository.findIDByNomIndexHash(nom_indexh);

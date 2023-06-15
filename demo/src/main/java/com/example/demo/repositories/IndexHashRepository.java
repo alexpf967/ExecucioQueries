@@ -15,4 +15,6 @@ public interface IndexHashRepository extends JpaRepository<IndexHash, Long> {
     Long findTaulaIDByIndexHashID (long indexhash_id);
     @Query(value = "SELECT i.n_buckets FROM index_hash i WHERE i.id = ?1", nativeQuery = true)
     int NbucketsIndexHash (long indexhash_id);
+    @Query(value = "SELECT i.nom_index_hash FROM index_hash i WHERE i.taula_id = ?1", nativeQuery = true)
+    String findNomIndexHashByTaulaID (long taula_id);
 }

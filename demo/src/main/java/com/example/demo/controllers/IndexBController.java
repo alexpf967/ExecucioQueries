@@ -28,18 +28,26 @@ public class IndexBController {
             if(fc < 0.0 || fc > 1.0) throw new RuntimeException("El factor de carrega ha d'estar entre 0 i 1");
             if(to < 1) throw new RuntimeException("L'ordre del arbre ha de ser un enter positiu >=1");
             Taula t = taulaRepository.findByNomTaula(nom_taula);
-            IndexB indexB = new IndexB(nom_indexb, fc, to, t);
-            indexB = indexBService.saveIndexB(indexB);
-            indexBService.update_indexB(indexB.getId());
-            m.addAttribute("mensaje", "S'ha creat correctament l'index B+ " + nom_indexb + " a la taula " + nom_taula);
-            return "crearIndexB";
+            String nom = indexBService.getIndexBNomByTaulaID(t.getId());
+            if(nom != null) {
+                throw new RuntimeException("Ja existeix un indexB amb nom = "+nom+" en la taula "+nom_taula);
+            }
+            else {
+                IndexB indexB = new IndexB(nom_indexb, fc, to, t);
+                indexB = indexBService.saveIndexB(indexB);
+                indexBService.update_indexB(indexB.getId());
+                m.addAttribute("mensaje", "S'ha creat correctament l'index B+ " + nom_indexb + " a la taula " + nom_taula);
+                return "crearIndexB";
+            }
         }catch (Exception e) {
+            String nom = indexBService.getIndexBNomByTaulaID(taulaRepository.findIDByNomTaula(nom_taula));
             if (e.getMessage().equals("El factor de carrega ha d'estar entre 0 i 1"))throw new Exception("El factor de carrega ha d'estar entre 0 i 1");
+            else if (e.getMessage().equals("Ja existeix un indexB amb nom = "+nom+" en la taula "+nom_taula))throw new Exception("Ja existeix un indexB amb nom = "+nom+" en la taula "+nom_taula);
             else if (e.getMessage().equals("L'ordre del arbre ha de ser un enter positiu >=1"))throw new Exception("L'ordre del arbre ha de ser un enter positiu >=1");
             else throw new Exception("Ja existeix un index B+ amb el nom indicat o no existeix cap taula amb el nom indicat ");
         }
     }
-    @PostMapping("/consultarIndexB")
+    @GetMapping("/consultarIndexB")
     public String consultarIndexB(@RequestParam String nom_indexb,Model m) throws Exception {
         try {
             long id = indexBRepository.findIDByNomIndexB(nom_indexb);

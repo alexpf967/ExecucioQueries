@@ -28,6 +28,8 @@ public class IndexHashService {
     private TaulaRepository taulaRepository;
     @Autowired
     private EntradaService entradaService;
+    private int bucket_actual = 1;
+
 
     public IndexHash saveIndexHash(IndexHash indexHash) {return indexHashRepository.save(indexHash);}
     public long findIDByNomIndexHash (String nom) {
@@ -143,6 +145,24 @@ public class IndexHashService {
             }
         }
         return res;
+    }
+
+    public void primerBucket() {
+        bucket_actual = 1;
+    }
+    public void seguentBucket() {
+        bucket_actual += 1;
+    }
+
+    public List<Entrada> getBucket(long indexb_id) {
+        return getBucketN(indexb_id, bucket_actual);
+    }
+    public int getBucket_actual() {
+        return bucket_actual;
+    }
+
+    public String getIndexHashNomByTaulaID (long taula_id) {
+        return indexHashRepository.findNomIndexHashByTaulaID(taula_id);
     }
 
 }
