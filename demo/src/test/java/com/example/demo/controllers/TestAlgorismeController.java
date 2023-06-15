@@ -11,8 +11,11 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.SpyBean;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.ui.Model;
+
+import java.nio.charset.StandardCharsets;
 
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doNothing;
@@ -30,14 +33,19 @@ public class TestAlgorismeController {
     public void executarAlgPath() throws Exception {
         MockitoAnnotations.initMocks(this);
         Model model = Mockito.mock(Model.class);
+        MockMultipartFile file = new MockMultipartFile(
+                "algorisme_file",
+                "test.txt",
+                "text/plain",
+                "public void execute(){}".getBytes(StandardCharsets.UTF_8)
+        );
 
-        String path = "/path/al/algorisme";
+        doNothing().when(algorismeService).carregarAlgContent(anyString());
+        String res = algorismeController.executarAlgPath(file, model);
 
-        doNothing().when(algorismeService).carregarAlgPath(anyString());
-        String resultado = algorismeController.executarAlgPath(path, model);
-
-        Assertions.assertEquals("executarAlgPath", resultado);
-        verify(algorismeService).carregarAlgPath(path);
+        Assertions.assertEquals("executarAlgPath", res);
+        String fileContent = new String(file.getBytes(), StandardCharsets.UTF_8);
+        verify(algorismeService).carregarAlgContent(fileContent);
         verify(model).addAttribute("mensaje", "Algorisme carregat correctament");
 
     }
@@ -49,9 +57,9 @@ public class TestAlgorismeController {
         String content = "funcio execute del algorisme completa";
 
         doNothing().when(algorismeService).carregarAlgContent(anyString());
-        String resultado = algorismeController.executarAlgContent(content, model);
+        String res = algorismeController.executarAlgContent(content, model);
 
-        Assertions.assertEquals("executarAlgContent", resultado);
+        Assertions.assertEquals("executarAlgContent", res);
         verify(algorismeService).carregarAlgContent(content);
         verify(model).addAttribute("mensaje", "Algorisme carregat correctament");
 

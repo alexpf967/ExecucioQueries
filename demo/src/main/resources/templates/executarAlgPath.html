@@ -15,11 +15,11 @@
     </style>
 </head>
 <body>
-<h1>Executar algorisme path</h1>
-<form action="#" th:action="@{/api/algorisme/executarAlgPath}" method="post">
+<h1>Executar algorisme fitxer</h1>
+<form action="#" th:action="@{/api/algorisme/executarAlgPath}" method="post" enctype="multipart/form-data">
   <div class="form-container">
-    <label for="algorisme_path">Indiqui el path al fitxer que conte l'algorisme a executar:</label>
-    <input type="text" id="algorisme_path" name="algorisme_path" required>
+    <label for="algorisme_file">Indiqui el fitxer que conte l'algorisme a executar:</label>
+    <input type="file" id="algorisme_file" name="algorisme_file" required>
   </div>
   <div class="form-container">
     <input type="submit" value="Carregar algorisme" />

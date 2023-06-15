@@ -9,11 +9,13 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.lang.reflect.InvocationTargetException;
+import java.nio.charset.StandardCharsets;
 
 @Controller
 @RequestMapping("/api/algorisme")
@@ -21,8 +23,9 @@ public class AlgorismeController {
     @Autowired
     AlgorismeService algorismeService;
     @PostMapping("/executarAlgPath")
-    public String executarAlgPath(@RequestParam String algorisme_path, Model m) throws IOException {
-        algorismeService.carregarAlgPath(algorisme_path);
+    public String executarAlgPath(@RequestParam("algorisme_file") MultipartFile file, Model m) throws IOException {
+        String fileContent = new String(file.getBytes(), StandardCharsets.UTF_8);
+        algorismeService.carregarAlgContent(fileContent);
         m.addAttribute("mensaje", "Algorisme carregat correctament");
         return "executarAlgPath";
     }
