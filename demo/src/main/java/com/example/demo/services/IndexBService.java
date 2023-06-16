@@ -89,10 +89,9 @@ public class IndexBService {
                 for(int j = 0; j < u && cont < le.size(); ++j) {
                     Entrada e = entradaRepository.findById(le.get(cont).getId()).orElse(null);
                     if (e != null) {
-                        if(e.getnFulla() == 0) {
                             e.setnFulla(i + 1);
                             entradaRepository.save(e);
-                        }
+
                     }
                     ++cont;
                 }
@@ -101,11 +100,10 @@ public class IndexBService {
     }
 
     public void update_indexB(long index_id) {
-        long id = indexBRepository.findTaulaIDByIndexBID(index_id);
-        if (taulaService.nTuplas(id) != entradaRepository.getEntradaForIndexB(index_id)) {
-            this.updateEntradas(index_id);
-            this.update_Nfulles(index_id);
-        }
+        List<Entrada> le = getEntradas(index_id);
+        entradaRepository.deleteAll(le);
+        this.updateEntradas(index_id);
+        this.update_Nfulles(index_id);
     }
 
     public List<Entrada> getFullaN (long index_id, int n) {

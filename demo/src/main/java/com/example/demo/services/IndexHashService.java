@@ -85,6 +85,11 @@ public class IndexHashService {
             }
         }
     }
+    public void update_indexH(long indexHash_id) {
+        List<Entrada> le = getEntradas(indexHash_id);
+        entradaRepository.deleteAll(le);
+        this.update_indexHash(indexHash_id);
+    }
     public int calculate_hash(int maxBuckets, int tupla_id) {
         int res = (tupla_id % maxBuckets);
         return res+1;

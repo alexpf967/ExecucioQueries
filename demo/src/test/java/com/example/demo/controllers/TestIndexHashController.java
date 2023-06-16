@@ -50,7 +50,7 @@ public class TestIndexHashController {
         when(taulaRepository.findByNomTaula("TestTaula")).thenReturn(taula);
         when(indexHashRepository.save(any(IndexHash.class))).thenReturn(indexH);
         when(indexHashService.saveIndexHash(any(IndexHash.class))).thenReturn(indexH);
-        doNothing().when(indexHashService).update_indexHash(1L);
+        doNothing().when(indexHashService).update_indexH(1L);
         String res = indexHashController.crearIndexHash("TestTaula", "TestIH", "0.8", "5", "4", model);
 
         Assertions.assertEquals("crearIndexHash", res);
@@ -71,7 +71,7 @@ public class TestIndexHashController {
         String [] linias = contingut.split("\n");
         when(indexHashRepository.findIDByNomIndexHash("TestIH")).thenReturn(1L);
         when(indexHashService.consultarIndexHash(1L,"TestIH")).thenReturn(contingut);
-        doNothing().when(indexHashService).update_indexHash(1L);
+        doNothing().when(indexHashService).update_indexH(1L);
         String res = indexHashController.consultarIndexHash("TestIH", model);
 
         Assertions.assertEquals("consultarIndexHash", res);
