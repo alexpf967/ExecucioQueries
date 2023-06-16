@@ -40,7 +40,11 @@ public class IndexBController {
                 return "crearIndexB";
             }
         }catch (Exception e) {
-            String nom = indexBService.getIndexBNomByTaulaID(taulaRepository.findIDByNomTaula(nom_taula));
+            Long id = taulaRepository.findIDByNomTaula(nom_taula);
+            String nom = "";
+            if (id != null) {
+                nom = indexBService.getIndexBNomByTaulaID(id);
+            }
             if (e.getMessage().equals("El factor de carrega ha d'estar entre 0 i 1"))throw new Exception("El factor de carrega ha d'estar entre 0 i 1");
             else if (e.getMessage().equals("Ja existeix un indexB amb nom = "+nom+" en la taula "+nom_taula))throw new Exception("Ja existeix un indexB amb nom = "+nom+" en la taula "+nom_taula);
             else if (e.getMessage().equals("L'ordre del arbre ha de ser un enter positiu >=1"))throw new Exception("L'ordre del arbre ha de ser un enter positiu >=1");
