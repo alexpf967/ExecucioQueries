@@ -33,7 +33,9 @@ public class IndexHashService {
 
     public IndexHash saveIndexHash(IndexHash indexHash) {return indexHashRepository.save(indexHash);}
     public long findIDByNomIndexHash (String nom) {
-        return indexHashRepository.findIDByNomIndexHash(nom);
+        long id= indexHashRepository.findIDByNomIndexHash(nom);
+        update_indexH(id);
+        return(id);
     }
 
     public List<Entrada> getEntradas(long index_id) {
@@ -87,7 +89,16 @@ public class IndexHashService {
     }
     public void update_indexH(long indexHash_id) {
         List<Entrada> le = getEntradas(indexHash_id);
-        entradaRepository.deleteAll(le);
+        long taula_id = indexHashRepository.findTaulaIDByIndexHashID(indexHash_id);
+        List<Bloc> sb = blocService.getBlocsByTaulaID(taula_id);
+        for(int i = 0; i < sb.size(); ++i) {
+            List<Tupla> st = tuplaRepository.findByBlocID(sb.get(i).getId());
+            for (int j = 0; j < st.size(); ++j) {
+                Entrada e = entradaRepository.findByTuplaID(st.get(j).getId());
+                if (e != null) le.remove(e);
+            }
+        }
+        if(!le.isEmpty())entradaRepository.deleteAll(le);
         this.update_indexHash(indexHash_id);
     }
     public int calculate_hash(int maxBuckets, int tupla_id) {
@@ -126,6 +137,7 @@ public class IndexHashService {
             for (Entrada e : le) {
                 if (e.getTupla_id() == tupla_id) {
                     DemoApplication.sum_cost(2);
+                    bucket_actual = e.getnBucket();
                     return e.getnBucket();
                 }
             }
@@ -159,8 +171,8 @@ public class IndexHashService {
         bucket_actual += 1;
     }
 
-    public List<Entrada> getBucket(long indexb_id) {
-        return getBucketN(indexb_id, bucket_actual);
+    public List<Entrada> getBucket(long indexh_id) {
+        return getBucketN(indexh_id, bucket_actual);
     }
     public int getBucket_actual() {
         return bucket_actual;

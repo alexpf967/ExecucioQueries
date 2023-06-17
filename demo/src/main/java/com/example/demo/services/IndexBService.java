@@ -32,7 +32,9 @@ public class IndexBService {
 
     public IndexB saveIndexB(IndexB indexB) {return indexBRepository.save(indexB);}
     public long findIDByNomIndexB (String nom) {
-        return indexBRepository.findIDByNomIndexB(nom);
+        long id = indexBRepository.findIDByNomIndexB(nom);
+        update_indexB(id);
+        return id;
     }
 
     public List<Entrada> getEntradas(long index_id) {
@@ -89,8 +91,8 @@ public class IndexBService {
                 for(int j = 0; j < u && cont < le.size(); ++j) {
                     Entrada e = entradaRepository.findById(le.get(cont).getId()).orElse(null);
                     if (e != null) {
-                            e.setnFulla(i + 1);
-                            entradaRepository.save(e);
+                        e.setnFulla(i + 1);
+                        entradaRepository.save(e);
 
                     }
                     ++cont;
@@ -101,7 +103,16 @@ public class IndexBService {
 
     public void update_indexB(long index_id) {
         List<Entrada> le = getEntradas(index_id);
-        entradaRepository.deleteAll(le);
+        long taula_id = indexBRepository.findTaulaIDByIndexBID(index_id);
+        List<Bloc> sb = blocService.getBlocsByTaulaID(taula_id);
+        for(int i = 0; i < sb.size(); ++i) {
+            List<Tupla> st = tuplaRepository.findByBlocID(sb.get(i).getId());
+            for (int j = 0; j < st.size(); ++j) {
+                Entrada e = entradaRepository.findByTuplaID(st.get(j).getId());
+                if (e != null) le.remove(e);
+            }
+        }
+        if(!le.isEmpty())entradaRepository.deleteAll(le);
         this.updateEntradas(index_id);
         this.update_Nfulles(index_id);
     }
@@ -142,6 +153,7 @@ public class IndexBService {
                     double hh = logc / logu;
                     int h = (int) Math.ceil(hh)-1;
                     DemoApplication.sum_cost(h + 1);
+                    fulla_actual = e.getnFulla();
                     return e.getnFulla();
                 }
             }
