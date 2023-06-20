@@ -178,7 +178,7 @@ public class AlgorismeService {
             runIt("com.example.demo.Script");
         }
         catch (ClassNotFoundException|InvocationTargetException| InstantiationException| IllegalAccessException| NoSuchMethodException e) {
-            throw new RuntimeException("No s'ha pogut executar l'algorisme, segurament no s'ha carregat correctament");
+            throw new RuntimeException("No s'ha pogut executar l'algorisme, revisa que el codi no tingui cap acces ilegal o algun error");
         }
     }
 }

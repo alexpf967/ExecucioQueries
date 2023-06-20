@@ -1,5 +1,6 @@
 package com.example.demo.services;
 
+import com.example.demo.DemoApplication;
 import com.example.demo.classes.Bloc;
 import com.example.demo.classes.Tupla;
 import com.example.demo.repositories.BlocRepository;
@@ -30,6 +31,7 @@ public class BlocService {
         }
     }
     public Bloc getBlocById(long id) {
+        DemoApplication.sum_cost(1);
         return blocRepository.findById(id).orElse(null);
     }
 
