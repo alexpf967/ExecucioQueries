@@ -50,42 +50,47 @@ public class IndexHashService {
     }
     public void update_indexHash(long index_id) {
         long id = indexHashRepository.findTaulaIDByIndexHashID(index_id);
-        if (taulaService.nTuplas(id) != entradaRepository.findByIndexHashID(index_id).size()) {
-            List<Entrada> entradas = new ArrayList<>();
-            boolean exists = indexHashRepository.existsById(index_id);
-            if(exists) {
-                long taula_id = indexHashRepository.findTaulaIDByIndexHashID(index_id);
-                List<Bloc> sb = blocService.getBlocsByTaulaID(taula_id);
-                for (int i = 0; i < sb.size(); ++i) {
-                    List<Tupla> st = tuplaRepository.findByBlocID(sb.get(i).getId());
-                    for (int j = 0; j < st.size(); ++j) {
-                        Tupla t = tuplaRepository.findById(st.get(j).getId()).orElse(null);
-                        if (t != null) {
-                            Entrada e = entradaRepository.findByTuplaID(t.getId());
-                            IndexHash indexHash = new IndexHash();
-                            indexHash.setId(index_id);
-                            int buckets = getnBuckets(index_id);
-                            if (e == null) {
-                                Entrada eNew = new Entrada(t.getId(), i, j, indexHash);
+        List<Entrada> entradas = new ArrayList<>();
+        boolean exists = indexHashRepository.existsById(index_id);
+        if(exists) {
+            int max = indexHashRepository.EntriesBucketIndexHash(index_id);
+            long taula_id = indexHashRepository.findTaulaIDByIndexHashID(index_id);
+            List<Bloc> sb = blocService.getBlocsByTaulaID(taula_id);
+            for (int i = 0; i < sb.size(); ++i) {
+                List<Tupla> st = tuplaRepository.findByBlocID(sb.get(i).getId());
+                for (int j = 0; j < st.size(); ++j) {
+                    Tupla t = tuplaRepository.findById(st.get(j).getId()).orElse(null);
+                    if (t != null) {
+                        Entrada e = entradaRepository.findByTuplaID(t.getId());
+                        IndexHash indexHash = new IndexHash();
+                        indexHash.setId(index_id);
+                        int buckets = getnBuckets(index_id);
+                        if (e == null) {
+                            Entrada eNew = new Entrada(t.getId(), i, j, indexHash);
+                            int tu = Math.toIntExact(t.getId());
+                            int b = calculate_hash(buckets, tu);
+                            if (entradaRepository.nEntradesIndexHashIDandNBucket(index_id, b) < max) {
+                                eNew.setnBucket(b);
+                                entradaRepository.save(eNew);
+                            }
+                        } else {
+                            if (e.getIndexHash() == null) {
+                                e.setIndexHash(indexHash);
                                 int tu = Math.toIntExact(t.getId());
                                 int b = calculate_hash(buckets, tu);
-                                eNew.setnBucket(b);
-                                entradas.add(eNew);
-                            } else {
-                                if (e.getIndexHash() == null) {
-                                    e.setIndexHash(indexHash);
-                                    int tu = Math.toIntExact(t.getId());
-                                    int b = calculate_hash(buckets, tu);
+                                if (entradaRepository.nEntradesIndexHashIDandNBucket(index_id, b) < max) {
                                     e.setnBucket(b);
                                     entradaRepository.save(e);
                                 }
+
                             }
                         }
                     }
                 }
-                entradaRepository.saveAll(entradas);
             }
+            //entradaRepository.saveAll(entradas);
         }
+
     }
     public void update_indexH(long indexHash_id) {
         List<Entrada> le = getEntradas(indexHash_id);
